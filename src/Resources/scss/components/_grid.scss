@@ -1,0 +1,27 @@
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -#{$grid-gutter};
+
+  > [class^='col'] {
+    padding: $grid-gutter;
+  }
+}
+
+@for $i from 1 through $grid-columns {
+  .col-#{$i} {
+    flex-basis: 100% / $grid-columns * $i;
+    max-width: 100% / $grid-columns * $i;
+  }
+}
+
+@each $breakpoint, $width in $grid-breakpoints {
+  @media (min-width: map-get($grid-breakpoints, $breakpoint)) {
+    @for $i from 1 through $grid-columns {
+      .col-#{$breakpoint}-#{$i} {
+        flex-basis: 100% / $grid-columns * $i;
+        max-width: 100% / $grid-columns * $i;
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+<nav>
+  <ul class="navigation">
+    {% for navigation_item in navigation(key) %}
+      {% set navigation_name = navigation_item.navigation_name %}
+      {% set hide_on_auth    = navigation_item.hide_on_auth %}
+      {% set role            = navigation_item.role %}
+      {% set is_granted      = is_granted(role) %}
+
+      {% if not role or is_granted or (app.getUser ? not hide_on_auth and is_granted : hide_on_auth) %}
+        <li class="navigation__item">
+          <a
+            href="{{ navigation_item.path }}"
+            title="{{ navigation_name }}"
+            class="navigation__link{{ navigation_item.is_active ? ' navigation__link--is-active' : '' }}"
+          >
+            {{ navigation_name }}
+          </a>
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+</nav>

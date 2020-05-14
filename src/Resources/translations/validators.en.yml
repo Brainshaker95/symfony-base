@@ -1,0 +1,4 @@
+error.form.register.username.blank: 'Please enter a username'
+error.form.register.username.unique: 'There is already an account with this username'
+error.form.register.password.blank: 'Please enter a password'
+error.form.register.password.min: 'The password should at least contain {{ limit }} characters'

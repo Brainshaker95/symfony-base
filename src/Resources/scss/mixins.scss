@@ -1,0 +1,46 @@
+@mixin center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin center-h {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@mixin center-v {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@mixin focus-outline-primary {
+  &:focus {
+    outline: 2px solid $primary-hover;
+  }
+}
+
+@mixin focus-outline-secondary {
+  &:focus {
+    outline: 2px solid $secondary-hover;
+  }
+}
+
+@function strip-unit($value) {
+  @return $value / ($value * 0 + 1);
+}
+
+@mixin responsive-font-size($min-viewport-width, $max-viewport-width, $min-font-size, $max-font-size) {
+  font-size: $min-font-size;
+
+  @media screen and (min-width: $min-viewport-width) {
+    font-size: calc(#{$min-font-size} + #{strip-unit($max-font-size - $min-font-size)} * ((100vw - #{$min-viewport-width}) / #{strip-unit($max-viewport-width - $min-viewport-width)}));
+  }
+
+  @media screen and (min-width: $max-viewport-width) {
+    font-size: $max-font-size;
+  }
+}

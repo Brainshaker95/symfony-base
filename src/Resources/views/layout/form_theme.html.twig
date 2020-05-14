@@ -1,0 +1,5 @@
+{% extends 'form_div_layout.html.twig' %}
+
+{% block form_start %}
+  <form method="post"{% if action %} action="{{ action }}"{% endif %}{% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}{% if multipart %} enctype="multipart/form-data"{% endif %} novalidate>
+{% endblock form_start %}

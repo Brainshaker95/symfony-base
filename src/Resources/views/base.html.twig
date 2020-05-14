@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="{{ app.getRequest.getLocale }}">
+	<head>
+		<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>{% block title %}{{ 'title.index'|trans }}{% endblock %}</title>
+
+		{% block styles %}
+      {{ encore_entry_link_tags('main') }}
+    {% endblock %}
+	</head>
+
+	<body>
+		{% block header %}
+			{% include 'layout/header.html.twig' %}
+		{% endblock %}
+
+		{% block content %}{% endblock %}
+
+		{% block footer %}
+			{% include 'layout/footer.html.twig' %}
+		{% endblock %}
+
+		{% block scripts %}
+      {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+	</body>
+</html>

@@ -1,0 +1,3 @@
+twig:
+  default_path: '%kernel.project_dir%/src/Resources/views'
+  form_themes: ['Layout/form_theme.html.twig']

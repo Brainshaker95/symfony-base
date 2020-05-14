@@ -1,0 +1,36 @@
+{
+  "name": "symfony-base",
+  "version": "1.0.0",
+  "description": "Symfony Base",
+  "author": "Patrick Rupp",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "encore dev",
+    "prod": "encore production",
+    "watch": "encore dev --watch"
+  },
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "jquery": "^3.4.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@symfony/webpack-encore": "^0.29.1",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.2.0",
+    "eslint": "^6.2.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "mini-css-extract-plugin": "^0.8.0",
+    "node-sass": "^4.12.0",
+    "postcss-loader": "^3.0.0",
+    "sass-loader": "^7.0.1",
+    "stylelint": "^13.3.3",
+    "stylelint-config-recommended-scss": "^4.2.0",
+    "stylelint-scss": "^3.17.2",
+    "stylelint-webpack-plugin": "^2.0.0"
+  }
+}

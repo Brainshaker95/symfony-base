@@ -1,0 +1,7 @@
+.navigation {
+  &__link {
+    &--is-active {
+      color: $red;
+    }
+  }
+}

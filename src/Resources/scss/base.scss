@@ -1,0 +1,30 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  @include responsive-font-size(
+    $min-viewport-width,
+    $max-viewport-width,
+    $min-font-size,
+    $max-font-size
+  );
+
+  margin: 0;
+  color: $font-color;
+  font-family: $font-family-base;
+}
+
+.no-scroll {
+  overflow-y: hidden;
+}
+
+a {
+  @include focus-outline-primary;
+
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+  Profile<br>
+
+  {% if is_granted('ROLE_SUPER_ADMIN') %}
+    Super Admin is granted<br>
+  {% endif %}
+
+  {% if is_granted('ROLE_ADMIN') %}
+    Admin is granted<br>
+  {% endif %}
+
+  {% if is_granted('ROLE_USER') %}
+    User is granted<br>
+
+    {{ dump(app.getUser) }}
+  {% endif %}
+{% endblock %}
