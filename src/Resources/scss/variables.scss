@@ -11,10 +11,6 @@
     lg: map-get($grid-breakpoints, lg);
     xl: map-get($grid-breakpoints, xl);
   };
-  gridColumns: $grid-columns;
-  minFontSize: $min-font-size;
-  maxFontSize: $max-font-size;
-  minViewportWidth: $min-viewport-width;
-  maxViewportWidth: $max-viewport-width;
+  notificationAnimationTime: $notification-anim-time;
 };
 /* stylelint-enable */

@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use Symfony\Component\Translation\DataCollectorTranslator;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TranslatorService
@@ -16,8 +17,24 @@ class TranslatorService
         $this->translator = $translator;
     }
 
-    public function exampleTODO(string $key): string
+    /**
+     * @return array<string>
+     */
+    public function getTranslations(string $key = null)
     {
-        return $key;
+        if (!$this->translator instanceof DataCollectorTranslator) {
+            return [];
+        }
+
+        $catalogue = $this->translator->getCatalogue();
+
+        return $key ? $catalogue->all($key) : $catalogue->all();
+    }
+
+    public function getPageTitle(string $key): string
+    {
+        return $this->translator->trans($key)
+            . $this->translator->trans('title.separator')
+            . $this->translator->trans('title.index');
     }
 }

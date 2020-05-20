@@ -1,4 +1,8 @@
 .navigation {
+  &__list {
+    display: flex;
+  }
+
   &__link {
     &--is-active {
       color: $red;

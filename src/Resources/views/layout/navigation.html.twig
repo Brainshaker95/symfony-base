@@ -1,5 +1,5 @@
-<nav>
-  <ul class="navigation">
+<nav class="navigation">
+  <ul class="navigation__list">
     {% for navigation_item in navigation(key) %}
       {% set navigation_name = navigation_item.navigation_name %}
       {% set hide_on_auth    = navigation_item.hide_on_auth %}

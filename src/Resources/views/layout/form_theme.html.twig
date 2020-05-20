@@ -1,5 +1,58 @@
 {% extends 'form_div_layout.html.twig' %}
 
 {% block form_start %}
-  <form method="post"{% if action %} action="{{ action }}"{% endif %}{% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}{% if multipart %} enctype="multipart/form-data"{% endif %} novalidate>
+  <form method="post"{% if action %} action="{{ action }}"{% endif %} class="form"{% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}{% if multipart %} enctype="multipart/form-data"{% endif %} novalidate>
 {% endblock form_start %}
+
+{% block form_row %}
+  {% set widget_attr = {} %}
+  {% if help is not empty %}
+    {% set widget_attr = {
+      attr: {
+        'aria-describedby': id ~ '_help'
+      },
+    } %}
+  {% endif %}
+
+  <div{% with { attr: row_attr|merge({ class: (row_attr.class|default('') ~ ' form__row')|trim }) } %}{{ block('attributes') }}{% endwith %}>
+    {{ form_label(form) }}
+    {{ form_widget(form) }}
+    {{ form_errors(form) }}
+    {{ form_help(form) }}
+  </div>
+{% endblock form_row %}
+
+{% block button_row -%}
+  <div{% with { attr: row_attr|merge({ class: (row_attr.class|default('') ~ ' form__row')|trim }) } %}{{ block('attributes') }}{% endwith %}>
+    {{ form_widget(form) }}
+  </div>
+{%- endblock button_row %}
+
+{% block form_label -%}
+  {% set label_attr = label_attr|merge({ class: (label_attr.class|default('') ~ ' form__label')|trim }) %}
+
+  {{ parent() }}
+{%- endblock form_label %}
+
+{% block form_widget_simple %}
+  {% if type is not defined or type not in ['file', 'hidden'] %}
+    {% set attr = attr|merge({ class: (attr.class|default('') ~ ' form__input')|trim }) %}
+  {% endif %}
+
+  {{ parent() }}
+{% endblock form_widget_simple %}
+
+{% block button_widget -%}
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' form__submit')|trim}) %}
+    {{ parent() }}
+{%- endblock button_widget %}
+
+{% block form_errors %}
+  {% if errors|length > 0 %}
+    {% for error in errors %}
+      <div class="form__error">
+        {{ error.message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endblock form_errors %}

@@ -8,43 +8,134 @@ button {
   );
 
   padding: 0.5em 1em;
-  border: 0;
+  background-color: $white;
+  border: 1px solid $darkgrey;
   border-radius: 0.25em;
-  background-color: $lightgrey;
-  color: $font-color;
+  color: $darkgrey;
   font-family: $font-family-base;
-  transition: background-color 0.3s ease;
+  transition: background-color 300ms ease, color 300ms ease;
   cursor: pointer;
+
+  .theme--dark & {
+    background-color: transparent;
+    border: 1px solid $lightgrey;
+    color: $white;
+  }
+
+  &:hover {
+    background-color: $darkgrey;
+    color: $white;
+    text-decoration: none;
+
+    .theme--dark & {
+      background-color: $lightgrey;
+      color: $darkgrey;
+    }
+  }
 }
 
 .button {
   @extend button;
 
-  &:hover {
-    text-decoration: none;
-  }
+  &--is-loading {
+    pointer-events: none;
 
-  &--primary {
-    @include focus-outline-secondary;
+    @keyframes loader {
+      from {
+        transform: rotate(0deg);
+      }
 
-    background-color: $primary;
+      to {
+        transform: rotate(360deg);
+      }
+    }
 
-    &:hover {
-      background-color: $primary-hover;
+    &::after {
+      content: '';
+      display: block;
+      width: 1.5em;
+      height: 1.5em;
+      padding: 0;
+      border-radius: 50%;
+      border: 5px solid $darkgrey;
+      border-color: $darkgrey transparent;
+      animation: loader 1.2s linear infinite;
     }
   }
 
-  &--secondary {
-    background-color: $secondary;
+  &--success {
+    background-color: $white;
+    border: 1px solid $success;
+    color: $success;
 
     &:hover {
-      background-color: $secondary-hover;
+      background-color: $success;
+      color: $white;
+    }
+
+    &.button--is-loading::after {
+      border: 5px solid $success;
+      border-color: $success transparent;
+    }
+  }
+
+  &--info {
+    background-color: $white;
+    border: 1px solid $info;
+    color: $info;
+
+    &:hover {
+      background-color: $info;
+      color: $white;
+    }
+
+    &.button--is-loading::after {
+      border: 5px solid $info;
+      border-color: $info transparent;
+    }
+  }
+
+  &--warning {
+    background-color: $white;
+    border: 1px solid $warning;
+    color: $warning;
+
+    &:hover {
+      background-color: $warning;
+      color: $white;
+    }
+
+    &.button--is-loading::after {
+      border: 5px solid $warning;
+      border-color: $warning transparent;
+    }
+  }
+
+  &--danger {
+    background-color: $white;
+    border: 1px solid $danger;
+    color: $danger;
+
+    &:hover {
+      background-color: $danger;
+      color: $white;
+    }
+
+    &.button--is-loading::after {
+      border: 5px solid $danger;
+      border-color: $danger transparent;
     }
   }
 
   &--normalized {
     padding: 0;
     background-color: transparent;
+    border: 0;
+
+    &:hover {
+      background-color: transparent;
+      color: $darkgrey;
+    }
   }
 
   &--close {
@@ -63,8 +154,8 @@ button {
       left: 50%;
       width: 80%;
       height: 3px;
-      background-color: rgba($font-color, 0.5);
-      transition: background-color 0.3s ease;
+      background-color: $darkgrey;
+      transition: background-color 300ms ease;
     }
 
     &::before {
@@ -78,7 +169,7 @@ button {
     &:hover {
       &::before,
       &::after {
-        background-color: $font-color;
+        background-color: $white;
       }
     }
   }

@@ -19,25 +19,32 @@ class RegisterType extends AbstractType
     {
         $builder
             ->add('username', Type\TextType::class, [
-                'required'    => true,
-                'empty_data'  => '',
+                'required'   => true,
+                'empty_data' => '',
+                'attr'       => [
+                    'autocomplete' => 'off',
+                ],
                 'constraints' => [
                     new Constraints\NotBlank([
-                        'message' => 'error.form.register.username.blank',
+                        'message' => 'app.error.form.username.empty',
                     ]),
                 ],
             ])
             ->add('password', Type\PasswordType::class, [
-                'required'    => true,
-                'mapped'      => false,
+                'required' => true,
+                'mapped'   => false,
+                'attr'     => [
+                    'autocomplete' => 'off',
+                    'min'          => 10,
+                ],
                 'constraints' => [
                     new Constraints\NotBlank([
-                        'message' => 'error.form.register.password.blank',
+                        'message' => 'app.error.form.password.empty',
                     ]),
                     new Constraints\Length([
                         'min'        => 10,
                         'max'        => 4096,
-                        'minMessage' => 'error.form.register.password.min',
+                        'minMessage' => 'app.error.form.password.min',
                     ]),
                 ],
             ])

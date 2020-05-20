@@ -1,0 +1,40 @@
+.notification {
+  position: fixed;
+  top: 0;
+  right: 0;
+  min-width: 300px;
+  padding: 0.5rem 1rem;
+  border: 2px solid $black;
+  border-bottom: {
+    left-radius: 0.25rem;
+    right-radius: 0.25rem;
+  };
+  color: $black;
+  transform: translateY(-100%);
+  transition: transform $notification-anim-time ease;
+  z-index: 20;
+
+  &--is-visible {
+    transform: translateY(0);
+  }
+
+  &--success {
+    border-color: $success;
+    color: $success;
+  }
+
+  &--info {
+    border-color: $info;
+    color: $info;
+  }
+
+  &--warning {
+    border-color: $warning;
+    color: $warning;
+  }
+
+  &--danger {
+    border-color: $danger;
+    color: $danger;
+  }
+}

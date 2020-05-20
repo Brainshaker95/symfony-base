@@ -1,14 +1,21 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-  Yo<br>
   <button>Test</button>
   <button class="button">Test</button>
   <a href="#" class="button">Test</a>
-  <button class="button--primary">Test</button>
-  <button class="button--secondary">Test</button>
-  <button class="button--normalized">Test</button>
-  <button class="button--close"></button>
+  <button class="button button--success">Test</button>
+  <button class="button button--info">Test</button>
+  <button class="button button--warning">Test</button>
+  <button class="button button--danger">Test</button>
+  <button class="button button--normalized">Test</button>
 
-  <input type="email" name="esf" value="safsdgs@sfsdf.de">
+  <div class="alert alert--success">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Optio, molestias.</div>
+  <div class="alert alert--info">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Optio, molestias.</div>
+  <div class="alert alert--warning">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Optio, molestias.</div>
+  <div class="alert alert--danger">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Optio, molestias.</div>
+
+  {% include 'layout/modal.html.twig' with {
+    body_text: 'Lorem ipsum',
+  } %}
 {% endblock %}

@@ -1,0 +1,46 @@
+@import 'dark/button';
+
+.theme--dark {
+  color: $white;
+  background-color: $darkgrey;
+
+  input {
+    background-color: $darkgrey;
+    border: 1px solid $white;
+    color: $white;
+  }
+
+  .notification {
+    border: 2px solid $white;
+    color: $white;
+
+    &--success {
+      background-color: darken($success, 50%);
+      border-color: $success;
+      color: $success;
+    }
+
+    &--info {
+      background-color: darken($info, 50%);
+      border-color: $info;
+      color: $info;
+    }
+
+    &--warning {
+      background-color: darken($warning, 50%);
+      border-color: $warning;
+      color: $warning;
+    }
+
+    &--danger {
+      background-color: darken($danger, 50%);
+      border-color: $danger;
+      color: $danger;
+    }
+  }
+
+  .modal {
+    background-color: $darkgrey;
+    border: 1px solid $white;
+  }
+}

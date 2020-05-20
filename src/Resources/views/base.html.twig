@@ -9,14 +9,21 @@
 		{% block styles %}
       {{ encore_entry_link_tags('main') }}
     {% endblock %}
+
+    {% block translations %}
+      <script>window.translations = {{ translations('js_globals')|json_encode|raw }};</script>
+    {% endblock %}
 	</head>
 
-	<body>
+	{# <body> #}
+	<body class="theme--dark">
 		{% block header %}
 			{% include 'layout/header.html.twig' %}
 		{% endblock %}
 
-		{% block content %}{% endblock %}
+    <main class="main">
+		  {% block content %}{% endblock %}
+    </main>
 
 		{% block footer %}
 			{% include 'layout/footer.html.twig' %}

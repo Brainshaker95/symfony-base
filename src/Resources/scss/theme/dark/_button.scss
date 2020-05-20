@@ -1,0 +1,98 @@
+.theme--dark .button {
+  &:hover {
+    background-color: $lightgrey;
+    color: $darkgrey;
+  }
+
+  &--is-loading::after {
+    border: 5px solid $white;
+    border-color: $white transparent;
+  }
+
+  &--success {
+    background-color: $darkgrey;
+    border: 1px solid $success;
+    color: $success;
+
+    &:hover {
+      background-color: $success;
+      color: $white;
+    }
+
+    &.button--is-loading::after {
+      border: 5px solid $success;
+      border-color: $success transparent;
+    }
+  }
+
+  &--info {
+    background-color: $darkgrey;
+    border: 1px solid $info;
+    color: $info;
+
+    &:hover {
+      background-color: $info;
+      color: $white;
+    }
+
+    &.button--is-loading::after {
+      border: 5px solid $info;
+      border-color: $info transparent;
+    }
+  }
+
+  &--warning {
+    background-color: $darkgrey;
+    border: 1px solid $warning;
+    color: $warning;
+
+    &:hover {
+      background-color: $warning;
+      color: $white;
+    }
+
+    &.button--is-loading::after {
+      border: 5px solid $warning;
+      border-color: $warning transparent;
+    }
+  }
+
+  &--danger {
+    background-color: $darkgrey;
+    border: 1px solid $danger;
+    color: $danger;
+
+    &:hover {
+      background-color: $danger;
+      color: $white;
+    }
+
+    &.button--is-loading::after {
+      border: 5px solid $danger;
+      border-color: $danger transparent;
+    }
+  }
+
+  &--normalized {
+    border: 0;
+
+    &:hover {
+      background-color: transparent;
+      color: $white;
+    }
+  }
+
+  &--close {
+    &::before,
+    &::after {
+      background-color: $white;
+    }
+
+    &:hover {
+      &::before,
+      &::after {
+        background-color: $darkgrey;
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+<div class="modal">
+  <div class="modal__header">{{ header_text is defined ? header_text : '' }}</div>
+  <div class="modal__body">{{ body_text is defined ? body_text : '' }}</div>
+
+  <div class="modal__footer">
+    {% if not has_no_buttons|default %}
+      <button class="button button--danger modal__decline">{{ decline_text is defined ? decline_text : 'modal.decline.default'|trans }}</button>
+      <button class="button button--success modal__confirm">{{ confirm_text is defined ? confirm_text : 'modal.confirm.default'|trans }}</button>
+    {% endif %}
+
+    <button class="button button--close modal__close" title="{{ 'close'|trans }}" aria-label="{{ 'close'|trans }}"></button>
+  </div>
+</div>
+
+<div class="modal__overlay"></div>

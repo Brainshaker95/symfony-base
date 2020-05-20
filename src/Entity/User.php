@@ -99,7 +99,7 @@ class User implements UserInterface
     {
         $metadata->addConstraint(new UniqueEntity([
             'fields'  => 'username',
-            'message' => 'error.form.register.username.unique',
+            'message' => 'error.form.username.unique',
         ]));
     }
 }

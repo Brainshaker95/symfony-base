@@ -6,7 +6,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints;
 
 class LoginType extends AbstractType
 {
@@ -18,28 +17,17 @@ class LoginType extends AbstractType
     {
         $builder
             ->add('username', Type\TextType::class, [
-                'required'    => true,
-                'empty_data'  => '',
-                'attr'        => [
-                    'value'   => $options['username'],
-                ],
-                'constraints' => [
-                    new Constraints\NotBlank([
-                        'message' => 'error.form.register.username.blank',
-                    ]),
+                'required'   => true,
+                'empty_data' => '',
+                'attr'       => [
+                    'autocomplete' => 'off',
+                    'value'        => $options['username'],
                 ],
             ])
             ->add('password', Type\PasswordType::class, [
-                'required'    => true,
-                'constraints' => [
-                    new Constraints\NotBlank([
-                        'message' => 'error.form.register.password.blank',
-                    ]),
-                    new Constraints\Length([
-                        'min'        => 10,
-                        'max'        => 4096,
-                        'minMessage' => 'error.form.register.password.min',
-                    ]),
+                'required' => true,
+                'attr'     => [
+                    'autocomplete' => 'off',
                 ],
             ])
             ->add('submit', Type\SubmitType::class, [
