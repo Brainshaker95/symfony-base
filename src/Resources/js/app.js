@@ -1,11 +1,13 @@
 import $ from 'jquery';
 import 'babel-polyfill';
 
+import flashMessages from './module/flash-messages';
 import initForm from './module/form';
 import { initInputs } from './module/input';
 import translate from './util/translate';
 
 $(() => {
+  flashMessages();
   initInputs();
 
   // Form example usage
@@ -19,7 +21,7 @@ $(() => {
   //     console.log(response);
   //   },
   //   errorMessage: translate('error.general'),
-  //   errorType: 'danger',
+  //   errorType: 'error',
   //   errorTime: 3000,
   // });
 

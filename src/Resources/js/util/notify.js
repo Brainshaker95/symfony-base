@@ -25,7 +25,7 @@ export default (opts = {}) => {
   const options = {
     text: translate('error.general'),
     time: 3000,
-    type: 'danger',
+    type: 'error',
     ...opts,
   };
 

@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
@@ -20,11 +19,6 @@ class SecurityController extends AbstractController
      * @var LoginFormAuthenticator
      */
     protected $authenticator;
-
-    /**
-     * @var AuthenticationUtils
-     */
-    protected $authenticationUtils;
 
     /**
      * @var EntityManagerInterface
@@ -43,16 +37,14 @@ class SecurityController extends AbstractController
 
     public function __construct(
         LoginFormAuthenticator $authenticator,
-        AuthenticationUtils $authenticationUtils,
         GuardAuthenticatorHandler $guardHandler,
         EntityManagerInterface $entityManager,
         UserPasswordEncoderInterface $passwordEncoder
     ) {
-        $this->authenticator       = $authenticator;
-        $this->authenticationUtils = $authenticationUtils;
-        $this->entityManager       = $entityManager;
-        $this->guardHandler        = $guardHandler;
-        $this->passwordEncoder     = $passwordEncoder;
+        $this->authenticator   = $authenticator;
+        $this->entityManager   = $entityManager;
+        $this->guardHandler    = $guardHandler;
+        $this->passwordEncoder = $passwordEncoder;
     }
 
     public function registerAction(Request $request): ?Response
@@ -93,13 +85,11 @@ class SecurityController extends AbstractController
     public function loginAction(Request $request): Response
     {
         $form = $this->createForm(LoginType::class, null, [
-            'username' => $request->get('username') ?: '',
+            'username' => $request->getSession()->get('last_username'),
         ]);
 
         return $this->render('security/login.html.twig', [
-            'login_form'    => $form->createView(),
-            'last_username' => $this->authenticationUtils->getLastUsername(),
-            'error'         => $this->authenticationUtils->getLastAuthenticationError(),
+            'login_form' => $form->createView(),
         ]);
     }
 }

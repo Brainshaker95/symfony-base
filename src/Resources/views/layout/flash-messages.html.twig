@@ -1,0 +1,9 @@
+{% for type, messages in app.getFlashes %}
+  <section class="flash-messages">
+    {% for message in messages %}
+      <div class="alert alert--{{ type }}">
+        {{ message|trans }}
+      </div>
+    {% endfor %}
+  </section>
+{% endfor %}

@@ -4,7 +4,7 @@
 
   <div class="modal__footer">
     {% if not has_no_buttons|default %}
-      <button class="button button--danger modal__decline">{{ decline_text is defined ? decline_text : 'modal.decline.default'|trans }}</button>
+      <button class="button button--error modal__decline">{{ decline_text is defined ? decline_text : 'modal.decline.default'|trans }}</button>
       <button class="button button--success modal__confirm">{{ confirm_text is defined ? confirm_text : 'modal.confirm.default'|trans }}</button>
     {% endif %}
 

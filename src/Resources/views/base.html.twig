@@ -22,6 +22,10 @@
 		{% endblock %}
 
     <main class="main">
+		  {% block flash_messages %}
+			  {% include 'layout/flash-messages.html.twig' %}
+      {% endblock %}
+
 		  {% block content %}{% endblock %}
     </main>
 

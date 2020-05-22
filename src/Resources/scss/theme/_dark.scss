@@ -32,10 +32,10 @@
       color: $warning;
     }
 
-    &--danger {
-      background-color: darken($danger, 50%);
-      border-color: $danger;
-      color: $danger;
+    &--error {
+      background-color: darken($error, 50%);
+      border-color: $error;
+      color: $error;
     }
   }
 

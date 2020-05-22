@@ -6,11 +6,11 @@ use App\Repository\UserRepository;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
-use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -43,6 +43,11 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     protected $passwordEncoder;
 
     /**
+     * @var Session
+     */
+    protected $session;
+
+    /**
      * @var TranslatorInterface
      */
     protected $translator;
@@ -61,6 +66,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         CsrfTokenManagerInterface $csrfTokenManager,
         FormFactoryInterface $formFactory,
         UserPasswordEncoderInterface $passwordEncoder,
+        SessionInterface $session,
         TranslatorInterface $translator,
         UrlGeneratorInterface $urlGenerator,
         UserRepository $userRepository
@@ -68,6 +74,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         $this->csrfTokenManager = $csrfTokenManager;
         $this->formFactory      = $formFactory;
         $this->passwordEncoder  = $passwordEncoder;
+        $this->session          = $session;
         $this->translator       = $translator;
         $this->urlGenerator     = $urlGenerator;
         $this->userRepository   = $userRepository;
@@ -99,21 +106,26 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     {
         $username = $credentials['username'];
         $token    = new CsrfToken('authenticate', $credentials['token']);
-
-        if (!$this->csrfTokenManager->isTokenValid($token)) {
-            throw new InvalidCsrfTokenException();
-        }
+        $flashBag = $this->session->getFlashBag();
 
         if (!$username) {
-            throw new CustomUserMessageAuthenticationException(
-                $this->translator->trans('error.form.login.user_empty'),
-            );
+            $flashBag->add('error', 'error.form.login.user.empty');
+
+            return;
+        }
+
+        $this->session->set('last_username', $username);
+
+        if (!$this->csrfTokenManager->isTokenValid($token)) {
+            $flashBag->add('error', 'error.form.login.token.invalid');
+
+            return;
         }
 
         if (!$credentials['password']) {
-            throw new CustomUserMessageAuthenticationException(
-                $this->translator->trans('error.form.login.password_empty'),
-            );
+            $flashBag->add('error', 'error.form.login.password.empty');
+
+            return;
         }
 
         /**
@@ -122,9 +134,9 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         $user = $this->userRepository->findOneBy(['username' => $username]);
 
         if (!$user) {
-            throw new CustomUserMessageAuthenticationException(
-                $this->translator->trans('error.form.login.user_not_found'),
-            );
+            $flashBag->add('error', 'error.form.login.user.not_found');
+
+            return;
         }
 
         return $user;
@@ -132,7 +144,15 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+        if ($this->passwordEncoder->isPasswordValid($user, $credentials['password'])) {
+            return true;
+        }
+
+        $flashBag = $this->session->getFlashBag();
+
+        $flashBag->add('error', 'error.form.login.credentials.invalid');
+
+        return false;
     }
 
     public function getPassword($credentials): ?string

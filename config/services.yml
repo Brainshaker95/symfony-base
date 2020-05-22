@@ -1,6 +1,7 @@
 parameters:
   hashids_salt: k8rourn0zwJgPJISnmS1
   hashids_padding: 8
+  upload_directory: '%kernel.project_dir%/public/uploads'
 
 services:
   _defaults:
@@ -15,8 +16,18 @@ services:
     resource: '../src/Controller'
     tags: ['controller.service_arguments']
 
+  App\Controller\ProfileController:
+    class: App\Controller\ProfileController
+    arguments:
+      - '%upload_directory%'
+
+  App\Service\FileService:
+    class: App\Service\FileService
+    arguments:
+      - '%upload_directory%'
+
   App\Service\HashService:
-      class: App\Service\HashService
-      arguments:
-        - '%hashids_salt%'
-        - '%hashids_padding%'
+    class: App\Service\HashService
+    arguments:
+      - '%hashids_salt%'
+      - '%hashids_padding%'

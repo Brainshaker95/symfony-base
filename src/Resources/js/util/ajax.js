@@ -12,7 +12,7 @@ export default (opts) => {
     always: () => {},
     $button: null,
     errorMessage: translate('error.general'),
-    errorType: 'danger',
+    errorType: 'error',
     errorTime: 3000,
     ...opts,
   };

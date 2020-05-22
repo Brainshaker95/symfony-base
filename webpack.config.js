@@ -16,6 +16,10 @@ Encore
   .enableVersioning()
   .enableSingleRuntimeChunk()
   .autoProvidejQuery()
+  .copyFiles({
+    from: './src/Resources/img',
+    to: 'images/[path][name].[ext]',
+  })
   .configureBabel((babelConfig) => {
     babelConfig.plugins.push('@babel/plugin-proposal-object-rest-spread');
   })

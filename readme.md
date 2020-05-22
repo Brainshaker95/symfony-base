@@ -4,6 +4,7 @@
 
 - [Prerequisites](#prerequisites)
 - [Installing](#installing)
+- [Configuration](#configuration)
 - [Commands](#commands)
 
 ___
@@ -19,13 +20,23 @@ ___
 ## Installing
 
 ```shell
-  make install
-```
-or without make
-
-```shell
   yarn && composer install
 ```
+With make
+
+```shell
+  make install
+```
+
+___
+
+## Configuration
+
+```shell
+  cp .env.example .env
+```
+
+Configure to your needs
 
 ___
 
@@ -49,11 +60,15 @@ With make
 ```makefile
   cache-clear: // clear symfony cache
 
+  entity: // create doctrine enitity
+
   install: // install dependencies
 
   migrate: // migrate database
 
   migrate-first: // revert database
+
+  migration: // create migration
 
   phpstan: // execute php analysis
 

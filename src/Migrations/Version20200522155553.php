@@ -7,11 +7,11 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20200510114118 extends AbstractMigration
+final class Version20200522155553 extends AbstractMigration
 {
     public function getDescription() : string
     {
-        return 'Creats users table';
+        return 'Creats user and image tables';
     }
 
     public function up(Schema $schema) : void
@@ -22,18 +22,39 @@ final class Version20200510114118 extends AbstractMigration
         );
 
         $this->addSql(
-            'CREATE TABLE user
+            'CREATE TABLE image
             (
                 id INT AUTO_INCREMENT NOT NULL,
-                username VARCHAR(180) NOT NULL,
-                roles LONGTEXT NOT NULL COMMENT \'(DC2Type:json)\',
-                password VARCHAR(255) NOT NULL,
-                UNIQUE INDEX UNIQ_8D93D649F85E0677 (username),
+                path VARCHAR(255) NOT NULL,
                 PRIMARY KEY(id)
             )
             DEFAULT CHARACTER SET utf8mb4
             COLLATE `utf8mb4_unicode_ci`
             ENGINE = InnoDB'
+        );
+
+        $this->addSql(
+            'CREATE TABLE user
+            (
+                id INT AUTO_INCREMENT NOT NULL,
+                image_id INT DEFAULT NULL,
+                username VARCHAR(180) NOT NULL,
+                roles LONGTEXT NOT NULL COMMENT \'(DC2Type:json)\',
+                password VARCHAR(255) NOT NULL,
+                UNIQUE INDEX UNIQ_8D93D649F85E0677 (username),
+                UNIQUE INDEX UNIQ_8D93D6493DA5256D (image_id),
+                PRIMARY KEY(id)
+            )
+            DEFAULT CHARACTER SET utf8mb4
+            COLLATE `utf8mb4_unicode_ci`
+            ENGINE = InnoDB'
+        );
+
+        $this->addSql(
+            'ALTER TABLE user
+            ADD CONSTRAINT FK_8D93D6493DA5256D
+            FOREIGN KEY (image_id)
+            REFERENCES image (id)'
         );
     }
 
@@ -44,6 +65,12 @@ final class Version20200510114118 extends AbstractMigration
             'Migration can only be executed safely on \'mysql\'.'
         );
 
+        $this->addSql(
+            'ALTER TABLE user
+            DROP FOREIGN KEY FK_8D93D6493DA5256D'
+        );
+
+        $this->addSql('DROP TABLE image');
         $this->addSql('DROP TABLE user');
     }
 }

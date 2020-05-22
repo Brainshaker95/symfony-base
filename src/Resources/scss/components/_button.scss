@@ -126,19 +126,19 @@ button {
     }
   }
 
-  &--danger {
+  &--error {
     background-color: $white;
-    border: 1px solid $danger;
-    color: $danger;
+    border: 1px solid $error;
+    color: $error;
 
     &:hover {
-      background-color: $danger;
+      background-color: $error;
       color: $white;
     }
 
     &.button--is-loading::after {
-      border: 5px solid $danger;
-      border-color: $danger transparent;
+      border: 5px solid $error;
+      border-color: $error transparent;
     }
   }
 

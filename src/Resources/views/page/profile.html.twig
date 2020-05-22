@@ -5,19 +5,24 @@
 {# TODO: Add noindex, nofollow #}
 
 {% block content %}
-  Profile<br>
+  <div class="container">
+    <div class="grid profile">
+      {% set username = user.getUsername %}
+      {% set image    = user.getImage %}
 
-  {% if is_granted('ROLE_SUPER_ADMIN') %}
-    Super Admin is granted<br>
-  {% endif %}
+        <div class="col-12 col-md-3">
+          <div class="profile__username">
+            {{ username }}
+          </div>
 
-  {% if is_granted('ROLE_ADMIN') %}
-    Admin is granted<br>
-  {% endif %}
+          {% if image %}
+            <img src="{{ image.getPath }}" class="responsive-image">
+          {% else %}
+            <img src="{{ asset('/build/images/placeholder-profile-image.jpg') }}" class="responsive-image">
+          {% endif %}
 
-  {% if is_granted('ROLE_USER') %}
-    User is granted<br>
-
-    {{ dump(app.getUser) }}
-  {% endif %}
+          {{ form(profile_form) }}
+        </div>
+    </div>
+  </div>
 {% endblock %}

@@ -38,7 +38,7 @@ app_logout:
 
 app_profile:
   path: /profile
-  controller: App\Controller\DefaultController::profileAction
+  controller: App\Controller\ProfileController::profileAction
   options:
     navigation: main
     order: 1
