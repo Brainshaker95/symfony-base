@@ -3,7 +3,7 @@ import 'babel-polyfill';
 
 import initForm from './module/form';
 import { initInputs } from './module/input';
-import initModal from './module/modal';
+import translate from './util/translate';
 
 $(() => {
   initInputs();
@@ -13,10 +13,10 @@ $(() => {
   // initForm({
   //   $form: $('.form'),
   //   done: (response) => {
-  //     // console.log(response);
+  //     console.log(response);
   //   },
   //   fail: (response) => {
-  //     // console.log(response);
+  //     console.log(response);
   //   },
   //   errorMessage: translate('error.general'),
   //   errorType: 'danger',

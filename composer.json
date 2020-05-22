@@ -1,5 +1,5 @@
 {
-  "name": "symfony-base",
+  "name": "brainshaker/symfony-base",
   "type": "project",
   "license": "MIT",
   "homepage": "https://github.com/Brainshaker95/symfony-base",
@@ -13,6 +13,7 @@
     "php": "^7.2.5",
     "ext-ctype": "*",
     "ext-iconv": "*",
+    "hashids/hashids": "^4.0",
     "sensio/framework-extra-bundle": "^5.1",
     "symfony/apache-pack": "^1.0",
     "symfony/asset": "5.0.*",

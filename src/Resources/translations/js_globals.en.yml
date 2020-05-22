@@ -1,1 +1,2 @@
 error.general: 'There was an unexpected error. Please try again later.'
+success.user_deleted: 'The user "{{ username }}" was successfully deleted'

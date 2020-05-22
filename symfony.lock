@@ -81,6 +81,9 @@
     "friendsoftwig/twigcs": {
         "version": "v3.2.2"
     },
+    "hashids/hashids": {
+        "version": "4.0.0"
+    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },

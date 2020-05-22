@@ -8,6 +8,7 @@ Encore
   .setOutputPath('public/build/')
   .setPublicPath('/build')
   .addEntry('app', './src/Resources/js/app.js')
+  .addEntry('users', './src/Resources/js/page/users.js')
   .addStyleEntry('main', './src/Resources/scss/main.scss')
   .enableSourceMaps(!sourceMap)
   .enablePostCssLoader()

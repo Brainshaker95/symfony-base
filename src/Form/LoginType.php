@@ -30,6 +30,9 @@ class LoginType extends AbstractType
                     'autocomplete' => 'off',
                 ],
             ])
+            ->add('_remember_me', Type\CheckboxType::class, [
+                'required' => false,
+            ])
             ->add('submit', Type\SubmitType::class, [
                 'label' => 'login',
             ])

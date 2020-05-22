@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page_title('title.users') }}{% endblock %}
+
+{# TODO: Add noindex, nofollow #}
+
+{% block additonal_scripts %}
+  {{ encore_entry_script_tags('users') }}
+{% endblock %}
+
+{% block content %}
+  Users<br>
+
+  <div class="container">
+    <div class="users" data-path="{{ path('app_api_delete_user') }}">
+      {% for user in users %}
+        <div class="grid users__row">
+          <div class="col-1">
+            {{ user.getId }}
+          </div>
+
+          <div class="col-5">
+            <div class="users__username">
+              {{ user.getUsername }}
+            </div>
+          </div>
+
+          <div class="col-5">
+            {% for role in user.getRoles %}
+              <div class="role">
+                {{ role }}
+              </div>
+            {% endfor %}
+          </div>
+
+          <div class="col-1" style="position:relative">
+            <button class="button button--close delete-user" title="" aria-label="" data-id="{{ user.getId|encode }}"></button>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% include 'Layout/modal.html.twig' with {
+    class: 'delete-user-modal',
+    header_text: 'page.users.really_delete_user'|trans,
+  } %}
+{% endblock %}

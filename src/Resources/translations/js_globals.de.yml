@@ -1,1 +1,2 @@
 error.general: 'Es ist ein unerwarteter Fehler aufgetreten. Bitte versuche es später erneut.'
+success.user_deleted: 'Der Nutzer "{{ username }}" wurde erfolgreich gelöscht'

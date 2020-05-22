@@ -1,22 +1,57 @@
 app_admin:
   path: /admin
   controller: App\Controller\AdminController::adminAction
+  options:
+    navigation: main
+    order: 2
+    role: ROLE_ADMIN
+
+app_admin_users:
+  path: /admin/users
+  controller: App\Controller\AdminController::usersAction
+  options:
+    navigation: admin
+    order: 1
+    role: ROLE_SUPER_ADMIN
 
 app_index:
   path: /
   controller: App\Controller\DefaultController::indexAction
+  options:
+    navigation: main
+    order: 0
 
 app_login:
   path: /login
   controller: App\Controller\SecurityController::loginAction
+  options:
+    navigation: secondary
+    order: 0
+    role: HIDE_ON_AUTH
 
 app_logout:
   path: /logout
+  options:
+    navigation: secondary
+    order: 2
+    role: ROLE_USER
 
 app_profile:
   path: /profile
   controller: App\Controller\DefaultController::profileAction
+  options:
+    navigation: main
+    order: 1
+    role: ROLE_USER
 
 app_register:
   path: /register
   controller: App\Controller\SecurityController::registerAction
+  options:
+    navigation: secondary
+    order: 1
+    role: HIDE_ON_AUTH
+
+app_api_delete_user:
+  path: /api/delete_user
+  controller: App\Controller\AdminController::deleteUserAction

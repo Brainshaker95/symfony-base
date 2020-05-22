@@ -16,6 +16,10 @@ const types = [
 const emailInvalid = (value) => value.trim().indexOf(' ') > -1 || !value.match(/\w+@\w+\.\w+/g);
 
 const checkValue = ($input) => {
+  if ($input.attr('type') === 'checkbox') {
+    return;
+  }
+
   const $formRow = $input.closest('.form__row');
 
   if ($input.val()) {

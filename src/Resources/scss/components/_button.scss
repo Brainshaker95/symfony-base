@@ -16,6 +16,21 @@ button {
   transition: background-color 300ms ease, color 300ms ease;
   cursor: pointer;
 
+  &[disabled] {
+    position: relative;
+    pointer-events: none;
+
+    &::after {
+      position: absolute;
+      content: '';
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: rgba($black, 0.25);
+    }
+  }
+
   .theme--dark & {
     background-color: transparent;
     border: 1px solid $lightgrey;

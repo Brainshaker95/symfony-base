@@ -1,4 +1,4 @@
-<div class="modal">
+<div class="modal{{ class is defined ? ' ' ~ class : '' }}">
   <div class="modal__header">{{ header_text is defined ? header_text : '' }}</div>
   <div class="modal__body">{{ body_text is defined ? body_text : '' }}</div>
 

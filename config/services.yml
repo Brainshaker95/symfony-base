@@ -1,4 +1,6 @@
 parameters:
+  hashids_salt: k8rourn0zwJgPJISnmS1
+  hashids_padding: 8
 
 services:
   _defaults:
@@ -12,3 +14,9 @@ services:
   App\Controller\:
     resource: '../src/Controller'
     tags: ['controller.service_arguments']
+
+  App\Service\HashService:
+      class: App\Service\HashService
+      arguments:
+        - '%hashids_salt%'
+        - '%hashids_padding%'

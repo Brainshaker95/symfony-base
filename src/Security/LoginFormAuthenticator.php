@@ -2,7 +2,6 @@
 
 namespace App\Security;
 
-use App\Form\LoginType;
 use App\Repository\UserRepository;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -99,7 +98,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         $username = $credentials['username'];
-        $token = new CsrfToken('authenticate', $credentials['token']);
+        $token    = new CsrfToken('authenticate', $credentials['token']);
 
         if (!$this->csrfTokenManager->isTokenValid($token)) {
             throw new InvalidCsrfTokenException();

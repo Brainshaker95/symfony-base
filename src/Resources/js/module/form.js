@@ -1,11 +1,8 @@
 import $ from 'jquery';
 
-import notify from '../util/notify';
+import ajax from '../util/ajax';
 import scrollTo from '../util/scroll-to';
-import translate from '../util/translate';
 import { validate } from './input';
-
-let loading;
 
 const validateForm = ($form) => {
   let errorCount = 0;
@@ -21,17 +18,10 @@ export default (opts = {}) => {
   const $firstForm = $('.form').eq(0);
   const options = {
     $form: $firstForm,
-    $button: $firstForm.find('[type="submit"]'),
-    errorMessage: translate('error.general'),
-    errorType: 'danger',
-    errorTime: 3000,
-    done: () => {},
-    fail: () => {},
-    always: () => {},
     ...opts,
   };
 
-  const { $button, $form } = options;
+  const { $form } = options;
 
   $form.on('submit', (event) => {
     event.preventDefault();
@@ -47,39 +37,12 @@ export default (opts = {}) => {
       return;
     }
 
-    $button
-      .addClass('button--is-loading')
-      .data('text', $button.text())
-      .text('')
-      .blur();
-
-    if (loading) {
-      loading.abort();
-    }
-
-    loading = $.ajax({
-      method: $form.attr('method') || 'POST',
-      url: $form.attr('action') || window.location.href,
+    ajax({
+      method: $form.attr('method'),
+      url: $form.attr('action'),
       data: $form.serialize(),
-    }).done((response) => options.done(response))
-      .fail((response) => {
-        if (response.statusText === 'abort') {
-          return;
-        }
-
-        options.fail(response);
-
-        notify({
-          type: options.errorType,
-          text: options.errorMessage,
-          time: options.errorTime,
-        });
-      }).always(() => {
-        $button
-          .text($button.data('text'))
-          .removeClass('button--is-loading');
-
-        options.always();
-      });
+      $button: $firstForm.find('[type="submit"]'),
+      ...options,
+    });
   });
 };

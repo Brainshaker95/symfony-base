@@ -23,4 +23,6 @@ security:
           - App\Security\LoginFormAuthenticator
   access_control:
     - { path: ^/admin, roles: ROLE_ADMIN }
+    - { path: ^/admin/users, roles: ROLE_SUPER_ADMIN }
     - { path: ^/profile, roles: ROLE_USER }
+    - { path: ^/api/delete_user, roles: ROLE_SUPER_ADMIN }

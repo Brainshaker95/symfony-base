@@ -11,37 +11,6 @@ use Twig\TwigFunction;
 class NavigationExtension extends AbstractExtension
 {
     /**
-     * @var array<string, array>
-     */
-    protected const ROUTES = [
-        'main' => [
-            'index',
-            [
-                'name' => 'profile',
-                'role' => 'ROLE_USER',
-            ],
-            [
-                'name' => 'admin',
-                'role' => 'ROLE_ADMIN',
-            ],
-        ],
-        'secondary' => [
-            [
-                'name' => 'login',
-                'role' => 'HIDE_ON_AUTH',
-            ],
-            [
-                'name' => 'logout',
-                'role' => 'ROLE_USER',
-            ],
-            [
-                'name' => 'register',
-                'role' => 'HIDE_ON_AUTH',
-            ],
-        ],
-    ];
-
-    /**
      * @var RequestStack
      */
     protected $requestStack;
@@ -77,25 +46,27 @@ class NavigationExtension extends AbstractExtension
     }
 
     /**
-     * @return array<int, array{navigation_name: string, path: string, is_active: boolean, role: string|null, hide_on_auth: boolean}>
+     * @return array<int|string, array{navigation_name: string, path: string, is_active: boolean, role: string|null, hide_on_auth: boolean}>
      */
     public function getNavigation(string $type = 'main')
     {
         $request    = $this->requestStack->getCurrentRequest();
-        $routes     = isset(self::ROUTES[$type]) ? self::ROUTES[$type] : [];
+        $routes     = $this->router->getRouteCollection()->all();
         $navigation = [];
 
-        foreach ($routes as $route) {
-            $role = null;
+        foreach ($routes as $key => $route) {
+            $options        = $route->getOptions();
+            $navigationType = isset($options['navigation']) ? $options['navigation'] : '';
 
-            if (is_array($route)) {
-                $name = $route['name'];
-                $role = $route['role'];
-            } else {
-                $name = $route;
+            if (strpos($key, 'app_') !== 0 || $navigationType !== $type) {
+                continue;
             }
 
-            $navigation[] = [
+            $name  = substr($key, 4, strlen($key));
+            $role  = isset($options['role']) ? $options['role'] : null;
+            $order = isset($options['order']) ? $options['order'] : 0;
+
+            $navigation[$order] = [
                 'navigation_name' => $this->translator->trans('navigation_name.' . $name),
                 'path'            => $this->router->generate('app_' . $name),
                 'is_active'       => $request ? $request->get('_route') === 'app_' . $name : false,
@@ -103,6 +74,8 @@ class NavigationExtension extends AbstractExtension
                 'hide_on_auth'    => $role === 'HIDE_ON_AUTH',
             ];
         }
+
+        ksort($navigation);
 
         return $navigation;
     }
