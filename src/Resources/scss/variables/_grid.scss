@@ -1,9 +1,5 @@
 $grid-columns: 12;
-$grid-gutter: 16px;
-
-// TODO
-// example for responsive gutter
-// $grid-gutter: 0.333em;
+$grid-gutter: 0.5em;
 
 $grid-breakpoints: (
   xs: 480px,

@@ -16,6 +16,11 @@ services:
     resource: '../src/Controller'
     tags: ['controller.service_arguments']
 
+  App\Controller\GalleryController:
+    class: App\Controller\GalleryController
+    arguments:
+      - '%upload_directory%'
+
   App\Controller\ProfileController:
     class: App\Controller\ProfileController
     arguments:

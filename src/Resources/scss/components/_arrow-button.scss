@@ -1,0 +1,14 @@
+.arrow-button {
+  display: block;
+  position: relative;
+  width: 1.5em;
+  height: 2em;
+
+  &--prev {
+    @extend %chevron-left;
+  }
+
+  &--next {
+    @extend %chevron-right;
+  }
+}

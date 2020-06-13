@@ -1,3 +1,9 @@
+@mixin breakpoint($breakpoint) {
+  @media (min-width: map-get($grid-breakpoints, $breakpoint)) {
+    @content;
+  }
+}
+
 @mixin center {
   position: absolute;
   top: 50%;

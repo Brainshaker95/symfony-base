@@ -4,8 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Image;
 use App\Entity\User;
-use App\Form\UserType;
+use App\Form\Type\UserType;
 use App\Service\FileService;
+use App\Service\HashService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Finder\Finder;
@@ -30,20 +31,27 @@ class ProfileController extends AbstractController
      */
     protected $fileService;
 
+    /**
+     * @var HashService
+     */
+    protected $hashService;
+
     public function __construct(
         string $uploadDirectory,
         EntityManagerInterface $entityManager,
-        FileService $fileService
+        FileService $fileService,
+        HashService $hashService
     ) {
         $this->uploadDirectory = $uploadDirectory;
         $this->entityManager   = $entityManager;
         $this->fileService     = $fileService;
+        $this->hashService     = $hashService;
     }
 
     public function profileAction(Request $request): Response
     {
         /**
-         * @var User
+         * @var User|null
          */
         $user = $this->getUser();
 
@@ -76,19 +84,21 @@ class ProfileController extends AbstractController
         ]);
     }
 
-    private function updateProfileImage(User $user, string $filename)
+    private function updateProfileImage(User $user, string $filename): void
     {
         $image    = new Image();
         $oldImage = $user->getImage();
 
-        $image->setPath('/uploads/profile_images/' . $filename);
+        $image
+            ->setPath('/uploads/profile_images/' . $filename)
+            ->setType('profile');
 
         if ($oldImage) {
             $finder = new Finder();
             $files  = $finder->files()->in(__DIR__ . '..\\..\\..\\public\\uploads');
 
             foreach ($files as $file) {
-                $path = $oldImage->getPath();
+                $path = $oldImage->getPath() ?: '';
 
                 if (strpos(str_replace('/', '\\', $path), $file->getRelativePathname())) {
                     unlink($this->uploadDirectory . '/..' . $path);

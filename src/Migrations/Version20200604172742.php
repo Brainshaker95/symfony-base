@@ -7,7 +7,7 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20200522155553 extends AbstractMigration
+final class Version20200604172742 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -26,6 +26,7 @@ final class Version20200522155553 extends AbstractMigration
             (
                 id INT AUTO_INCREMENT NOT NULL,
                 path VARCHAR(255) NOT NULL,
+                type VARCHAR(255) DEFAULT NULL,
                 PRIMARY KEY(id)
             )
             DEFAULT CHARACTER SET utf8mb4

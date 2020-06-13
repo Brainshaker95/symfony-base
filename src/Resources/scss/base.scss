@@ -15,10 +15,6 @@ body {
   font-family: $font-family-base;
 }
 
-.no-scroll {
-  overflow-y: hidden;
-}
-
 ul {
   margin: 0;
   padding: 0;
@@ -36,7 +32,8 @@ a {
 }
 
 .main {
-  padding-top: $header-height;
+  display: block;
+  margin-top: $header-height;
 }
 
 .responsive-image {

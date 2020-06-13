@@ -1,28 +1,25 @@
-{% extends 'base.html.twig' %}
+{% extends 'shared/noindexed.html.twig' %}
 
-{% block title %}{{ page_title('title.profile') }}{% endblock %}
-
-{# TODO: Add noindex, nofollow #}
+{% block key %}profile{% endblock %}
 
 {% block content %}
-  <div class="container">
-    <div class="grid profile">
-      {% set username = user.getUsername %}
-      {% set image    = user.getImage %}
+  <div class="grid">
+    {% set username = user.getUsername %}
 
-        <div class="col-12 col-md-3">
-          <div class="profile__username">
-            {{ username }}
-          </div>
-
-          {% if image %}
-            <img src="{{ image.getPath }}" class="responsive-image">
-          {% else %}
-            <img src="{{ asset('/build/images/placeholder-profile-image.jpg') }}" class="responsive-image">
-          {% endif %}
-
-          {{ form(profile_form) }}
+      <div class="col-12 col-md-3">
+        <div class="profile__username">
+          {{ username }}
         </div>
-    </div>
+
+        {% include 'shared/image.html.twig' with {
+          image: user.getImage ?: asset('/build/images/placeholder-profile-image.jpg'),
+          class: 'responsive-image',
+          thumbnail: 'profile_image',
+          alt: username,
+          title: username,
+        } %}
+
+        {{ form(profile_form) }}
+      </div>
   </div>
 {% endblock %}

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type;
@@ -18,6 +18,7 @@ class LoginType extends AbstractType
         $builder
             ->add('username', Type\TextType::class, [
                 'required'   => true,
+                'label'      => 'label.username',
                 'empty_data' => '',
                 'attr'       => [
                     'autocomplete' => 'off',
@@ -26,15 +27,17 @@ class LoginType extends AbstractType
             ])
             ->add('password', Type\PasswordType::class, [
                 'required' => true,
+                'label'    => 'label.password',
                 'attr'     => [
                     'autocomplete' => 'off',
                 ],
             ])
             ->add('_remember_me', Type\CheckboxType::class, [
+                'label'    => 'label.remember_me',
                 'required' => false,
             ])
             ->add('submit', Type\SubmitType::class, [
-                'label' => 'login',
+                'label' => 'label.login',
             ])
         ;
     }

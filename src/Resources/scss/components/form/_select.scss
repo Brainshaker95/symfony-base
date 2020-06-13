@@ -1,0 +1,107 @@
+.select {
+  @extend %chevron;
+
+  position: relative;
+  padding: 0;
+  user-select: none;
+  transition: border-radius 300ms ease;
+
+  &::before {
+    top: 0.125em;
+    right: 0.75em;
+    transform: rotate(135deg) scale(0.7);
+    transition:
+      top 300ms ease,
+      transform 300ms ease;
+  }
+
+  &:hover::before {
+    border-color: $white;
+  }
+
+  &--is-open {
+    border: {
+      top-left-radius: 0.25em;
+      top-right-radius: 0.25em;
+      bottom-left-radius: 0;
+      bottom-right-radius: 0;
+    };
+
+    &::before {
+      top: 0.5em;
+      transform: rotate(315deg) scale(0.75);
+    }
+  }
+
+  &--is-disabled {
+    border: 1px solid darken($grey, 40%);
+    color: darken($grey, 20%);
+    pointer-events: none;
+
+    &::before {
+      border-color: darken($grey, 20%);
+    }
+  }
+
+  &__selection,
+  &__option {
+    @include focus-outline-primary;
+
+    padding: 0.25em 0.5em;
+    cursor: pointer;
+  }
+
+  &__selection {
+    padding-right: 2.25em;
+
+    &--has-value {
+      padding-right: 3.25em;
+    }
+  }
+
+  &__options {
+    display: none;
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    background-color: $darkgrey;
+    border: 1px solid $grey;
+    z-index: 1;
+    border: {
+      top-left-radius: 0;
+      top-right-radius: 0;
+      bottom-left-radius: 0.25em;
+      bottom-right-radius: 0.25em;
+    };
+  }
+
+  &__option {
+    transition:
+      background-color 150ms ease,
+      color 150ms ease;
+
+    &:hover {
+      background-color: $white;
+      color: $darkgrey;
+    }
+
+    &--is-selected {
+      background-color: $grey;
+      color: $darkgrey;
+    }
+
+    &--is-disabled {
+      background-color: rgba($black, 0.25);
+      color: darken($grey, 20%);
+      pointer-events: none;
+    }
+  }
+
+  &__input {
+    display: none;
+  }
+
+  .button--clear {
+    right: 2.25em;
+  }
+}

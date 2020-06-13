@@ -2,17 +2,16 @@ import $ from 'jquery';
 import 'babel-polyfill';
 
 import flashMessages from './module/flash-messages';
-import initForm from './module/form';
-import { initInputs } from './module/input';
+import form from './module/form';
 import translate from './util/translate';
 
 $(() => {
   flashMessages();
-  initInputs();
+  form();
 
   // Form example usage
 
-  // initForm({
+  // initAjaxForm({
   //   $form: $('.form'),
   //   done: (response) => {
   //     console.log(response);

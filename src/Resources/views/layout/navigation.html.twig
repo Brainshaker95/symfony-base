@@ -1,4 +1,4 @@
-<nav class="navigation">
+<nav class="navigation navigation--{{ key }}">
   <ul class="navigation__list">
     {% for navigation_item in navigation(key) %}
       {% set navigation_name = navigation_item.navigation_name %}

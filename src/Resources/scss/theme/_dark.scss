@@ -10,6 +10,19 @@
     color: $white;
   }
 
+  .date__input {
+    color: $darkgrey;
+  }
+
+  .form__row {
+    &--has-value,
+    &:focus-within {
+      .date__input {
+        color: $white;
+      }
+    }
+  }
+
   .notification {
     border: 2px solid $white;
     color: $white;

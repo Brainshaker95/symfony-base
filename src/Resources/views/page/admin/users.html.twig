@@ -1,45 +1,52 @@
-{% extends 'base.html.twig' %}
+{% extends 'shared/noindexed.html.twig' %}
 
-{% block title %}{{ page_title('title.users') }}{% endblock %}
-
-{# TODO: Add noindex, nofollow #}
-
-{% block additonal_scripts %}
-  {{ encore_entry_script_tags('users') }}
-{% endblock %}
+{% block key %}users{% endblock %}
+{% block has_page_script %}true{% endblock %}
 
 {% block content %}
-  <div class="container">
-    <div class="users" data-path="{{ path('app_api_delete_user') }}">
-      {% for user in users %}
-        <div class="grid users__row">
-          <div class="col-1">
-            {{ user.getId }}
-          </div>
+  <div class="users" data-path="{{ path('app_api_delete_user') }}">
+    {% for user in users %}
+      {% set username = user.getUsername %}
 
-          <div class="col-5">
-            <div class="users__username">
-              {{ user.getUsername }}
-            </div>
-          </div>
+      <div class="grid users__row">
+        <div class="col-1">
+          {{ user.getId }}
+        </div>
 
-          <div class="col-5">
-            {% for role in user.getRoles %}
-              <div class="role">
-                {{ role }}
-              </div>
-            {% endfor %}
-          </div>
-
-          <div class="col-1" style="position:relative">
-            <button class="button button--close delete-user" title="" aria-label="" data-id="{{ user.getId|encode }}"></button>
+        <div class="col-2">
+          <div class="users__profile-image">
+            {% include 'shared/image.html.twig' with {
+              image: user.getImage ?: asset('/build/images/placeholder-profile-image.jpg'),
+              class: 'responsive-image',
+              thumbnail: 'profile_image',
+              alt: username,
+              title: username,
+            } %}
           </div>
         </div>
-      {% endfor %}
-    </div>
+
+        <div class="col-3">
+          <div class="users__username">
+            {{ username }}
+          </div>
+        </div>
+
+        <div class="col-5">
+          {% for role in user.getRoles %}
+            <div class="role">
+              {{ role }}
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="col-1" style="position:relative">
+          <button type="button" class="button button--close delete-user" title="" aria-label="" data-id="{{ user.getId|encode }}"></button>
+        </div>
+      </div>
+    {% endfor %}
   </div>
 
-  {% include 'Layout/modal.html.twig' with {
+  {% include 'shared/modal.html.twig' with {
     class: 'delete-user-modal',
     header_text: 'page.users.really_delete_user'|trans,
   } %}

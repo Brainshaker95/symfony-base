@@ -5,4 +5,15 @@
   height: $header-height;
   background-color: royalblue;
   z-index: 1;
+
+  &__top {
+    margin-top: 0.5em;
+    font-size: 0.8em;
+  }
+
+  &__bottom {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.75em;
+  }
 }

@@ -1,6 +1,9 @@
 cache-clear:
 	php bin/console cache:clear
 
+clear-thumbs:
+	php bin/console liip:imagine:cache:remove
+
 entity:
 	php bin/console make:entity
 

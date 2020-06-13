@@ -1,13 +1,11 @@
-{% extends 'base.html.twig' %}
+{% extends 'shared/noindexed.html.twig' %}
 
-{% block title %}{{ page_title('title.admin') }}{% endblock %}
-
-{# TODO: Add noindex, nofollow #}
+{% block key %}admin{% endblock %}
 
 {% block content %}
   Admin<br>
 
-  {% include 'Layout/navigation.html.twig' with {
+  {% include 'layout/navigation.html.twig' with {
     key: 'admin',
   } %}
 {% endblock %}

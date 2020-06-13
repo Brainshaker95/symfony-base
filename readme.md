@@ -60,6 +60,8 @@ With make
 ```makefile
   cache-clear: // clear symfony cache
 
+  clear-thumbs: // clear liip imagine cache
+
   entity: // create doctrine enitity
 
   install: // install dependencies

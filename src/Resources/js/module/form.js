@@ -1,48 +1,28 @@
 import $ from 'jquery';
 
-import ajax from '../util/ajax';
-import scrollTo from '../util/scroll-to';
-import { validate } from './input';
+import initCheckboxes from './form/checkbox';
+import initDateInputs from './form/date';
+import initFileInputs from './form/file';
+import initInputs from './form/input';
+import initRadioButtons from './form/radio';
+import initSelects from './form/select';
+import { validateForm } from './form/validate';
 
-const validateForm = ($form) => {
-  let errorCount = 0;
+export default () => {
+  initCheckboxes();
+  initDateInputs();
+  initFileInputs();
+  initInputs();
+  initRadioButtons();
+  initSelects();
 
-  $form.find('[required]').each((index, input) => {
-    errorCount += validate($(input)) ? 0 : 1;
-  });
+  $('.form').on('submit', (event) => {
+    const $form = $(event.currentTarget);
 
-  return errorCount === 0;
-};
-
-export default (opts = {}) => {
-  const $firstForm = $('.form').eq(0);
-  const options = {
-    $form: $firstForm,
-    ...opts,
-  };
-
-  const { $form } = options;
-
-  $form.on('submit', (event) => {
-    event.preventDefault();
-
-    if (!validateForm($form)) {
-      const $firstError = $form.find('.form__error').first();
-
-      scrollTo(
-        $firstError,
-        $firstError.height() + $firstError.prev('input').height(),
-      );
-
-      return;
+    if ($form.data('ajax')) {
+      return true;
     }
 
-    ajax({
-      method: $form.attr('method'),
-      url: $form.attr('action'),
-      data: $form.serialize(),
-      $button: $firstForm.find('[type="submit"]'),
-      ...options,
-    });
+    return validateForm($form);
   });
 };

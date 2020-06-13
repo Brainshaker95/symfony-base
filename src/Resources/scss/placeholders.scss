@@ -1,0 +1,46 @@
+%label-target {
+  margin-top: -1.75em;
+  padding-left: 0;
+  color: $grey;
+  font-size: 0.75em;
+}
+
+%chevron {
+  &::before {
+    position: absolute;
+    content: '';
+    top: 0.5em;
+    width: 1em;
+    height: 1em;
+    transition: border-color 200ms ease;
+    border: {
+      style: solid;
+      width: 0.2em 0.2em 0 0;
+      radius: 0.1em;
+      color: $white;
+    };
+  }
+
+  &:hover::before {
+    border-color: $grey;
+    border-color: darken($grey, 20%);
+  }
+}
+
+%chevron-left {
+  @extend %chevron;
+
+  &::before {
+    left: 0.5em;
+    transform: rotate(-135deg);
+  }
+}
+
+%chevron-right {
+  @extend %chevron;
+
+  &::before {
+    right: 0.5em;
+    transform: rotate(45deg);
+  }
+}

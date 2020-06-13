@@ -46,7 +46,7 @@ class NavigationExtension extends AbstractExtension
     }
 
     /**
-     * @return array<int|string, array{navigation_name: string, path: string, is_active: boolean, role: string|null, hide_on_auth: boolean}>
+     * @return array<int|string, array{navigation_name: string, path: string, is_active: bool, role: string|null, hide_on_auth: bool}>
      */
     public function getNavigation(string $type = 'main')
     {

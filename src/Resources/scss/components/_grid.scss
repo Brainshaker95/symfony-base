@@ -16,12 +16,24 @@
 }
 
 @each $breakpoint, $width in $grid-breakpoints {
-  @media (min-width: map-get($grid-breakpoints, $breakpoint)) {
+  @include breakpoint($breakpoint) {
     @for $i from 1 through $grid-columns {
       .col-#{$breakpoint}-#{$i} {
         flex-basis: 100% / $grid-columns * $i;
         max-width: 100% / $grid-columns * $i;
       }
     }
+  }
+}
+
+.col-1-5th {
+  flex-basis: 20%;
+  max-width: 20%;
+}
+
+.col-xl-1-5th {
+  @include breakpoint(xl) {
+    flex-basis: 20%;
+    max-width: 20%;
   }
 }

@@ -7,6 +7,9 @@ let loading;
 
 export default (opts) => {
   const options = {
+    method: 'POST',
+    url: window.location.href,
+    data: {},
     done: () => {},
     fail: () => {},
     always: () => {},
@@ -22,20 +25,17 @@ export default (opts) => {
   if ($button) {
     $button
       .addClass('button--is-loading')
-      .data('text', $button.text())
+      .data('text', $button.text() || $button.data('text'))
       .text('')
       .blur();
   }
 
-  if (loading) {
+  if (loading && !options.allowParallelRequests) {
     loading.abort();
   }
 
-  loading = $.ajax({
-    method: options.method || 'POST',
-    url: options.url || window.location.href,
-    data: options.data || {},
-  }).done((response) => options.done(response))
+  loading = $.ajax(options)
+    .done((response) => options.done(response))
     .fail((response) => {
       if (response.statusText === 'abort') {
         return;

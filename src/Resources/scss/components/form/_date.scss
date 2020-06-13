@@ -1,0 +1,62 @@
+@import '~jquery-ui/themes/base/datepicker.css';
+
+.date {
+  &__input {
+    color: $white;
+    transition: color 300ms ease;
+
+    &::-webkit-calendar-picker-indicator {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .form__row--has-value &,
+    .form__row:focus-within & {
+      color: $darkgrey;
+    }
+  }
+
+  .form__label--is-static {
+    @extend %label-target;
+  }
+}
+
+.ui-datepicker {
+  background-color: $darkgrey;
+  border: 1px solid $white;
+
+  &-calendar a {
+    color: $white;
+    border-radius: 0.25em;
+    transition:
+      background-color 300ms ease,
+      color 300ms ease;
+
+    &:hover {
+      color: $darkgrey;
+      background-color: $white;
+    }
+  }
+
+  .ui-corner-all {
+    cursor: pointer;
+  }
+
+  .ui-datepicker-prev {
+    @extend %chevron-left;
+
+    &-hover {
+      top: 2px;
+      left: 2px;
+    }
+  }
+
+  .ui-datepicker-next {
+    @extend %chevron-right;
+
+    &-hover {
+      top: 2px;
+      right: 2px;
+    }
+  }
+}

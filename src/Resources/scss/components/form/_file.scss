@@ -1,0 +1,129 @@
+.file {
+  @include focus-outline-primary;
+
+  position: relative;
+  overflow: hidden;
+  padding: 0.25em 0.5em;
+  user-select: none;
+  cursor: pointer;
+
+  &[title] {
+    padding: 0.25em 2em 0.25em 0.5em;
+  }
+
+  &__input {
+    display: none;
+  }
+
+  &__path {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: $white;
+    pointer-events: none;
+    transition: color 300ms ease;
+  }
+
+  &--is-disabled {
+    @extend button[disabled];
+
+    &.button {
+      border: 1px solid darken($grey, 40%);
+    }
+
+    .file__path {
+      color: darken($grey, 20%);
+    }
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    &-item {
+      position: relative;
+      margin: 1em 0 0;
+    }
+
+    &-name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      margin: 0 1.75em;
+      line-height: 1.25em;
+    }
+
+    .file-icon {
+      position: absolute;
+    }
+
+    .button--clear {
+      top: 0.65em;
+      right: 0;
+    }
+  }
+
+  &:hover {
+    .file__path {
+      color: $darkgrey;
+    }
+
+    .button--clear {
+      &::before,
+      &::after {
+        background-color: $darkgrey;
+      }
+    }
+  }
+
+  .button--clear:hover {
+    &::before,
+    &::after {
+      background-color: $darkgrey;
+    }
+  }
+
+  &--is-drag-and-drop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 300px;
+    padding: 1em;
+    border: 1px solid $white;
+    cursor: default;
+
+    &:hover .button--clear {
+      &::before,
+      &::after {
+        background-color: $white;
+      }
+    }
+
+    .button--clear:hover {
+      &::before,
+      &::after {
+        background-color: $white;
+      }
+    }
+  }
+
+  &--is-highlighted {
+    border: 1px solid $primary;
+  }
+
+  &__progress {
+    // display: none;
+  }
+
+  &__image {
+    max-width: 20%;
+    margin-top: 0.5em;
+    margin-left: 1.75em;
+
+    @include breakpoint(sm) {
+      max-width: 10%;
+    }
+  }
+}

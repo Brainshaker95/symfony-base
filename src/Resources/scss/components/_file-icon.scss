@@ -1,0 +1,40 @@
+
+.file-icon {
+  display: inline-block;
+  position: relative;
+  width: 1em;
+  height: 1.25em;
+  background: $white;
+  border-radius: 0.1em;
+
+  &::before,
+  &::after {
+    display: block;
+    position: absolute;
+    content: '';
+  }
+
+  &::before {
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-bottom-left-radius: 0.1em;
+    border-width: 0.25em;
+    border-style: solid;
+    border-color: $darkgrey $darkgrey rgba($darkgrey, 0.35) rgba($darkgrey, 0.35);
+  }
+
+  &::after {
+    overflow: hidden;
+    white-space: nowrap;
+    content: attr(data-extension);
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 0.1em;
+    font-size: 0.4em;
+    color: $darkgrey;
+    text-transform: lowercase;
+  }
+}

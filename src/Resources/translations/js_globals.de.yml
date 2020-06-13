@@ -1,2 +1,4 @@
 error.general: 'Es ist ein unerwarteter Fehler aufgetreten. Bitte versuche es später erneut.'
+placeholder.upload_file: 'Datei hochladen'
+remove: 'Entfernen'
 success.user_deleted: 'Der Nutzer "{{ username }}" wurde erfolgreich gelöscht'

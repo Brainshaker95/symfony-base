@@ -95,4 +95,18 @@
       }
     }
   }
+
+  &--clear {
+    border: 0;
+    background-color: transparent;
+
+    &:hover {
+      background-color: transparent;
+
+      &::before,
+      &::after {
+        background-color: $white;
+      }
+    }
+  }
 }

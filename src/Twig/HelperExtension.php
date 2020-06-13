@@ -26,6 +26,7 @@ class HelperExtension extends AbstractExtension
         return [
             new TwigFilter('encode', [$this, 'encode']),
             new TwigFilter('decode', [$this, 'decode']),
+            new TwigFilter('instanceof', [$this, 'instanceof']),
         ];
     }
 
@@ -37,5 +38,13 @@ class HelperExtension extends AbstractExtension
     public function decode(string $hash): ?string
     {
         return $this->hashService->decode($hash);
+    }
+
+    /**
+     * @param mixed $variable
+     */
+    public function instanceof($variable, string $class): bool
+    {
+        return $variable instanceof $class;
     }
 }

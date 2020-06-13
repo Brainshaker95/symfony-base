@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Image
 {
     /**
+     * @var int
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -18,16 +19,23 @@ class Image
     private $id;
 
     /**
+     * @var string
      * @ORM\Column(type="string", length=255)
      */
     private $path;
 
-    public function getId(): ?int
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255)
+     */
+    private $type;
+
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getPath(): ?string
+    public function getPath(): string
     {
         return $this->path;
     }
@@ -35,6 +43,18 @@ class Image
     public function setPath(string $path): self
     {
         $this->path = $path;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

@@ -3,7 +3,7 @@ app_admin:
   controller: App\Controller\AdminController::adminAction
   options:
     navigation: main
-    order: 2
+    order: 3
     role: ROLE_ADMIN
 
 app_admin_users:
@@ -13,6 +13,18 @@ app_admin_users:
     navigation: admin
     order: 1
     role: ROLE_SUPER_ADMIN
+
+app_api_upload_images:
+  path: /api/upload_images
+  controller: App\Controller\GalleryController::uploadImagesAction
+
+app_gallery:
+  path: /gallery
+  controller: App\Controller\GalleryController::galleryAction
+  options:
+    navigation: main
+    order: 2
+    role: ROLE_USER
 
 app_index:
   path: /

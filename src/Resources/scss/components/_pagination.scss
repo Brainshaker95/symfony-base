@@ -1,0 +1,36 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 1em 0;
+
+  &__page {
+    display: block;
+    width: 1.5em;
+    height: 2em;
+    padding: 0;
+    border-radius: 0.25em;
+    color: $white;
+    text-align: center;
+    line-height: 2em;
+    user-select: none;
+
+    &:hover {
+      text-decoration: none;
+    }
+
+    &--is-active {
+      background-color: $white;
+      color: $darkgrey;
+    }
+  }
+
+  .arrow-button {
+    &--prev {
+      margin-right: 0.5em;
+    }
+
+    &--next {
+      margin-left: 0.5em;
+    }
+  }
+}

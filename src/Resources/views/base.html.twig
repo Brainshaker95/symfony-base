@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="{{ app.getRequest.getLocale }}">
 	<head>
-		<meta charset="utf-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% block meta %}{% endblock %}
 
 		<title>{% block title %}{{ 'title.index'|trans }}{% endblock %}</title>
 
@@ -23,10 +25,16 @@
 
     <main class="main">
 		  {% block flash_messages %}
-			  {% include 'layout/flash-messages.html.twig' %}
+        {% include 'layout/flash-messages.html.twig' %}
       {% endblock %}
 
-		  {% block content %}{% endblock %}
+		  {% block content_wrapper %}
+        <section class="content">
+          <div class="container">
+    		    {% block content %}{% endblock %}
+          </div>
+        </section>
+      {% endblock %}
     </main>
 
 		{% block footer %}

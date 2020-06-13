@@ -4,14 +4,9 @@ namespace App\Repository;
 
 use App\Entity\Image;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @method Image|null find($id, $lockMode = null, $lockVersion = null)
- * @method Image|null findOneBy(array $criteria, array $orderBy = null)
- * @method Image[]    findAll()
- * @method Image[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
 class ImageRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -19,32 +14,24 @@ class ImageRepository extends ServiceEntityRepository
         parent::__construct($registry, Image::class);
     }
 
-    // /**
-    //  * @return Image[] Returns an array of Image objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Paginator<Image>
+     */
+    public function getGalleryPaginator(int $page, int $limit)
     {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('i.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $query = $this->createQueryBuilder('i')
+            ->where('i.type = \'gallery\'')
+            ->orderBy('i.id', 'DESC')
+            ->getQuery();
 
-    /*
-    public function findOneBySomeField($value): ?Image
-    {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
+        $paginator = new Paginator($query);
+        $offset    = $limit * ($page - 1);
+
+        $paginator
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->setFirstResult($offset)
+            ->setMaxResults($limit);
+
+        return $paginator;
     }
-    */
 }

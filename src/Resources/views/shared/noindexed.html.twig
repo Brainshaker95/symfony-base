@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block key %}{% endblock %}
+{% block has_page_script %}{% endblock %}
+
+{% block meta %}
+  <meta name="robots" content="noindex, nofollow">
+{% endblock %}
+
+{% block title %}{{ page_title('title.' ~ block('key')) }}{% endblock %}
+
+{% block additonal_scripts %}
+  {% if block('has_page_script') == 'true' %}
+    {{ encore_entry_script_tags(block('key')) }}
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,85 @@
+{% set tag_type = tag_type|default('a') %}
+{% set path = path|default %}
+{% set half_visible_pages_round = (max_visible_pages / 2)|round %}
+{% set half_visible_pages_floor = (max_visible_pages / 2)|round(0, 'floor') %}
+{% set is_in_first_block = current_page < half_visible_pages_round %}
+{% set is_in_last_block = current_page > total_pages - half_visible_pages_floor %}
+{% set lower_bound = (is_in_first_block ? 1 : (is_in_last_block ? total_pages - (max_visible_pages - 1) : current_page - half_visible_pages_floor)) %}
+{% set upper_bound = (is_in_first_block ? max_visible_pages : (is_in_last_block ? total_pages : current_page + half_visible_pages_floor)) %}
+{% set prev_page = current_page - 1 >= 1 ? current_page - 1 : 1 %}
+{% set next_page = current_page + 1 <= total_pages ? current_page + 1 : total_pages %}
+
+{% if tag_type == 'a' %}
+  <nav>
+    <ul class="pagination normalized-list">
+      <li>
+        <a
+          href="{{ path }}?page={{ prev_page }}"
+          class="arrow-button arrow-button--prev{{ is_in_first_block ? ' disabled' : '' }}"
+          title="{{ 'pagination.go_to_prev_page'|trans }}"
+          aria-label="{{ 'pagination.go_to_prev_page'|trans }}"
+        ></a>
+      </li>
+
+      {% for i in 1..total_pages %}
+        <li>
+          <a
+            href="{{ path }}?page={{ i }}"
+            class="pagination__page{{ i == current_page ? ' pagination__page--is-active disabled' : '' }}{{ (total_pages > max_visible_pages and (i < lower_bound or i > upper_bound)) ? ' hide' : '' }}"
+            title="{{ 'pagination.go_to_page'|trans ~ ' ' ~ i }}"
+            aria-label="{{ 'pagination.go_to_page'|trans ~ ' ' ~ i }}"
+          >
+            {{ i }}
+          </a>
+        </li>
+      {% endfor %}
+
+      <li>
+        <a
+          href="{{ path }}?page={{ next_page }}"
+          class="arrow-button arrow-button--next{{ is_in_last_block ? ' disabled' : '' }}"
+          title="{{ 'pagination.go_to_next_page'|trans }}"
+          aria-label="{{ 'pagination.go_to_next_page'|trans }}"
+        ></a>
+      </li>
+    </ul>
+  </nav>
+{% elseif tag_type == 'button' %}
+  <nav>
+    <ul class="pagination normalized-list" data-path="{{ path }}" data-total-pages="{{ total_pages }}" data-current-page="{{ current_page }}" data-visible-pages="{{ max_visible_pages }}">
+      <li>
+        <button
+          type="button"
+          data-page="{{ prev_page }}"
+          class="arrow-button arrow-button--prev{{ is_in_first_block ? ' disabled' : '' }}"
+          title="{{ 'pagination.go_to_prev_page'|trans }}"
+          aria-label="{{ 'pagination.go_to_prev_page'|trans }}"
+        ></button>
+      </li>
+
+      {% for i in 1..total_pages %}
+        <li>
+          <button
+            type="button"
+            data-page="{{ i }}"
+            class="pagination__page{{ i == current_page ? ' pagination__page--is-active disabled' : '' }}{{ (total_pages > max_visible_pages and (i < lower_bound or i > upper_bound)) ? ' hide' : '' }}"
+            title="{{ 'pagination.go_to_page'|trans ~ ' ' ~ i }}"
+            aria-label="{{ 'pagination.go_to_page'|trans ~ ' ' ~ i }}"
+          >
+            {{ i }}
+          </button>
+        </li>
+      {% endfor %}
+
+      <li>
+        <button
+          type="button"
+          data-page="{{ next_page }}"
+          class="arrow-button arrow-button--next{{ is_in_last_block ? ' disabled' : '' }}"
+          title="{{ 'pagination.go_to_next_page'|trans }}"
+          aria-label="{{ 'pagination.go_to_next_page'|trans }}"
+        ></button>
+      </li>
+    </ul>
+  </nav>
+{% endif %}

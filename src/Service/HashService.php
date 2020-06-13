@@ -16,9 +16,12 @@ class HashService
         $this->hasher = new Hashids($hashidsSalt, $hashidsPadding);
     }
 
-    public function encode(string $string): string
+    /**
+     * @param int|string $value
+     */
+    public function encode($value): string
     {
-        return $this->hasher->encode($string);
+        return $this->hasher->encode($value);
     }
 
     public function decode(string $hash): ?string

@@ -1,2 +1,4 @@
 error.general: 'There was an unexpected error. Please try again later.'
+placeholder.upload_file: 'Upload file'
+remove: 'Remove'
 success.user_deleted: 'The user "{{ username }}" was successfully deleted'

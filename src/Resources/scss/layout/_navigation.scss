@@ -1,11 +1,24 @@
 .navigation {
   &__list {
     display: flex;
+    justify-content: flex-end;
   }
 
   &__link {
-    &--is-active {
-      color: $red;
+    padding: 1em;
+    color: $white;
+    transition: color 300ms ease;
+
+    &--is-active,
+    &:hover {
+      color: $darkgrey;
+      text-decoration: none;
+    }
+  }
+
+  &__item {
+    &:last-of-type .navigation__link {
+      padding-right: 0;
     }
   }
 }

@@ -40,11 +40,12 @@ class User implements UserInterface
     private $password;
 
     /**
+     * @var Image|null
      * @ORM\OneToOne(targetEntity=Image::class, cascade={"persist", "remove"})
      */
     private $image;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }

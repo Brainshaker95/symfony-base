@@ -43,7 +43,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     protected $passwordEncoder;
 
     /**
-     * @var Session
+     * @var Session<mixed>
      */
     protected $session;
 
@@ -62,6 +62,9 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
      */
     protected $userRepository;
 
+    /**
+     * @param Session<mixed> $session
+     */
     public function __construct(
         CsrfTokenManagerInterface $csrfTokenManager,
         FormFactoryInterface $formFactory,
@@ -111,7 +114,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         if (!$username) {
             $flashBag->add('error', 'error.form.login.user.empty');
 
-            return;
+            return null;
         }
 
         $this->session->set('last_username', $username);
@@ -119,13 +122,13 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         if (!$this->csrfTokenManager->isTokenValid($token)) {
             $flashBag->add('error', 'error.form.login.token.invalid');
 
-            return;
+            return null;
         }
 
         if (!$credentials['password']) {
             $flashBag->add('error', 'error.form.login.password.empty');
 
-            return;
+            return null;
         }
 
         /**
@@ -136,7 +139,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         if (!$user) {
             $flashBag->add('error', 'error.form.login.user.not_found');
 
-            return;
+            return null;
         }
 
         return $user;

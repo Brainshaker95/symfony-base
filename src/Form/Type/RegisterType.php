@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Type;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
@@ -11,6 +11,8 @@ use Symfony\Component\Validator\Constraints;
 
 class RegisterType extends AbstractType
 {
+    protected const PASSWORD_MIN_LENGTH = 10;
+
     /**
      * @param FormBuilderInterface<string> $builder
      * @param array<string> $options
@@ -21,6 +23,7 @@ class RegisterType extends AbstractType
             ->add('username', Type\TextType::class, [
                 'required'   => true,
                 'empty_data' => '',
+                'label'      => 'label.username',
                 'attr'       => [
                     'autocomplete' => 'off',
                 ],
@@ -33,23 +36,24 @@ class RegisterType extends AbstractType
             ->add('password', Type\PasswordType::class, [
                 'required' => true,
                 'mapped'   => false,
+                'label'    => 'label.password',
                 'attr'     => [
                     'autocomplete' => 'off',
-                    'min'          => 10,
+                    'min'          => self::PASSWORD_MIN_LENGTH,
                 ],
                 'constraints' => [
                     new Constraints\NotBlank([
                         'message' => 'app.error.form.password.empty',
                     ]),
                     new Constraints\Length([
-                        'min'        => 10,
+                        'min'        => self::PASSWORD_MIN_LENGTH,
                         'max'        => 4096,
                         'minMessage' => 'app.error.form.password.min',
                     ]),
                 ],
             ])
             ->add('submit', Type\SubmitType::class, [
-                'label' => 'register',
+                'label' => 'label.register',
             ])
         ;
     }
