@@ -1,53 +1,127 @@
-{% extends 'shared/noindexed.html.twig' %}
+{%- extends 'shared/noindexed.html.twig' -%}
 
-{% block key %}users{% endblock %}
-{% block has_page_script %}true{% endblock %}
+{%- block key -%}users{%- endblock -%}
+{%- block has_page_style -%}true{%- endblock -%}
+{%- block has_page_script -%}true{%- endblock -%}
 
-{% block content %}
-  <div class="users" data-path="{{ path('app_api_delete_user') }}">
-    {% for user in users %}
-      {% set username = user.getUsername %}
+{%- block content -%}
+  {%- apply strip_spaces -%}
+    <div
+      class="users"
+      data-update-roles-path="{{- path('app_api_update_roles') -}}"
+      data-delete-user-path="{{- path('app_api_delete_user') -}}"
+      data-delete-profile-image-path="{{- path('app_api_delete_profile_image') -}}"
+    >
+  {%- endapply -%}
+
+    {%- for user in users -%}
+      {%- set username        = user.getUsername -%}
+      {%- set can_modify_user = app.getUser|can_modify(user) -%}
 
       <div class="grid users__row">
-        <div class="col-1">
-          {{ user.getId }}
-        </div>
+        <div class="col-1"></div>
 
         <div class="col-2">
-          <div class="users__profile-image">
-            {% include 'shared/image.html.twig' with {
-              image: user.getImage ?: asset('/build/images/placeholder-profile-image.jpg'),
-              class: 'responsive-image',
+          <div class="users__profile-image-wrapper">
+            {%- set image = user.getImage -%}
+
+            {%- include 'shared/image.html.twig' with {
+              image: image ?: asset('/build/images/placeholder-profile-image.jpg'),
+              class: 'responsive-image users__profile-image',
               thumbnail: 'profile_image',
               alt: username,
               title: username,
-            } %}
+            } -%}
+
+            {%- if image -%}
+              {%- apply strip_spaces -%}
+                <button
+                  type="button"
+                  class="button button--close delete-profile-image{{- can_modify_user ? '' : ' disabled' -}}"
+                  title="{{- 'delete_profile_image'|trans -}}"
+                  aria-label="{{- 'page.users.delete_profile_image'|trans -}}"
+                  data-id="{{- user.getId|encode -}}"
+                ></button>
+              {%- endapply -%}
+            {%- endif -%}
           </div>
         </div>
 
         <div class="col-3">
           <div class="users__username">
-            {{ username }}
+            {{- username -}}
           </div>
         </div>
 
-        <div class="col-5">
-          {% for role in user.getRoles %}
-            <div class="role">
-              {{ role }}
-            </div>
-          {% endfor %}
+        <div class="col-3">
+          <div class="select-wrapper">
+            {%- set user_roles = user.getRoles -%}
+
+            <select class="select__input user-roles" data-placeholder="{{- 'role.inactive'|trans -}}" multiple{{- can_modify_user ? '' : ' disabled' -}}>
+              {%- if 'ROLE_SUPER_ADMIN' in user_roles -%}
+                <option value="ROLE_SUPER_ADMIN" selected disabled>
+                  {{- 'ROLE_SUPER_ADMIN'|role_name -}}
+                </option>
+              {%- endif -%}
+
+              {%- for role in roles -%}
+                {%- set disabled = ' disabled' -%}
+
+                {%- if role == 'ROLE_ADMIN' and is_granted('ROLE_SUPER_ADMIN') -%}
+                  {%- set disabled = '' -%}
+                {%- elseif role == 'ROLE_USER' and is_granted('ROLE_ADMIN') -%}
+                  {%- set disabled = '' -%}
+                {%- endif -%}
+
+                <option value="{{- role -}}"{{- role in user_roles ? ' selected' : '' -}}{{- disabled -}}>
+                  {{- role|role_name -}}
+                </option>
+              {%- endfor -%}
+            </select>
+          </div>
+
+          {%- apply strip_spaces -%}
+            <button
+              type="button"
+              class="button button--info update-roles"
+              title="{{- 'page.users.update_roles'|trans -}}"
+              aria-label="{{- 'page.users.update_roles'|trans -}}"
+              data-id="{{- user.getId|encode -}}"
+              disabled
+            >
+              {{- 'page.users.update_roles'|trans -}}
+            </button>
+          {%- endapply -%}
         </div>
 
-        <div class="col-1" style="position:relative">
-          <button type="button" class="button button--close delete-user" title="" aria-label="" data-id="{{ user.getId|encode }}"></button>
+        <div class="col-1"></div>
+
+        <div class="col-1 users__delete-col">
+          {%- apply strip_spaces -%}
+            <button
+              type="button"
+              class="button button--close delete-user{{- can_modify_user ? '' : ' disabled' -}}"
+              title="{{- 'page.users.delete_user'|trans -}}"
+              aria-label="{{- 'page.users.delete_user'|trans -}}"
+              data-id="{{- user.getId|encode -}}"
+            ></button>
+          {%- endapply -%}
         </div>
+
+        <div class="col-1"></div>
       </div>
-    {% endfor %}
+    {%- endfor -%}
   </div>
 
-  {% include 'shared/modal.html.twig' with {
+  <div data-placeholder-image="{{ asset('/build/images/placeholder-profile-image.jpg') }}" hidden></div>
+
+  {%- include 'shared/modal.html.twig' with {
     class: 'delete-user-modal',
     header_text: 'page.users.really_delete_user'|trans,
-  } %}
-{% endblock %}
+  } -%}
+
+  {%- include 'shared/modal.html.twig' with {
+    class: 'delete-profile-image-modal',
+    header_text: 'page.users.really_delete_profile_image'|trans,
+  } -%}
+{%- endblock -%}

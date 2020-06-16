@@ -27,6 +27,7 @@ class HelperExtension extends AbstractExtension
             new TwigFilter('encode', [$this, 'encode']),
             new TwigFilter('decode', [$this, 'decode']),
             new TwigFilter('instanceof', [$this, 'instanceof']),
+            new TwigFilter('strip_spaces', [$this, 'stripSpaces'], ['is_safe' => ['html']]),
         ];
     }
 
@@ -46,5 +47,16 @@ class HelperExtension extends AbstractExtension
     public function instanceof($variable, string $class): bool
     {
         return $variable instanceof $class;
+    }
+
+    public function stripSpaces (string $html): string
+    {
+        $html = preg_replace('/\s\s/', '', $html);
+
+        if (!$html) {
+            $html = '';
+        }
+
+        return $html;
     }
 }

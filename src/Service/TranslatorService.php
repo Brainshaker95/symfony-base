@@ -37,4 +37,15 @@ class TranslatorService
             . $this->translator->trans('title.separator')
             . $this->translator->trans('title.index');
     }
+
+    public function getRoleName(string $role): string
+    {
+        $role = preg_replace(['/ROLE/', '/_/'], ['', ''], $role);
+
+        if (!$role) {
+            $role = 'inactive';
+        }
+
+        return $this->translator->trans('role.' . strtolower($role));
+    }
 }

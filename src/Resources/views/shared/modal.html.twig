@@ -1,15 +1,15 @@
-<div class="modal{{ class is defined ? ' ' ~ class : '' }}">
-  <div class="modal__header">{{ header_text is defined ? header_text : '' }}</div>
-  <div class="modal__body">{{ body_text is defined ? body_text|raw : '' }}</div>
+<div class="modal{{- class is defined ? ' ' ~ class : '' -}}">
+  <div class="modal__header">{{- header_text is defined ? header_text : '' -}}</div>
+  <div class="modal__body">{{- body_text is defined ? body_text|raw : '' -}}</div>
 
   <div class="modal__footer">
-    {% if not has_no_buttons|default %}
-      <button type="button" class="button button--error modal__decline">{{ decline_text is defined ? decline_text : 'modal.decline.default'|trans }}</button>
-      <button type="button" class="button button--success modal__confirm">{{ confirm_text is defined ? confirm_text : 'modal.confirm.default'|trans }}</button>
-    {% endif %}
+    {%- if not has_no_buttons|default -%}
+      <button type="button" class="button button--error modal__decline">{{- decline_text is defined ? decline_text : 'modal.decline.default'|trans -}}</button>
+      <button type="button" class="button button--success modal__confirm">{{- confirm_text is defined ? confirm_text : 'modal.confirm.default'|trans -}}</button>
+    {%- endif -%}
 
-    <button type="button" class="button button--close modal__close" title="{{ 'close'|trans }}" aria-label="{{ 'close'|trans }}"></button>
+    <button type="button" class="button button--close modal__close" title="{{- 'close'|trans -}}" aria-label="{{- 'close'|trans -}}"></button>
   </div>
 </div>
 
-<div class="modal__overlay{{ overlay_class is defined ? ' ' ~ overlay_class : '' }}"></div>
+<div class="modal__overlay{{- overlay_class is defined ? ' ' ~ overlay_class : '' -}}"></div>

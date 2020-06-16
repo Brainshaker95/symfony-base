@@ -249,6 +249,7 @@ class GalleryController extends AbstractController
         $image = new Image();
 
         $image
+            ->setFilename($filename)
             ->setPath('/uploads/gallery_images/' . $filename)
             ->setType('gallery');
 

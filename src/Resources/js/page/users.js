@@ -5,45 +5,91 @@ import initModal from '../module/modal';
 import notify from '../util/notify';
 import translate from '../util/translate';
 
-$(() => {
-  const url = $('.users').data('path');
-  const $deleteUserModal = $('.delete-user-modal');
-  const $confirmButton = $deleteUserModal.find('.modal__confirm');
-  const $declineButton = $deleteUserModal.find('.modal__decline');
+const requestDone = ($userRow, success, successMessage) => {
+  if (!success) {
+    notify();
 
-  const modal = initModal($deleteUserModal, {
+    return false;
+  }
+
+  notify({
+    type: 'success',
+    text: translate(successMessage, {
+      username: $userRow.find('.users__username').text(),
+    }),
+  });
+
+  return true;
+};
+
+$(() => {
+  const $users = $('.users');
+  const $deleteUserModal = $('.delete-user-modal');
+  const $deleteProfileImageModal = $('.delete-profile-image-modal');
+  const $deleteUserConfirmButton = $deleteUserModal.find('.modal__confirm');
+  const $deleteUserDeclineButton = $deleteUserModal.find('.modal__decline');
+  const $deleteProfileImageConfirmButton = $deleteProfileImageModal.find('.modal__confirm');
+  const $deleteProfileImageDeclineButton = $deleteProfileImageModal.find('.modal__decline');
+
+  const deleteUsermodal = initModal($deleteUserModal, {
     onConfirm: (close) => {
       const $target = $deleteUserModal.data('target');
 
-      $declineButton.prop('disabled', true);
+      $deleteUserDeclineButton.prop('disabled', true);
 
       ajax({
-        url,
+        url: $users.data('delete-user-path'),
         data: {
           id: $target.data('id'),
         },
-        $button: $confirmButton,
+        $button: $deleteUserConfirmButton,
         done: (response) => {
-          $declineButton.prop('disabled', false);
-
-          if (!response.success) {
-            notify();
-
-            return;
-          }
-
           const $userRow = $target.closest('.users__row');
 
-          notify({
-            type: 'success',
-            text: translate('success.user_deleted', {
-              username: $userRow.find('.users__username').text(),
-            }),
-          });
+          $deleteUserDeclineButton.prop('disabled', false);
 
-          $userRow.slideUp('fast', () => {
-            $userRow.remove();
-          });
+          if (requestDone(
+            $userRow,
+            response.success,
+            'success.user_deleted',
+          )) {
+            $userRow.slideUp('fast', () => {
+              $userRow.remove();
+            });
+          }
+        },
+        always: close,
+      });
+    },
+  });
+
+  const deleteProfileImageModal = initModal($deleteProfileImageModal, {
+    onConfirm: (close) => {
+      const $target = $deleteProfileImageModal.data('target');
+
+      $deleteProfileImageDeclineButton.prop('disabled', true);
+
+      ajax({
+        url: $users.data('delete-profile-image-path'),
+        data: {
+          id: $target.data('id'),
+        },
+        $button: $deleteProfileImageConfirmButton,
+        done: (response) => {
+          const $userRow = $target.closest('.users__row');
+
+          $deleteProfileImageDeclineButton.prop('disabled', false);
+
+          if (requestDone(
+            $userRow,
+            response.success,
+            'success.user_deleted',
+          )) {
+            $target.remove();
+            $userRow
+              .find('.users__profile-image')
+              .attr('src', `${$('[data-placeholder-image]').data('placeholder-image')}`);
+          }
         },
         always: close,
       });
@@ -63,6 +109,47 @@ $(() => {
       );
 
     $deleteUserModal.data('target', $target);
-    modal.open();
+    deleteUsermodal.open();
+  });
+
+  $('.delete-profile-image').on('click', (event) => {
+    const $target = $(event.currentTarget);
+
+    $deleteProfileImageModal
+      .find('.modal__body')
+      .text(
+        $target
+          .closest('.users__row')
+          .find('.users__username')
+          .text(),
+      );
+
+    $deleteProfileImageModal.data('target', $target);
+    deleteProfileImageModal.open();
+  });
+
+  $('.user-roles').on('change', (event) => {
+    $(event.currentTarget)
+      .closest('.users__row')
+      .find('.update-roles')
+      .prop('disabled', false);
+  });
+
+  $('.update-roles').on('click', (event) => {
+    const $target = $(event.currentTarget);
+
+    ajax({
+      url: $users.data('update-roles-path'),
+      data: {
+        roles: $target.parent().find('.user-roles').val(),
+        id: $target.data('id'),
+      },
+      $button: $target,
+      done: (response) => requestDone(
+        $target.closest('.users__row'),
+        response.success,
+        'success.roles_updated',
+      ),
+    });
   });
 });

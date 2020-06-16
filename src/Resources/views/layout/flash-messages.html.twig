@@ -1,11 +1,11 @@
-{% for type, messages in app.getFlashes %}
+{%- for type, messages in app.getFlashes -%}
   <section class="flash-messages">
     <div class="container">
-      {% for message in messages %}
-        <div class="alert alert--{{ type }}">
-          {{ message|trans }}
+      {%- for message in messages -%}
+        <div class="alert alert--{{- type -}}">
+          {{- message|trans -}}
         </div>
-      {% endfor %}
+      {%- endfor -%}
     </div>
   </section>
-{% endfor %}
+{%- endfor -%}

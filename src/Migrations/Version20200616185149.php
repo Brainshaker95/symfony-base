@@ -7,7 +7,7 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20200604172742 extends AbstractMigration
+final class Version20200616185149 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -25,6 +25,7 @@ final class Version20200604172742 extends AbstractMigration
             'CREATE TABLE image
             (
                 id INT AUTO_INCREMENT NOT NULL,
+                filename VARCHAR(255) NOT NULL,
                 path VARCHAR(255) NOT NULL,
                 type VARCHAR(255) DEFAULT NULL,
                 PRIMARY KEY(id)

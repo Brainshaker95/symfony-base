@@ -1,11 +1,11 @@
-{% extends 'shared/noindexed.html.twig' %}
+{%- extends 'shared/noindexed.html.twig' -%}
 
-{% block key %}admin{% endblock %}
+{%- block key -%}admin{%- endblock -%}
 
-{% block content %}
+{%- block content -%}
   Admin<br>
 
-  {% include 'layout/navigation.html.twig' with {
+  {%- include 'layout/navigation.html.twig' with {
     key: 'admin',
-  } %}
-{% endblock %}
+  } -%}
+{%- endblock -%}

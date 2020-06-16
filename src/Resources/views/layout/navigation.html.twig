@@ -1,22 +1,25 @@
-<nav class="navigation navigation--{{ key }}">
+<nav class="navigation navigation--{{- key -}}">
   <ul class="navigation__list">
-    {% for navigation_item in navigation(key) %}
-      {% set navigation_name = navigation_item.navigation_name %}
-      {% set hide_on_auth    = navigation_item.hide_on_auth %}
-      {% set role            = navigation_item.role %}
-      {% set is_granted      = is_granted(role) %}
+    {%- for navigation_item in navigation(key) -%}
+      {%- set navigation_name = navigation_item.navigation_name -%}
+      {%- set hide_on_auth    = navigation_item.hide_on_auth -%}
+      {%- set show_on_auth    = navigation_item.show_on_auth -%}
+      {%- set role            = navigation_item.role -%}
+      {%- set is_granted      = is_granted(role) -%}
 
-      {% if not role or is_granted or (app.getUser ? not hide_on_auth and is_granted : hide_on_auth) %}
+      {%- if (app.getUser and show_on_auth) or not role or is_granted or (app.getUser ? not hide_on_auth and is_granted : hide_on_auth) -%}
         <li class="navigation__item">
-          <a
-            href="{{ navigation_item.path }}"
-            title="{{ navigation_name }}"
-            class="navigation__link{{ navigation_item.is_active ? ' navigation__link--is-active' : '' }}"
-          >
-            {{ navigation_name }}
-          </a>
+          {%- apply strip_spaces -%}
+            <a
+              href="{{- navigation_item.path -}}"
+              title="{{- navigation_name -}}"
+              class="navigation__link{{- navigation_item.is_active ? ' navigation__link--is-active' : '' -}}"
+            >
+              {{- navigation_name -}}
+            </a>
+          {%- endapply -%}
         </li>
-      {% endif %}
-    {% endfor %}
+      {%- endif -%}
+    {%- endfor -%}
   </ul>
 </nav>

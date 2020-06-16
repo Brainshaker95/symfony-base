@@ -1,16 +1,23 @@
-{% extends 'base.html.twig' %}
+{%- extends 'base.html.twig' -%}
 
-{% block key %}{% endblock %}
-{% block has_page_script %}{% endblock %}
+{%- block key -%}{%- endblock -%}
+{%- block has_page_style -%}{%- endblock -%}
+{%- block has_page_script -%}{%- endblock -%}
 
-{% block meta %}
+{%- block meta -%}
   <meta name="robots" content="noindex, nofollow">
-{% endblock %}
+{%- endblock -%}
 
-{% block title %}{{ page_title('title.' ~ block('key')) }}{% endblock %}
+{%- block title -%}{{- page_title('title.' ~ block('key')) -}}{%- endblock -%}
 
-{% block additonal_scripts %}
-  {% if block('has_page_script') == 'true' %}
-    {{ encore_entry_script_tags(block('key')) }}
-  {% endif %}
-{% endblock %}
+{%- block additonal_styles -%}
+  {%- if block('has_page_style') == 'true' -%}
+    {{- encore_entry_link_tags('page_' ~ block('key')) -}}
+  {%- endif -%}
+{%- endblock -%}
+
+{%- block additonal_scripts -%}
+  {%- if block('has_page_script') == 'true' -%}
+    {{- encore_entry_script_tags(block('key')) -}}
+  {%- endif -%}
+{%- endblock -%}

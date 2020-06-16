@@ -1,17 +1,15 @@
 <header class="header">
   <div class="container header__top">
-    {% include 'layout/navigation.html.twig' with {
+    {%- include 'layout/navigation.html.twig' with {
       key: 'secondary',
-    } %}
+    } -%}
   </div>
 
   <div class="container header__bottom">
-    <a href="/" title="{{ 'title.index'|trans }}">
-      TODO
-    </a>
+    <a href="/" title="{{- 'title.index'|trans -}}">TODO</a>
 
-    {% include 'layout/navigation.html.twig' with {
+    {%- include 'layout/navigation.html.twig' with {
       key: 'main',
-    } %}
+    } -%}
   </div>
 </header>

@@ -1,43 +1,43 @@
-{% extends 'shared/noindexed.html.twig' %}
+{%- extends 'shared/noindexed.html.twig' -%}
 
-{% block key %}gallery{% endblock %}
-{% block has_page_script %}true{% endblock %}
+{%- block key -%}gallery{%- endblock -%}
+{%- block has_page_script -%}true{%- endblock -%}
 
-{% block content %}
+{%- block content -%}
   <div class="flex justify-end">
     <button class="button button--info mb-2 upload-images">
-      {{ 'page.gallery.upload_images'|trans }}
+      {{- 'page.gallery.upload_images'|trans -}}
     </button>
   </div>
 
   <div class="grid">
-    {% if paginator|length %}
-      {% for image in paginator %}
+    {%- if paginator|length -%}
+      {%- for image in paginator -%}
         <div class="col-12 col-xs-6 col-md-4 col-lg-3 col-xl-1-5th">
-          {% include 'shared/image.html.twig' with {
+          {%- include 'shared/image.html.twig' with {
             image: image,
             class: 'responsive-image',
             thumbnail: 'gallery_image',
-          } %}
+          } -%}
         </div>
-      {% endfor %}
+      {%- endfor -%}
 
       <div class="col-12">
-        {% include 'shared/pagination.html.twig' with {
+        {%- include 'shared/pagination.html.twig' with {
           current_page: current_page,
           page_size: page_size,
           total_pages: total_pages,
           max_visible_pages: max_visible_pages,
-        } %}
+        } -%}
       </div>
-    {% endif %}
+    {%- endif -%}
   </div>
 
-  {% include 'shared/modal.html.twig' with {
+  {%- include 'shared/modal.html.twig' with {
     class: 'upload-images-modal' ~ (has_errors ? ' modal--is-visible' : ''),
     overlay_class: has_errors ? 'modal__overlay--is-visible' : '',
     header_text: 'page.gallery.upload_images'|trans,
     body_text: form(gallery_form),
     has_no_buttons: true,
-  } %}
-{% endblock %}
+  } -%}
+{%- endblock -%}

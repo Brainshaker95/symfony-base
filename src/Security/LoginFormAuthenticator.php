@@ -6,8 +6,8 @@ use App\Repository\UserRepository;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -43,6 +43,11 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     protected $passwordEncoder;
 
     /**
+     * @var Security
+     */
+    protected $security;
+
+    /**
      * @var Session<mixed>
      */
     protected $session;
@@ -69,6 +74,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         CsrfTokenManagerInterface $csrfTokenManager,
         FormFactoryInterface $formFactory,
         UserPasswordEncoderInterface $passwordEncoder,
+        Security $security,
         SessionInterface $session,
         TranslatorInterface $translator,
         UrlGeneratorInterface $urlGenerator,
@@ -77,6 +83,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         $this->csrfTokenManager = $csrfTokenManager;
         $this->formFactory      = $formFactory;
         $this->passwordEncoder  = $passwordEncoder;
+        $this->security         = $security;
         $this->session          = $session;
         $this->translator       = $translator;
         $this->urlGenerator     = $urlGenerator;
@@ -165,6 +172,16 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
     {
+        $user = $this->security->getUser();
+
+        if (!$this->security->isGranted('ROLE_USER', $user)) {
+            $flashBag = $this->session->getFlashBag();
+
+            $flashBag->add('info', 'info.user_not_activated');
+
+            return new RedirectResponse($this->urlGenerator->generate('app_index'));
+        }
+
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }

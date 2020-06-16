@@ -1,25 +1,25 @@
-{% extends 'shared/noindexed.html.twig' %}
+{%- extends 'shared/noindexed.html.twig' -%}
 
-{% block key %}profile{% endblock %}
+{%- block key -%}profile{%- endblock -%}
 
-{% block content %}
+{%- block content -%}
   <div class="grid">
-    {% set username = user.getUsername %}
+    {%- set username = user.getUsername -%}
 
       <div class="col-12 col-md-3">
         <div class="profile__username">
-          {{ username }}
+          {{- username -}}
         </div>
 
-        {% include 'shared/image.html.twig' with {
+        {%- include 'shared/image.html.twig' with {
           image: user.getImage ?: asset('/build/images/placeholder-profile-image.jpg'),
           class: 'responsive-image',
           thumbnail: 'profile_image',
           alt: username,
           title: username,
-        } %}
+        } -%}
 
-        {{ form(profile_form) }}
+        {{- form(profile_form) -}}
       </div>
   </div>
-{% endblock %}
+{%- endblock -%}

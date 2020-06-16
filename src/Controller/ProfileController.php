@@ -90,6 +90,7 @@ class ProfileController extends AbstractController
         $oldImage = $user->getImage();
 
         $image
+            ->setFilename($filename)
             ->setPath('/uploads/profile_images/' . $filename)
             ->setType('profile');
 

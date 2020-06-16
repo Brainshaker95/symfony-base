@@ -14,6 +14,17 @@
     color: $darkgrey;
   }
 
+  .select {
+    &--is-disabled {
+      .button--clear {
+        &::before,
+        &::after {
+          background-color: darken($grey, 20%);
+        }
+      }
+    }
+  }
+
   .form__row {
     &--has-value,
     &:focus-within {

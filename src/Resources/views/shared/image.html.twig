@@ -1,12 +1,14 @@
-{% set thumbnail = thumbnail is defined ? thumbnail : 'default' %}
-{% set class = class is defined ? class : '' %}
-{% set class = not non_responsive|default ? class ~ ' responsive-image' : class %}
-{% set image = image|instanceof('App\\Entity\\Image') ? image.getPath : image %}
-{% set is_svg = image|slice(image|length - 3, 3) == 'svg' %}
+{%- set thumbnail = thumbnail is defined ? thumbnail : 'default' -%}
+{%- set class = class is defined ? class : '' -%}
+{%- set class = not non_responsive|default ? class ~ ' responsive-image' : class -%}
+{%- set image = image|instanceof('App\\Entity\\Image') ? image.getPath : image -%}
+{%- set is_svg = image|slice(image|length - 3, 3) == 'svg' -%}
 
-<img
-  src="{{ is_svg ? image : image|imagine_filter(thumbnail) }}"
-  class="{{ class|trim }}"
-  alt="{{ alt|default }}"
-  title="{{ title|default }}"
->
+{%- apply strip_spaces -%}
+  <img
+    src="{{- is_svg ? image : image|imagine_filter(thumbnail) -}}"
+    class="{{- class|trim -}}"
+    alt="{{- alt|default -}}"
+    title="{{- title|default -}}"
+  >
+{%- endapply -%}

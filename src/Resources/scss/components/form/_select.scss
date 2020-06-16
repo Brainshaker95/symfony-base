@@ -41,6 +41,13 @@
     &::before {
       border-color: darken($grey, 20%);
     }
+
+    .button--clear {
+      &::before,
+      &::after {
+        background-color: darken($grey, 20%);
+      }
+    }
   }
 
   &__selection,

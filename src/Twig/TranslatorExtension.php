@@ -4,6 +4,7 @@ namespace App\Twig;
 
 use App\Service\TranslatorService;
 use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 class TranslatorExtension extends AbstractExtension
@@ -16,6 +17,16 @@ class TranslatorExtension extends AbstractExtension
     public function __construct(TranslatorService $translatorService)
     {
         $this->translatorService = $translatorService;
+    }
+
+    /**
+     * @return array<TwigFilter>
+     */
+    public function getFilters()
+    {
+        return [
+            new TwigFilter('role_name', [$this, 'getRoleName']),
+        ];
     }
 
     /**
@@ -56,5 +67,10 @@ class TranslatorExtension extends AbstractExtension
     public function getPageTitle(string $key): string
     {
         return $this->translatorService->getPageTitle($key);
+    }
+
+    public function getRoleName(string $role): string
+    {
+        return $this->translatorService->getRoleName($role);
     }
 }

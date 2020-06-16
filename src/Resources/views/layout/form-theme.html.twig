@@ -1,129 +1,129 @@
-{% extends 'form_div_layout.html.twig' %}
+{%- extends 'form_div_layout.html.twig' -%}
 
-{% block form_start %}
-  <form method="post"{% if action %} action="{{ action }}"{% endif %} class="form"{% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}{% if multipart %} enctype="multipart/form-data"{% endif %} novalidate>
-{% endblock form_start %}
+{%- block form_start -%}
+  <form method="post"{%- if action -%} action="{{- action -}}"{%- endif -%} class="form"{%- for attrname, attrvalue in attr -%} {{- attrname -}}="{{- attrvalue -}}"{%- endfor -%}{%- if multipart -%} enctype="multipart/form-data"{%- endif -%} novalidate>
+{%- endblock form_start -%}
 
-{% block form_row %}
-  {% set widget_attr = {} %}
+{%- block form_row -%}
+  {%- set widget_attr = {} -%}
 
-  {% if help is not empty %}
-    {% set widget_attr = {
+  {%- if help is not empty -%}
+    {%- set widget_attr = {
       attr: {
         'aria-describedby': id ~ '_help'
       },
-    } %}
-  {% endif %}
+    } -%}
+  {%- endif -%}
 
-  {% if form.vars.attr.value is defined and form.vars.attr.value %}
-    {% set attr = attr|merge({ class: (attr.class|default('') ~ ' form__row--has-value')|trim }) %}
-  {% endif %}
+  {%- if form.vars.attr.value is defined and form.vars.attr.value -%}
+    {%- set attr = attr|merge({ class: (attr.class|default('') ~ ' form__row--has-value')|trim }) -%}
+  {%- endif -%}
 
-  <div{% with { attr: row_attr|merge({ class: (row_attr.class|default('') ~ ' form__row')|trim }) } %}{{ block('attributes') }}{% endwith %}>
-    {{ form_label(form) }}
-    {{ form_widget(form) }}
-    {{ form_errors(form) }}
-    {{ form_help(form) }}
+  <div{%- with { attr: row_attr|merge({ class: (row_attr.class|default('') ~ ' form__row')|trim }) } -%}{{- block('attributes') -}}{%- endwith -%}>
+    {{- form_label(form) -}}
+    {{- form_widget(form) -}}
+    {{- form_errors(form) -}}
+    {{- form_help(form) -}}
   </div>
-{% endblock form_row %}
+{%- endblock form_row -%}
 
-{% block button_row %}
-  <div{% with { attr: row_attr|merge({ class: (row_attr.class|default('') ~ ' form__row form__row--submit')|trim }) } %}{{ block('attributes') }}{% endwith %}>
-    {{ form_widget(form) }}
+{%- block button_row -%}
+  <div{%- with { attr: row_attr|merge({ class: (row_attr.class|default('') ~ ' form__row form__row--submit')|trim }) } -%}{{- block('attributes') -}}{%- endwith -%}>
+    {{- form_widget(form) -}}
   </div>
-{% endblock button_row %}
+{%- endblock button_row -%}
 
-{% block form_label %}
-  {% set class = label_attr.class|default('') ~ ' form__label' %}
+{%- block form_label -%}
+  {%- set class = label_attr.class|default('') ~ ' form__label' -%}
 
-  {% if choices|default|length or (type is defined and type == 'file') %}
-    {% set class = class ~ ' sr-only' %}
-  {% elseif is_static|default or checked is defined %}
-    {% set class = class ~ ' form__label--is-static' %}
-  {% endif %}
+  {%- if choices|default|length or (type is defined and type == 'file') -%}
+    {%- set class = class ~ ' sr-only' -%}
+  {%- elseif is_static|default or checked is defined -%}
+    {%- set class = class ~ ' form__label--is-static' -%}
+  {%- endif -%}
 
-  {% if disabled %}
-    {% set class = class ~ ' form__label--is-disabled' %}
-  {% endif %}
+  {%- if disabled -%}
+    {%- set class = class ~ ' form__label--is-disabled' -%}
+  {%- endif -%}
 
-  {% set label_attr = label_attr|merge({ class: class }) %}
+  {%- set label_attr = label_attr|merge({ class: class }) -%}
 
-  {{ parent() }}
-{% endblock form_label %}
+  {{- parent() -}}
+{%- endblock form_label -%}
 
-{% block form_errors %}
-  {% if errors|length > 0 %}
-    {% for error in errors %}
+{%- block form_errors -%}
+  {%- if errors|length > 0 -%}
+    {%- for error in errors -%}
       <div class="form__error">
-        {{ error.message }}
+        {{- error.message -}}
       </div>
-    {% endfor %}
-  {% endif %}
-{% endblock form_errors %}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endblock form_errors -%}
 
-{% block form_widget_simple %}
-  {% if type is not defined or type not in ['file', 'hidden'] %}
-    {% set attr = attr|merge({ class: (attr.class|default('') ~ ' form__input')|trim }) %}
-  {% endif %}
+{%- block form_widget_simple -%}
+  {%- if type is not defined or type not in ['file', 'hidden'] -%}
+    {%- set attr = attr|merge({ class: (attr.class|default('') ~ ' form__input')|trim }) -%}
+  {%- endif -%}
 
-  {% if type is defined and type == 'file' %}
-    {% set attr = attr|merge({ class: (attr.class|default('') ~ ' file__input')|trim }) %}
-  {% endif %}
+  {%- if type is defined and type == 'file' -%}
+    {%- set attr = attr|merge({ class: (attr.class|default('') ~ ' file__input')|trim }) -%}
+  {%- endif -%}
 
-  {{ parent() }}
-{% endblock form_widget_simple %}
+  {{- parent() -}}
+{%- endblock form_widget_simple -%}
 
-{% block button_widget %}
-  {% set attr = attr|merge({class: (attr.class|default('') ~ ' form__submit')|trim}) %}
+{%- block button_widget -%}
+  {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form__submit')|trim}) -%}
 
-  {{ parent() }}
-{% endblock button_widget %}
+  {{- parent() -}}
+{%- endblock button_widget -%}
 
-{% block checkbox_widget %}
-  {% set attr = attr|merge({ class: (attr.class|default('') ~ ' checkbox__input')|trim }) %}
+{%- block checkbox_widget -%}
+  {%- set attr = attr|merge({ class: (attr.class|default('') ~ ' checkbox__input')|trim }) -%}
 
-  {{ parent() }}
-{% endblock checkbox_widget %}
+  {{- parent() -}}
+{%- endblock checkbox_widget -%}
 
-{% block choice_widget_collapsed %}
-  {% set attr = attr|merge({ class: (attr.class|default('') ~ ' select__input')|trim }) %}
+{%- block choice_widget_collapsed -%}
+  {%- set attr = attr|merge({ class: (attr.class|default('') ~ ' select__input')|trim }) -%}
 
-  {% if not disabled and required %}
-    {% set attr = attr|merge({ 'data-required': true }) %}
-  {% endif %}
+  {%- if not disabled and required -%}
+    {%- set attr = attr|merge({ 'data-required': true }) -%}
+  {%- endif -%}
 
-  {{ parent() }}
-{% endblock choice_widget_collapsed %}
+  {{- parent() -}}
+{%- endblock choice_widget_collapsed -%}
 
-{% block choice_widget_expanded %}
-  <div {{ block('widget_container_attributes') }}>
-  {% for child in form %}
-    {{ form_widget(child, {
+{%- block choice_widget_expanded -%}
+  <div {{- block('widget_container_attributes') -}}>
+  {%- for child in form -%}
+    {{- form_widget(child, {
       attr: attr|merge({ class: (attr.class|default('') ~ ' radio__input')|trim })
-    }) }}
+    }) -}}
 
-    {{ form_label(child, null, {
+    {{- form_label(child, null, {
       translation_domain: choice_translation_domain,
       is_static: true,
-    }) }}
-  {% endfor %}
+    }) -}}
+  {%- endfor -%}
   </div>
-{% endblock choice_widget_expanded %}
+{%- endblock choice_widget_expanded -%}
 
-{% block datetime_widget %}
-  {% set attr = attr|merge({class: (attr.class|default('') ~ ' date__input')|trim}) %}
+{%- block datetime_widget -%}
+  {%- set attr = attr|merge({class: (attr.class|default('') ~ ' date__input')|trim}) -%}
 
-  {{ block('form_widget_simple') }}
-{% endblock datetime_widget %}
+  {{- block('form_widget_simple') -}}
+{%- endblock datetime_widget -%}
 
-{% block date_widget %}
-  {% set attr = attr|merge({class: (attr.class|default('') ~ ' date__input')|trim}) %}
+{%- block date_widget -%}
+  {%- set attr = attr|merge({class: (attr.class|default('') ~ ' date__input')|trim}) -%}
 
-  {{ block('form_widget_simple') }}
-{% endblock date_widget %}
+  {{- block('form_widget_simple') -}}
+{%- endblock date_widget -%}
 
-{% block time_widget %}
-  {% set attr = attr|merge({class: (attr.class|default('') ~ ' date__input')|trim}) %}
+{%- block time_widget -%}
+  {%- set attr = attr|merge({class: (attr.class|default('') ~ ' date__input')|trim}) -%}
 
-  {{ block('form_widget_simple') }}
-{% endblock time_widget %}
+  {{- block('form_widget_simple') -}}
+{%- endblock time_widget -%}

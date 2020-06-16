@@ -11,6 +11,7 @@ Encore
   .addEntry('gallery', './src/Resources/js/page/gallery.js')
   .addEntry('users', './src/Resources/js/page/users.js')
   .addStyleEntry('main', './src/Resources/scss/main.scss')
+  .addStyleEntry('page_users', './src/Resources/scss/page/users.scss')
   .enableSourceMaps(!sourceMap)
   .enablePostCssLoader()
   .cleanupOutputBeforeBuild()

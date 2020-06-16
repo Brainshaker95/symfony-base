@@ -72,6 +72,7 @@ class NavigationExtension extends AbstractExtension
                 'is_active'       => $request ? $request->get('_route') === 'app_' . $name : false,
                 'role'            => $role,
                 'hide_on_auth'    => $role === 'HIDE_ON_AUTH',
+                'show_on_auth'    => $role === 'SHOW_ON_AUTH',
             ];
         }
 
