@@ -22,11 +22,15 @@
 
 	{# <body> #}
   <body class="theme--dark">
+    <a class="skip-to-page-content" href="#main">
+      {{ 'skip_to_page_content'|trans }}
+    </a>
+
     {%- block header -%}
       {%- include 'layout/header.html.twig' -%}
     {%- endblock -%}
 
-    <main class="main">
+    <main id="main">
       {%- block flash_messages -%}
         {%- include 'layout/flash-messages.html.twig' -%}
       {%- endblock -%}

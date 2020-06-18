@@ -226,6 +226,7 @@ const generateMarkup = ($input) => {
   if ($input.prop('disabled')) {
     $select.addClass('select--is-disabled');
     $selection.attr('tabindex', -1);
+    $clearButton.attr('tabindex', -1);
   }
 
   if (selectedOptionCount) {

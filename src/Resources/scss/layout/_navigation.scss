@@ -5,14 +5,24 @@
   }
 
   &__link {
-    padding: 1em;
     color: $white;
     transition: color 300ms ease;
 
     &--is-active,
-    &:hover {
+    &:hover{
       color: $darkgrey;
       text-decoration: none;
+    }
+
+    &:focus {
+      outline: 0;
+      color: $primary;
+    }
+  }
+
+  &--main {
+    .navigation__link {
+      padding: 1em;
     }
   }
 

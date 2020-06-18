@@ -1,5 +1,5 @@
 button {
-  @include focus-outline-primary;
+  @include focus-border-primary;
   @include responsive-font-size(
     $min-viewport-width,
     $max-viewport-width,
@@ -47,6 +47,10 @@ button {
       color: $darkgrey;
     }
   }
+}
+
+input[type="button"] {
+  vertical-align: top;
 }
 
 .button {

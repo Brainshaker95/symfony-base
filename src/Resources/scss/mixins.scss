@@ -25,13 +25,27 @@
 
 @mixin focus-outline-primary {
   &:focus {
-    outline: 2px solid $primary-hover;
+    outline: 1px solid $primary-hover;
   }
 }
 
 @mixin focus-outline-secondary {
   &:focus {
-    outline: 2px solid $secondary-hover;
+    outline: 1px solid $secondary-hover;
+  }
+}
+
+@mixin focus-border-primary {
+  &:focus {
+    border: 1px solid $primary-hover;
+    outline: 0 !important;
+  }
+}
+
+@mixin focus-border-secondary {
+  &:focus {
+    border: 1px solid $secondary-hover;
+    outline: 0 !important;
   }
 }
 

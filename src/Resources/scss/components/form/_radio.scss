@@ -1,48 +1,24 @@
 .radio {
   position: relative;
-  width: 1em;
-  height: 1em;
+  border: 0;
   padding: 0;
-  border-radius: 50%;
-  cursor: pointer;
 
   &::before {
-    @include center;
-
+    position: absolute;
     content: '';
-    width: 0.4em;
-    height: 0.4em;
+    width: 1em;
+    height: 1em;
+    border: 1px solid $grey;
     border-radius: 50%;
-    background-color: $white;
-    opacity: 0;
-    transition: opacity 100ms ease;
+    cursor: pointer;
   }
 
-  &--is-disabled {
-    position: relative;
-    pointer-events: none;
-    border: 1px solid darken($grey, 40%);
+  &:focus {
+    border: 0;
+    outline: 0;
 
     &::before {
-      background-color: darken($grey, 40%);
-    }
-
-    &::after {
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      width: auto;
-      height: auto;
-      opacity: 1;
-      background-color: rgba($black, 0.25);
-      transform: none;
-    }
-  }
-
-  &--is-checked {
-    &::before {
-      opacity: 1;
+      border: 1px solid $primary-hover;
     }
   }
 
@@ -55,8 +31,7 @@
   }
 
   .form__label--is-static {
-    position: absolute;
-    white-space: nowrap;
+    position: relative;
     padding: 0;
     top: -0.1em;
     left: 1.5em;
@@ -66,9 +41,52 @@
     pointer-events: all;
     cursor: pointer;
 
+    &::before {
+      position: absolute;
+      content: '';
+      top: 0.4em;
+      left: -1.2em;
+      width: 0.4em;
+      height: 0.4em;
+      border-radius: 50%;
+      background-color: $white;
+      opacity: 0;
+      transition: opacity 100ms ease;
+    }
+
     &.form__label--is-disabled {
       color: darken($grey, 20%);
       pointer-events: none;
+    }
+  }
+
+  &--is-checked .form__label--is-static {
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  &--is-disabled {
+    position: relative;
+    pointer-events: none;
+    border: 1px solid darken($grey, 40%);
+
+    .form__label--is-static::before {
+      background-color: darken($grey, 40%);
+    }
+
+    &::after {
+      position: absolute;
+      content: '';
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: auto;
+      height: auto;
+      opacity: 1;
+      background-color: rgba($black, 0.25);
+      transform: none;
     }
   }
 }

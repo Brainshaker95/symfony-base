@@ -18,6 +18,7 @@
           class="arrow-button arrow-button--prev{{- is_in_first_block ? ' disabled' : '' -}}"
           title="{{- 'pagination.go_to_prev_page'|trans -}}"
           aria-label="{{- 'pagination.go_to_prev_page'|trans -}}"
+          {{- is_in_first_block ? ' tabindex="-1"' : '' -}}
         ></a>
       </li>
 
@@ -28,6 +29,7 @@
             class="pagination__page{{- i == current_page ? ' pagination__page--is-active disabled' : '' -}}{{- (total_pages > max_visible_pages and (i < lower_bound or i > upper_bound)) ? ' hide' : '' -}}"
             title="{{- 'pagination.go_to_page'|trans ~ ' ' ~ i -}}"
             aria-label="{{- 'pagination.go_to_page'|trans ~ ' ' ~ i -}}"
+            {{- i == current_page ? ' tabindex="-1"' : '' -}}
           >
             {{- i -}}
           </a>
@@ -40,6 +42,7 @@
           class="arrow-button arrow-button--next{{- is_in_last_block ? ' disabled' : '' -}}"
           title="{{- 'pagination.go_to_next_page'|trans -}}"
           aria-label="{{- 'pagination.go_to_next_page'|trans -}}"
+          {{- is_in_last_block ? ' tabindex="-1"' : '' -}}
         ></a>
       </li>
     </ul>
@@ -54,6 +57,7 @@
           class="arrow-button arrow-button--prev{{- is_in_first_block ? ' disabled' : '' -}}"
           title="{{- 'pagination.go_to_prev_page'|trans -}}"
           aria-label="{{- 'pagination.go_to_prev_page'|trans -}}"
+          {{- is_in_first_block ? ' tabindex="-1"' : '' -}}
         ></button>
       </li>
 
@@ -65,6 +69,7 @@
             class="pagination__page{{- i == current_page ? ' pagination__page--is-active disabled' : '' -}}{{- (total_pages > max_visible_pages and (i < lower_bound or i > upper_bound)) ? ' hide' : '' -}}"
             title="{{- 'pagination.go_to_page'|trans ~ ' ' ~ i -}}"
             aria-label="{{- 'pagination.go_to_page'|trans ~ ' ' ~ i -}}"
+            {{- i == current_page ? ' tabindex="-1"' : '' -}}
           >
             {{- i -}}
           </button>
@@ -78,6 +83,7 @@
           class="arrow-button arrow-button--next{{- is_in_last_block ? ' disabled' : '' -}}"
           title="{{- 'pagination.go_to_next_page'|trans -}}"
           aria-label="{{- 'pagination.go_to_next_page'|trans -}}"
+          {{- is_in_last_block ? ' tabindex="-1"' : '' -}}
         ></button>
       </li>
     </ul>

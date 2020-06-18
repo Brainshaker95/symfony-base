@@ -130,7 +130,7 @@ class UserType extends AbstractType
             ->add('submit', Type\SubmitType::class, [
                 'label' => 'label.save',
                 'attr'  => [
-                    'class' => 'button--info',
+                    'class' => 'button button--info',
                 ],
             ])
         ;

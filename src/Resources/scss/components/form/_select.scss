@@ -3,8 +3,8 @@
 
   position: relative;
   padding: 0;
+  border: 0;
   user-select: none;
-  transition: border-radius 300ms ease;
 
   &::before {
     top: 0.125em;
@@ -17,20 +17,6 @@
 
   &:hover::before {
     border-color: $white;
-  }
-
-  &--is-open {
-    border: {
-      top-left-radius: 0.25em;
-      top-right-radius: 0.25em;
-      bottom-left-radius: 0;
-      bottom-right-radius: 0;
-    };
-
-    &::before {
-      top: 0.5em;
-      transform: rotate(315deg) scale(0.75);
-    }
   }
 
   &--is-disabled {
@@ -52,17 +38,36 @@
 
   &__selection,
   &__option {
-    @include focus-outline-primary;
-
     padding: 0.25em 0.5em;
     cursor: pointer;
   }
 
   &__selection {
+    @include focus-border-primary;
+
     padding-right: 2.25em;
+    border: 1px solid $grey;
+    border-radius: 0.25em;
+    transition: border-radius 300ms ease;
 
     &--has-value {
       padding-right: 3.25em;
+    }
+  }
+
+  &--is-open {
+    &::before {
+      top: 0.5em;
+      transform: rotate(315deg) scale(0.75);
+    }
+
+    .select__selection {
+      border: {
+        top-left-radius: 0.25em;
+        top-right-radius: 0.25em;
+        bottom-left-radius: 0;
+        bottom-right-radius: 0;
+      };
     }
   }
 
@@ -83,6 +88,8 @@
   }
 
   &__option {
+    @include focus-outline-primary;
+
     transition:
       background-color 150ms ease,
       color 150ms ease;

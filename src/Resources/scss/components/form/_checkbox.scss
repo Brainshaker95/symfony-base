@@ -1,33 +1,25 @@
 .checkbox {
   position: relative;
-  width: 1em;
-  height: 1em;
+  border: 0;
   padding: 0;
-  cursor: pointer;
-
-  &::before,
-  &::after {
-    position: absolute;
-    content: '';
-    height: 0.15em;
-    border-radius: 0.15em;
-    background-color: $white;
-    opacity: 0;
-    transition: opacity 100ms ease;
-  }
 
   &::before {
-    top: 0.5em;
-    left: 0.0875em;
-    width: 0.4em;
-    transform: rotate(45deg);
+    position: absolute;
+    content: '';
+    width: 1em;
+    height: 1em;
+    border: 1px solid $grey;
+    border-radius: 0.25em;
+    cursor: pointer;
   }
 
-  &::after {
-    width: 0.65em;
-    top: 0.4em;
-    left: 0.225em;
-    transform: rotate(-45deg);
+  &:focus {
+    border: 0;
+    outline: 0;
+
+    &::before {
+      border: 1px solid $primary-hover;
+    }
   }
 
   &--is-disabled {
@@ -36,6 +28,8 @@
     border: 1px solid darken($grey, 40%);
 
     &::after {
+      position: absolute;
+      content: '';
       top: 0;
       bottom: 0;
       left: 0;
@@ -48,13 +42,6 @@
     }
   }
 
-  &--is-checked {
-    &::before,
-    &::after {
-      opacity: 1;
-    }
-  }
-
   &__input {
     display: none;
   }
@@ -64,8 +51,7 @@
   }
 
   .form__label--is-static {
-    position: absolute;
-    white-space: nowrap;
+    position: relative;
     padding: 0;
     top: -0.1em;
     left: 1.5em;
@@ -75,9 +61,41 @@
     pointer-events: all;
     cursor: pointer;
 
+    &::before,
+    &::after {
+      position: absolute;
+      content: '';
+      height: 0.15em;
+      border-radius: 0.15em;
+      background-color: $white;
+      opacity: 0;
+      transition: opacity 100ms ease;
+    }
+
+    &::before {
+      top: 0.6em;
+      left: -1.36em;
+      width: 0.4em;
+      transform: rotate(45deg);
+    }
+
+    &::after {
+      top: 0.5em;
+      left: -1.2em;
+      width: 0.65em;
+      transform: rotate(-45deg);
+    }
+
     &.form__label--is-disabled {
       color: darken($grey, 20%);
       pointer-events: none;
+    }
+  }
+
+  &--is-checked .form__label--is-static {
+    &::before,
+    &::after {
+      opacity: 1;
     }
   }
 }

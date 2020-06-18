@@ -148,9 +148,15 @@ class GalleryController extends AbstractController
             return $this->redirectToRoute('app_gallery');
         }
 
-        $finder = new Finder();
-        $files  = $finder->files()->in(__DIR__ . '..\\..\\..\\public\\uploads\\tmp');
+        $finder    = new Finder();
+        $tmpFolder = __DIR__ . '..\\..\\..\\public\\uploads\\tmp';
+        $files     = [];
 
+        if (is_dir($tmpFolder)) {
+            $files = $finder->files()->in(__DIR__ . '..\\..\\..\\public\\uploads\\tmp');
+        }
+
+        // TODO: Also do this on page change
         foreach ($files as $theFile) {
             $this->fileService->delete($theFile->getRelativePathname(), 'tmp');
         }
@@ -170,11 +176,16 @@ class GalleryController extends AbstractController
     {
         $encodedUserId  = $this->hashService->encode($user->getId());
         $finder         = new Finder();
-        $files          = $finder->files()->in(__DIR__ . '..\\..\\..\\public\\uploads\\tmp');
+        $tmpFolder      = __DIR__ . '..\\..\\..\\public\\uploads\\tmp';
         $constraints    = $form->get('image')->getConfig()->getOption('constraints');
         $fileConstraint = null;
+        $files          = [];
 
         $form->clearErrors(true);
+
+        if (is_dir($tmpFolder)) {
+            $files = $finder->files()->in($tmpFolder);
+        }
 
         foreach ($constraints as $constraint) {
             if ($constraint instanceof Constraints\File) {

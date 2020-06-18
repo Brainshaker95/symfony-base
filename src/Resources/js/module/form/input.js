@@ -1,5 +1,6 @@
 import $ from 'jquery';
 
+import device from '../../util/device';
 import keyCode from '../../util/keycode';
 import { validate } from './validate';
 
@@ -23,6 +24,9 @@ const checkValue = ($input) => {
 export default () => {
   $('input, select').each((index, input) => {
     const $input = $(input);
+    const $label = $input
+      .closest('.form__row')
+      .find('.form__label:not(.form__label--is-static)');
 
     checkValue($input);
 
@@ -43,6 +47,16 @@ export default () => {
         && which !== keyCode.numComma
         && which !== keyCode.numPlus
         && which !== keyCode.numMinus);
+    }
+
+    if (device.ie() && $label.length) {
+      $input.on('input', () => {
+        if ($input.val()) {
+          $label.hide();
+        } else {
+          $label.show();
+        }
+      });
     }
   });
 };

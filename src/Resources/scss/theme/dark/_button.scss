@@ -1,4 +1,10 @@
+.theme--dark button {
+  @include focus-border-primary;
+}
+
 .theme--dark .button {
+  @include focus-border-primary;
+
   &:hover {
     background-color: $lightgrey;
     color: $darkgrey;
