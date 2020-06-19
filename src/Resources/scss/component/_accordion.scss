@@ -1,0 +1,42 @@
+$accordion-padding: 0.5em;
+
+.accordion {
+  &__item {
+    @include focus-border-primary;
+
+    position: relative;
+    margin-top: 0.5em;
+    border: 1px solid $white;
+    border-radius: 0.25em;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  &__title {
+    @include chevron-down-rotating-default;
+
+    width: 100%;
+    padding: $accordion-padding;
+    cursor: pointer;
+
+    &::before {
+      right: $accordion-padding;
+      top: 0.4em;
+    }
+
+    &--is-expanded {
+      @include chevron-down-rotating-expanded;
+
+      &::before {
+        top: 0.7em;
+      }
+    }
+  }
+
+  &__content {
+    display: none;
+    padding: $accordion-padding;
+  }
+}

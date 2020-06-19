@@ -1,12 +1,14 @@
 import $ from 'jquery';
 import 'babel-polyfill';
 
+import accordion from './module/accordion';
 import anchor from './module/anchor';
 import flashMessages from './module/flash-messages';
 import form from './module/form';
 import translate from './util/translate';
 
 $(() => {
+  accordion();
   anchor();
   flashMessages();
   form();

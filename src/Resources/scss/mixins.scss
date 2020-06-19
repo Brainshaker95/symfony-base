@@ -64,3 +64,74 @@
     font-size: $max-font-size;
   }
 }
+
+@mixin chevron {
+  &::before {
+    position: absolute;
+    content: '';
+    top: 0.5em;
+    width: 1em;
+    height: 1em;
+    transition: border-color 200ms ease;
+    border: {
+      style: solid;
+      width: 0.2em 0.2em 0 0;
+      radius: 0.1em;
+      color: $white;
+    };
+  }
+}
+
+@mixin chevron-up {
+  @include chevron;
+
+  &::before {
+    transform: rotate(-45deg);
+  }
+}
+
+@mixin chevron-down {
+  @include chevron;
+
+  &::before {
+    transform: rotate(135deg);
+  }
+}
+
+@mixin chevron-left {
+  @include chevron;
+
+  &::before {
+    left: 0.5em;
+    transform: rotate(-135deg);
+  }
+}
+
+@mixin chevron-right {
+  @include chevron;
+
+  &::before {
+    right: 0.5em;
+    transform: rotate(45deg);
+  }
+}
+
+@mixin chevron-down-rotating-default {
+  @include chevron-down;
+
+  position: relative;
+
+  &::before {
+    pointer-events: none;
+    transform: rotate(135deg) scale(0.7);
+    transition:
+      top 300ms ease,
+      transform 300ms ease;
+  }
+}
+
+@mixin chevron-down-rotating-expanded {
+  &::before {
+    transform: rotate(315deg) scale(0.7);
+  }
+}

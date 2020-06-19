@@ -10,7 +10,7 @@ const closeSelects = ($select = []) => {
 
   $('.select')
     .not($select)
-    .removeClass('select--is-open')
+    .removeClass('select--is-expanded')
     .find('.select__options')
     .stop()
     .slideUp('fast');
@@ -35,9 +35,9 @@ const clear = ($select) => {
     .removeClass('select__selection--has-value')
     .text($input.data('placeholder') || '...');
 
-  if ($select.hasClass('select--is-open')) {
+  if ($select.hasClass('select--is-expanded')) {
     $select
-      .removeClass('select--is-open')
+      .removeClass('select--is-expanded')
       .find('.select__options')
       .stop()
       .slideUp('fast');
@@ -54,11 +54,11 @@ const toggle = (event) => {
 
   closeSelects($select);
 
-  if ($select.hasClass('select--is-open')) {
-    $select.removeClass('select--is-open');
+  if ($select.hasClass('select--is-expanded')) {
+    $select.removeClass('select--is-expanded');
     $options.stop().slideUp('fast');
   } else {
-    $select.addClass('select--is-open');
+    $select.addClass('select--is-expanded');
     $options.stop().slideDown('fast');
   }
 };

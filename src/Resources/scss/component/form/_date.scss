@@ -42,20 +42,29 @@
     cursor: pointer;
   }
 
-  .ui-datepicker-prev {
-    @extend %chevron-left;
+  .ui-datepicker-prev,
+  .ui-datepicker-next {
+    &:hover::before {
+      border-color: darken($grey, 20%);
+    }
 
     &-hover {
       top: 2px;
+    }
+  }
+
+  .ui-datepicker-prev {
+    @include chevron-left;
+
+    &-hover {
       left: 2px;
     }
   }
 
   .ui-datepicker-next {
-    @extend %chevron-right;
+    @include chevron-right;
 
     &-hover {
-      top: 2px;
       right: 2px;
     }
   }

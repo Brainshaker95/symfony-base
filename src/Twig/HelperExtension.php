@@ -5,16 +5,23 @@ namespace App\Twig;
 use App\Service\HashService;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 class HelperExtension extends AbstractExtension
 {
+    /**
+     * @var string
+     */
+    private $environment;
+
     /**
      * @var HashService
      */
     protected $hashService;
 
-    public function __construct(HashService $hashService)
+    public function __construct(KernelInterface $kernel, HashService $hashService)
     {
+        $this->environment = $kernel->getEnvironment();
         $this->hashService = $hashService;
     }
 
@@ -51,6 +58,10 @@ class HelperExtension extends AbstractExtension
 
     public function stripSpaces (string $html): string
     {
+        if ($this->environment === 'dev') {
+            return $html;
+        }
+
         $html = preg_replace('/\s\s/', '', $html);
 
         if (!$html) {

@@ -10,20 +10,21 @@
 @import 'layout/navigation';
 @import 'layout/section';
 
-@import 'components/alert';
-@import 'components/arrow-button';
-@import 'components/button';
-@import 'components/container';
-@import 'components/file-icon';
-@import 'components/form/checkbox';
-@import 'components/form/date';
-@import 'components/form/file';
-@import 'components/form/radio';
-@import 'components/form/select';
-@import 'components/grid';
-@import 'components/modal';
-@import 'components/notification';
-@import 'components/pagination';
+@import 'component/accordion';
+@import 'component/alert';
+@import 'component/arrow-button';
+@import 'component/button';
+@import 'component/container';
+@import 'component/file-icon';
+@import 'component/form/checkbox';
+@import 'component/form/date';
+@import 'component/form/file';
+@import 'component/form/radio';
+@import 'component/form/select';
+@import 'component/grid';
+@import 'component/modal';
+@import 'component/notification';
+@import 'component/pagination';
 
 @import 'theme/dark';
 

@@ -49,7 +49,7 @@ export default () => {
         && which !== keyCode.numMinus);
     }
 
-    if (device.ie() && $label.length) {
+    if (device('ie') && $label.length) {
       $input.on('input', () => {
         if ($input.val()) {
           $label.hide();

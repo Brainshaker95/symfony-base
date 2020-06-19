@@ -1,58 +1,66 @@
-{% apply spaceless %}
-<!DOCTYPE html>
-<html lang="{{- app.getRequest.getLocale -}}">
-	<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{%- set html -%}
+  <!DOCTYPE html>
+  <html lang="{{- app.getRequest.getLocale -}}">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    {%- block meta -%}{%- endblock -%}
+      {%- block meta -%}{%- endblock -%}
 
-		<title>{%- block title -%}{{- 'title.index'|trans -}}{%- endblock -%}</title>
+      <title>{%- block title -%}{{- 'title.index'|trans -}}{%- endblock -%}</title>
 
-		{%- block styles -%}
-      {{- encore_entry_link_tags('main') -}}
-    {%- endblock -%}
-
-		{%- block additonal_styles -%}{%- endblock -%}
-
-    {%- block translations -%}
-      <script>window.translations = {{- translations('js_globals')|json_encode|raw -}};</script>
-    {%- endblock -%}
-	</head>
-
-	{# <body> #}
-  <body class="theme--dark">
-    <a class="skip-to-page-content" href="#main">
-      {{ 'skip_to_page_content'|trans }}
-    </a>
-
-    {%- block header -%}
-      {%- include 'layout/header.html.twig' -%}
-    {%- endblock -%}
-
-    <main id="main">
-      {%- block flash_messages -%}
-        {%- include 'layout/flash-messages.html.twig' -%}
+      {%- block styles -%}
+        {{- encore_entry_link_tags('main') -}}
       {%- endblock -%}
 
-      {%- block content_wrapper -%}
-        <section class="content">
-          <div class="container">
-            {%- block content -%}{%- endblock -%}
-          </div>
-        </section>
+      {%- block additonal_styles -%}{%- endblock -%}
+
+      {%- block translations -%}
+        <script>window.translations = {{- translations('js_globals')|json_encode|raw -}};</script>
       {%- endblock -%}
-    </main>
+    </head>
 
-    {%- block footer -%}
-      {%- include 'layout/footer.html.twig' -%}
-    {%- endblock -%}
+    {# <body> #}
+    <body class="theme--dark">
+      <a class="skip-to-page-content" href="#main">
+        {{- 'skip_to_page_content'|trans -}}
+      </a>
 
-    {%- block scripts -%}
-      {{- encore_entry_script_tags('app') -}}
-    {%- endblock -%}
+      {%- block header -%}
+        {%- include 'layout/header.html.twig' -%}
+      {%- endblock -%}
 
-    {%- block additonal_scripts -%}{%- endblock -%}
-  </body>
-</html>
-{% endapply %}
+      <main id="main">
+        {%- block flash_messages -%}
+          {%- include 'layout/flash-messages.html.twig' -%}
+        {%- endblock -%}
+
+        {%- block content_wrapper -%}
+          <section class="content">
+            <div class="container">
+              {%- block content -%}{%- endblock -%}
+            </div>
+          </section>
+        {%- endblock -%}
+      </main>
+
+      {%- block footer -%}
+        {%- include 'layout/footer.html.twig' -%}
+      {%- endblock -%}
+
+      {%- block scripts -%}
+        {{- encore_entry_script_tags('app') -}}
+      {%- endblock -%}
+
+      {%- block additonal_scripts -%}{%- endblock -%}
+    </body>
+  </html>
+{%- endset -%}
+
+{%- if app.environment != 'dev' -%}
+  {%- apply spaceless -%}
+    {{- html -}}
+  {%- endapply -%}
+{%- else -%}
+  {{- html -}}
+{%- endif -%}

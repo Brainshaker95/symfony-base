@@ -1,22 +1,13 @@
 .select {
-  @extend %chevron;
+  @include chevron-down-rotating-default;
 
-  position: relative;
   padding: 0;
   border: 0;
   user-select: none;
 
   &::before {
-    top: 0.125em;
+    top: 0.2em;
     right: 0.75em;
-    transform: rotate(135deg) scale(0.7);
-    transition:
-      top 300ms ease,
-      transform 300ms ease;
-  }
-
-  &:hover::before {
-    border-color: $white;
   }
 
   &--is-disabled {
@@ -55,10 +46,11 @@
     }
   }
 
-  &--is-open {
+  &--is-expanded {
+    @include chevron-down-rotating-expanded;
+
     &::before {
       top: 0.5em;
-      transform: rotate(315deg) scale(0.75);
     }
 
     .select__selection {
