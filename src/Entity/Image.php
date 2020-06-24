@@ -19,6 +19,7 @@ class Image
     private $id;
 
     /**
+     * @var string
      * @ORM\Column(type="string", length=255)
      */
     private $filename;
@@ -40,7 +41,7 @@ class Image
         return $this->id;
     }
 
-    public function getFilename(): ?string
+    public function getFilename(): string
     {
         return $this->filename;
     }

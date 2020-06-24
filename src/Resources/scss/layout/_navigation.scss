@@ -1,34 +1,228 @@
-.navigation {
+.subnavigation {
+  display: none;
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  background-color: $darkgrey;
+  z-index: 1;
+
   &__list {
-    display: flex;
-    justify-content: flex-end;
+    margin-bottom: 1em;
+
+    @include breakpoint($main-navigation-breakpoint) {
+      margin-bottom: 0;
+    }
   }
 
   &__link {
+    display: block;
+    padding: 0.5em 1em;
     color: $white;
     transition: color 300ms ease;
 
-    &--is-active,
-    &:hover{
+    &:hover {
       color: $darkgrey;
       text-decoration: none;
     }
 
     &:focus {
+      color: $primary;
+      outline: 0;
+    }
+  }
+}
+
+.navigation {
+  &__list {
+    display: flex;
+  }
+
+  &__item {
+    position: relative;
+  }
+
+  &__link {
+    display: block;
+    color: $white;
+    transition: color 300ms ease;
+
+    &--is-active,
+    &:hover {
+      color: $darkgrey;
+      text-decoration: none;
+
+      &::after {
+        border-color: $darkgrey !important;
+      }
+    }
+
+    &:focus {
       outline: 0;
       color: $primary;
+
+      &::after {
+        border-color: $primary !important;
+      }
+    }
+
+    &--has-subpages {
+      @include chevron-down-rotating-default;
+
+      @include breakpoint($main-navigation-breakpoint) {
+        padding: 1em 1.8em 1em 1em !important;
+      }
+
+      &::after {
+        position: absolute;
+        content: none;
+        top: 1.4em;
+        right: 0.8em;
+        font-size: 0.75em;
+
+        @include breakpoint($main-navigation-breakpoint) {
+          content: '';
+        }
+      }
+    }
+
+    &--is-expanded {
+      @include chevron-down-rotating-expanded;
+
+      &::after {
+        top: 1.75em;
+      }
+    }
+  }
+
+  &__toggle-submenu {
+    @include chevron-down-rotating-default;
+    @include center-v;
+
+    right: 0;
+    height: 100%;
+    border: 0 !important;
+    width: 3em;
+    border-radius: 0;
+    border-left: 1px solid $white !important;
+    transition: border-color 300ms ease;
+
+    @include breakpoint($main-navigation-breakpoint) {
+      display: none;
+    }
+
+    &:hover,
+    &:focus {
+      border-color: $primary !important;
+      background-color: transparent !important;
+
+      &::after {
+        border-color: $primary;
+      }
+    }
+
+    &::after {
+      top: 1.75em;
+      right: 1.35em;
+      font-size: 0.75em;
+
+      @include breakpoint($main-navigation-breakpoint) {
+        content: none;
+      }
+    }
+
+    &--is-expanded {
+      @include chevron-down-rotating-expanded;
+
+      &::after {
+        top: 2em;
+      }
+    }
+  }
+
+  &--secondary {
+    z-index: 1;
+
+    .navigation {
+      &__link {
+        padding: 0 0.5em;
+      }
     }
   }
 
   &--main {
-    .navigation__link {
-      padding: 1em;
-    }
-  }
+    position: fixed;
+    top: $header-height;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+    z-index: -1;
 
-  &__item {
-    &:last-of-type .navigation__link {
-      padding-right: 0;
+    @include breakpoint($main-navigation-breakpoint) {
+      display: block;
+      position: static;
+      top: auto;
+      bottom: auto;
+      left: auto;
+      right: auto;
+      pointer-events: all;
+      z-index: 0;
+    }
+
+    &.navigation--is-expanded {
+      pointer-events: all;
+      z-index: 0;
+    }
+
+    .navigation {
+      &__link {
+        padding: 1em $grid-gutter;
+
+        @include breakpoint($main-navigation-breakpoint) {
+          padding: 1em;
+        }
+      }
+
+      &__item:last-of-type .navigation__link {
+        @include breakpoint($main-navigation-breakpoint) {
+          padding-right: 0;
+        }
+
+        &--has-subpages {
+          @include breakpoint($main-navigation-breakpoint) {
+            padding: 1em 1.25em 1em 1em !important;
+          }
+
+          &::after {
+            @include breakpoint($main-navigation-breakpoint) {
+              right: 0;
+            }
+          }
+        }
+      }
+
+      &__list {
+        display: none;
+        overflow-y: scroll;
+        height: 100%;
+        background-color: $darkgrey;
+
+        @include breakpoint($main-navigation-breakpoint) {
+          display: flex !important;
+          justify-content: flex-end;
+          overflow-y: visible;
+          height: auto;
+          background-color: transparent;
+        }
+      }
+    }
+
+    .subnavigation {
+      position: relative;
+
+      @include breakpoint($main-navigation-breakpoint) {
+        position: absolute;
+      }
     }
   }
 }

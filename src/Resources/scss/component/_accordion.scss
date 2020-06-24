@@ -21,7 +21,7 @@ $accordion-padding: 0.5em;
     padding: $accordion-padding;
     cursor: pointer;
 
-    &::before {
+    &::after {
       right: $accordion-padding;
       top: 0.4em;
     }
@@ -29,7 +29,7 @@ $accordion-padding: 0.5em;
     &--is-expanded {
       @include chevron-down-rotating-expanded;
 
-      &::before {
+      &::after {
         top: 0.7em;
       }
     }

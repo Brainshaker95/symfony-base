@@ -5,7 +5,7 @@
   border: 0;
   user-select: none;
 
-  &::before {
+  &::after {
     top: 0.2em;
     right: 0.75em;
   }
@@ -15,7 +15,7 @@
     color: darken($grey, 20%);
     pointer-events: none;
 
-    &::before {
+    &::after {
       border-color: darken($grey, 20%);
     }
 
@@ -49,7 +49,7 @@
   &--is-expanded {
     @include chevron-down-rotating-expanded;
 
-    &::before {
+    &::after {
       top: 0.5em;
     }
 

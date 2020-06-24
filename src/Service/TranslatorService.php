@@ -7,6 +7,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TranslatorService
 {
+    public const LOCALES = [
+        'en',
+        'de',
+    ];
+
     /**
      * @var TranslatorInterface
      */

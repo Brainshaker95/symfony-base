@@ -6,6 +6,20 @@
   > [class^='col'] {
     padding: $grid-gutter;
   }
+
+  &.no-gutter {
+    > [class^='col'] {
+      padding: 0;
+    }
+
+    &-x > [class^='col'] {
+      padding: $grid-gutter 0;
+    }
+
+    &-y > [class^='col'] {
+      padding: 0 $grid-gutter;
+    }
+  }
 }
 
 @for $i from 1 through $grid-columns {

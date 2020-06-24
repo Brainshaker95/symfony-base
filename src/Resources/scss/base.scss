@@ -34,10 +34,6 @@ a {
 #main {
   display: block;
   margin-top: $header-height;
-
-  &:focus {
-    border: 10px solid green;
-  }
 }
 
 .responsive-image {
@@ -47,9 +43,11 @@ a {
 }
 
 .skip-to-page-content {
+  display: flex;
+  align-items: center;
   position: absolute;
   background-color: $darkgrey;
-  height: calc(100px - 1em);
+  height: calc(#{$header-height} - 1em);
   top: $grid-gutter;
   left: $grid-gutter;
   padding: 1em;

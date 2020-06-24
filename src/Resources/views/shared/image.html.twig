@@ -1,3 +1,4 @@
+{%- set lazyload = lazyload is defined ? lazyload : true -%}
 {%- set thumbnail = thumbnail is defined ? thumbnail : 'default' -%}
 {%- set class = class is defined ? class : '' -%}
 {%- set class = not non_responsive|default ? class ~ ' responsive-image' : class -%}
@@ -6,8 +7,11 @@
 
 {%- apply strip_spaces -%}
   <img
-    src="{{- is_svg ? image : image|imagine_filter(thumbnail) -}}"
-    class="{{- class|trim -}}"
+    src="{{- is_svg ? image : (lazyload ? image|imagine_filter('preview', thumbnail|get_liip_config) : image|imagine_filter(thumbnail)) -}}"
+    {%- if lazyload -%}
+      data-src="{{- image|imagine_filter(thumbnail) -}}"
+    {%- endif -%}
+    class="{{- class|trim -}}{{- lazyload ? ' lazyload' : '' -}}"
     alt="{{- alt|default -}}"
     title="{{- title|default -}}"
   >

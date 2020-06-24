@@ -1,10 +1,12 @@
 import $ from 'jquery';
 import 'babel-polyfill';
+import 'lazysizes';
 
 import accordion from './module/accordion';
 import anchor from './module/anchor';
 import flashMessages from './module/flash-messages';
 import form from './module/form';
+import navigation from './module/navigation';
 import translate from './util/translate';
 
 $(() => {
@@ -12,6 +14,7 @@ $(() => {
   anchor();
   flashMessages();
   form();
+  navigation();
 
   // Form example usage
 

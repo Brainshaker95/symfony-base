@@ -1,13 +1,19 @@
+app:
+  path: /
+  controller: App\Controller\DefaultController::redirectToIndexAction
+
 app_admin:
-  path: /admin
+  path: /{_locale}/admin
   controller: App\Controller\AdminController::adminAction
   options:
     navigation: main
     order: 3
     role: ROLE_ADMIN
+    subpages:
+      - app_admin_users
 
 app_admin_users:
-  path: /admin/users
+  path: /{_locale}/admin/users
   controller: App\Controller\AdminController::usersAction
   options:
     navigation: admin
@@ -31,7 +37,7 @@ app_api_upload_images:
   controller: App\Controller\GalleryController::uploadImagesAction
 
 app_gallery:
-  path: /gallery
+  path: /{_locale}/gallery
   controller: App\Controller\GalleryController::galleryAction
   options:
     navigation: main
@@ -39,14 +45,14 @@ app_gallery:
     role: ROLE_USER
 
 app_index:
-  path: /
+  path: /{_locale}
   controller: App\Controller\DefaultController::indexAction
   options:
     navigation: main
     order: 0
 
 app_login:
-  path: /login
+  path: /{_locale}/login
   controller: App\Controller\SecurityController::loginAction
   options:
     navigation: secondary
@@ -54,14 +60,14 @@ app_login:
     role: HIDE_ON_AUTH
 
 app_logout:
-  path: /logout
+  path: /{_locale}/logout
   options:
     navigation: secondary
     order: 2
     role: SHOW_ON_AUTH
 
 app_profile:
-  path: /profile
+  path: /{_locale}/profile
   controller: App\Controller\ProfileController::profileAction
   options:
     navigation: main
@@ -69,7 +75,7 @@ app_profile:
     role: ROLE_USER
 
 app_register:
-  path: /register
+  path: /{_locale}/register
   controller: App\Controller\SecurityController::registerAction
   options:
     navigation: secondary

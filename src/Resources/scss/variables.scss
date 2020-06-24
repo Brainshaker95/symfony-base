@@ -12,5 +12,6 @@
     xl: map-get($grid-breakpoints, xl);
   };
   notificationAnimationTime: $notification-anim-time;
+  mainNavigationBreakpoint: map-get($grid-breakpoints, $main-navigation-breakpoint);
 };
 /* stylelint-enable */

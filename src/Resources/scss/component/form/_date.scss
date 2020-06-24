@@ -44,7 +44,11 @@
 
   .ui-datepicker-prev,
   .ui-datepicker-next {
-    &:hover::before {
+    &::after {
+      top: 0.5em;
+    }
+
+    &:hover::after {
       border-color: darken($grey, 20%);
     }
 

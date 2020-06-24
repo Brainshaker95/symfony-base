@@ -22,6 +22,7 @@ security:
         authenticators:
           - App\Security\LoginFormAuthenticator
   access_control:
+    # TODO: Add locale handling
     - { path: ^/admin, roles: ROLE_ADMIN }
     - { path: ^/admin/users, roles: ROLE_ADMIN }
     - { path: ^/gallery, roles: ROLE_USER }

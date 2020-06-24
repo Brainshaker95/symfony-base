@@ -6,6 +6,7 @@ use App\Service\HashService;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Yaml\Yaml;
 
 class HelperExtension extends AbstractExtension
 {

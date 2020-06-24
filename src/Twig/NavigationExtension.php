@@ -46,13 +46,13 @@ class NavigationExtension extends AbstractExtension
     }
 
     /**
-     * @return array<int|string, array{navigation_name: string, path: string, is_active: bool, role: string|null, hide_on_auth: bool}>
+     * @return array<int|string, array>
      */
     public function getNavigation(string $type = 'main')
     {
-        $request    = $this->requestStack->getCurrentRequest();
-        $routes     = $this->router->getRouteCollection()->all();
-        $navigation = [];
+        $routeCollection = $this->router->getRouteCollection();
+        $routes          = $routeCollection->all();
+        $navigation      = [];
 
         foreach ($routes as $key => $route) {
             $options        = $route->getOptions();
@@ -62,22 +62,56 @@ class NavigationExtension extends AbstractExtension
                 continue;
             }
 
-            $name  = substr($key, 4, strlen($key));
-            $role  = isset($options['role']) ? $options['role'] : null;
-            $order = isset($options['order']) ? $options['order'] : 0;
+            $order    = isset($options['order']) ? $options['order'] : 0;
+            $subpages = isset($options['subpages']) ? $options['subpages'] : [];
 
-            $navigation[$order] = [
-                'navigation_name' => $this->translator->trans('navigation_name.' . $name),
-                'path'            => $this->router->generate('app_' . $name),
-                'is_active'       => $request ? $request->get('_route') === 'app_' . $name : false,
-                'role'            => $role,
-                'hide_on_auth'    => $role === 'HIDE_ON_AUTH',
-                'show_on_auth'    => $role === 'SHOW_ON_AUTH',
-            ];
+            $navigation[$order] = $this->getParsedNavigationItem(
+                $this->getName($key),
+                isset($options['role']) ? $options['role'] : null
+            );
+
+            if ($subpages) {
+                foreach ($subpages as $subpage) {
+                    $subpageRoute = $routeCollection->get($subpage);
+
+                    if (!$subpageRoute) {
+                        continue;
+                    }
+
+                    $subpageRouteOptions = $subpageRoute->getOptions();
+
+                    $navigation[$order]['subpages'][] = $this->getParsedNavigationItem(
+                        $this->getName($subpage),
+                        isset($subpageRouteOptions['role']) ? $subpageRouteOptions['role'] : null
+                    );
+                }
+            }
         }
 
         ksort($navigation);
 
         return $navigation;
+    }
+
+    private function getName(string $key): string
+    {
+        return substr($key, 4, strlen($key));
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    private function getParsedNavigationItem(string $name, ?string $role)
+    {
+        $request = $this->requestStack->getCurrentRequest();
+
+        return [
+            'navigation_name' => $this->translator->trans('navigation_name.' . $name),
+            'path'            => $this->router->generate('app_' . $name),
+            'is_active'       => $request ? $request->get('_route') === 'app_' . $name : false,
+            'role'            => $role,
+            'hide_on_auth'    => $role === 'HIDE_ON_AUTH',
+            'show_on_auth'    => $role === 'SHOW_ON_AUTH',
+        ];
     }
 }

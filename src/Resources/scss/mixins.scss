@@ -38,14 +38,14 @@
 @mixin focus-border-primary {
   &:focus {
     border: 1px solid $primary-hover;
-    outline: 0 !important;
+    outline: 0;
   }
 }
 
 @mixin focus-border-secondary {
   &:focus {
     border: 1px solid $secondary-hover;
-    outline: 0 !important;
+    outline: 0;
   }
 }
 
@@ -66,13 +66,12 @@
 }
 
 @mixin chevron {
-  &::before {
+  &::after {
     position: absolute;
     content: '';
-    top: 0.5em;
     width: 1em;
     height: 1em;
-    transition: border-color 200ms ease;
+    transition: border-color 300ms ease;
     border: {
       style: solid;
       width: 0.2em 0.2em 0 0;
@@ -85,7 +84,7 @@
 @mixin chevron-up {
   @include chevron;
 
-  &::before {
+  &::after {
     transform: rotate(-45deg);
   }
 }
@@ -93,7 +92,7 @@
 @mixin chevron-down {
   @include chevron;
 
-  &::before {
+  &::after {
     transform: rotate(135deg);
   }
 }
@@ -101,7 +100,7 @@
 @mixin chevron-left {
   @include chevron;
 
-  &::before {
+  &::after {
     left: 0.5em;
     transform: rotate(-135deg);
   }
@@ -110,7 +109,7 @@
 @mixin chevron-right {
   @include chevron;
 
-  &::before {
+  &::after {
     right: 0.5em;
     transform: rotate(45deg);
   }
@@ -121,17 +120,31 @@
 
   position: relative;
 
-  &::before {
+  &::after {
     pointer-events: none;
     transform: rotate(135deg) scale(0.7);
     transition:
       top 300ms ease,
+      border-color 300ms ease,
       transform 300ms ease;
   }
 }
 
 @mixin chevron-down-rotating-expanded {
-  &::before {
+  &::after {
     transform: rotate(315deg) scale(0.7);
   }
+}
+
+@mixin checkbox-radio-label {
+  position: relative;
+  padding: 0;
+  top: -0.1em;
+  left: 1.5em;
+  width: calc(100% - 1.5em);
+  color: $white;
+  transform: none;
+  transition: none;
+  pointer-events: all;
+  cursor: pointer;
 }
