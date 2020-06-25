@@ -37,7 +37,7 @@ class RequestExtension extends AbstractExtension implements GlobalsInterface
         if (!$request) {
             return [
                 'current_locale' => 'en',
-                'current_route'  => 'app',
+                'current_route'  => 'app_index',
             ];
         }
 
@@ -45,7 +45,7 @@ class RequestExtension extends AbstractExtension implements GlobalsInterface
 
         return [
             'current_locale' => in_array($locale, TranslatorService::LOCALES) ? $locale : 'en',
-            'current_route'  => $request->get('_route'),
+            'current_route'  => $request->get('_route') ?: 'app_index',
         ];
     }
 }

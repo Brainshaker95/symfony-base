@@ -1,0 +1,22 @@
+app_login:
+  path: /{_locale}/login
+  controller: App\Controller\SecurityController::loginAction
+  options:
+    navigation: secondary
+    order: 0
+    role: HIDE_ON_AUTH
+
+app_logout:
+  path: /{_locale}/logout
+  options:
+    navigation: secondary
+    order: 2
+    role: SHOW_ON_AUTH
+
+app_register:
+  path: /{_locale}/register
+  controller: App\Controller\SecurityController::registerAction
+  options:
+    navigation: secondary
+    order: 1
+    role: HIDE_ON_AUTH

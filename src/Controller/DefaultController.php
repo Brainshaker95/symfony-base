@@ -20,4 +20,14 @@ class DefaultController extends AbstractController
     {
         return $this->render('page/index.html.twig');
     }
+
+    public function imprintAction(): Response
+    {
+        return $this->render('page/imprint.html.twig');
+    }
+
+    public function privacyAction(): Response
+    {
+        return $this->render('page/privacy.html.twig');
+    }
 }

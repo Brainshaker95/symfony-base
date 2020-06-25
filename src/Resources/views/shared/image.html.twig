@@ -8,11 +8,10 @@
 {%- apply strip_spaces -%}
   <img
     src="{{- is_svg ? image : (lazyload ? image|imagine_filter('preview', thumbnail|get_liip_config) : image|imagine_filter(thumbnail)) -}}"
-    {%- if lazyload -%}
+    {% if lazyload %}
       data-src="{{- image|imagine_filter(thumbnail) -}}"
-    {%- endif -%}
+    {% endif %}
     class="{{- class|trim -}}{{- lazyload ? ' lazyload' : '' -}}"
     alt="{{- alt|default -}}"
-    title="{{- title|default -}}"
-  >
+    title="{{- title|default -}}">
 {%- endapply -%}

@@ -1,0 +1,17 @@
+app_admin:
+  path: /{_locale}/admin
+  controller: App\Controller\AdminController::adminAction
+  options:
+    navigation: main
+    order: 3
+    role: ROLE_ADMIN
+    subpages:
+      - app_admin_users
+
+app_admin_users:
+  path: /{_locale}/admin/users
+  controller: App\Controller\AdminController::usersAction
+  options:
+    navigation: admin
+    order: 1
+    role: ROLE_ADMIN

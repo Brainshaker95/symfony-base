@@ -18,7 +18,7 @@ migrate-first:
 	php bin/console doctrine:migrations:migrate first
 
 migration:
-	php bin/console make:migration
+	php bin/console doctrine:migrations:diff
 
 phpstan:
 	bash -c 'vendor/bin/phpstan analyse src --level=8'

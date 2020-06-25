@@ -13,37 +13,43 @@
   <nav>
     <ul class="pagination normalized-list">
       <li>
-        <a
-          href="{{- path -}}?page={{- prev_page -}}"
-          class="arrow-button arrow-button--prev{{- is_in_first_block ? ' disabled' : '' -}}"
-          title="{{- 'pagination.go_to_prev_page'|trans -}}"
-          aria-label="{{- 'pagination.go_to_prev_page'|trans -}}"
-          {{- is_in_first_block ? ' tabindex="-1"' : '' -}}
-        ></a>
+        {%- apply strip_spaces -%}
+          <a
+            href="{{- path -}}?page={{- prev_page -}}"
+            class="arrow-button arrow-button--prev{{- is_in_first_block ? ' disabled' : '' -}}"
+            title="{{- 'pagination.go_to_prev_page'|trans -}}"
+            aria-label="{{- 'pagination.go_to_prev_page'|trans -}}"
+            {{- is_in_first_block ? ' tabindex="-1"' : '' -}}
+          ></a>
+        {%- endapply -%}
       </li>
 
       {%- for i in 1..total_pages -%}
         <li>
-          <a
-            href="{{- path -}}?page={{- i -}}"
-            class="pagination__page{{- i == current_page ? ' pagination__page--is-active disabled' : '' -}}{{- (total_pages > max_visible_pages and (i < lower_bound or i > upper_bound)) ? ' hide' : '' -}}"
-            title="{{- 'pagination.go_to_page'|trans ~ ' ' ~ i -}}"
-            aria-label="{{- 'pagination.go_to_page'|trans ~ ' ' ~ i -}}"
-            {{- i == current_page ? ' tabindex="-1"' : '' -}}
-          >
-            {{- i -}}
-          </a>
+          {%- apply strip_spaces -%}
+            <a
+              href="{{- path -}}?page={{- i -}}"
+              class="pagination__page{{- i == current_page ? ' pagination__page--is-active disabled' : '' -}}{{- (total_pages > max_visible_pages and (i < lower_bound or i > upper_bound)) ? ' hide' : '' -}}"
+              title="{{- 'pagination.go_to_page'|trans ~ ' ' ~ i -}}"
+              aria-label="{{- 'pagination.go_to_page'|trans ~ ' ' ~ i -}}"
+              {{- i == current_page ? ' tabindex="-1"' : '' -}}
+            >
+              {{- i -}}
+            </a>
+          {%- endapply -%}
         </li>
       {%- endfor -%}
 
       <li>
-        <a
-          href="{{- path -}}?page={{- next_page -}}"
-          class="arrow-button arrow-button--next{{- is_in_last_block ? ' disabled' : '' -}}"
-          title="{{- 'pagination.go_to_next_page'|trans -}}"
-          aria-label="{{- 'pagination.go_to_next_page'|trans -}}"
-          {{- is_in_last_block ? ' tabindex="-1"' : '' -}}
-        ></a>
+        {%- apply strip_spaces -%}
+          <a
+            href="{{- path -}}?page={{- next_page -}}"
+            class="arrow-button arrow-button--next{{- is_in_last_block ? ' disabled' : '' -}}"
+            title="{{- 'pagination.go_to_next_page'|trans -}}"
+            aria-label="{{- 'pagination.go_to_next_page'|trans -}}"
+            {{- is_in_last_block ? ' tabindex="-1"' : '' -}}
+          ></a>
+        {%- endapply -%}
       </li>
     </ul>
   </nav>
@@ -51,40 +57,46 @@
   <nav>
     <ul class="pagination normalized-list" data-path="{{- path -}}" data-total-pages="{{- total_pages -}}" data-current-page="{{- current_page -}}" data-visible-pages="{{- max_visible_pages -}}">
       <li>
-        <button
-          type="button"
-          data-page="{{- prev_page -}}"
-          class="arrow-button arrow-button--prev{{- is_in_first_block ? ' disabled' : '' -}}"
-          title="{{- 'pagination.go_to_prev_page'|trans -}}"
-          aria-label="{{- 'pagination.go_to_prev_page'|trans -}}"
-          {{- is_in_first_block ? ' tabindex="-1"' : '' -}}
-        ></button>
+        {%- apply strip_spaces -%}
+          <button
+            type="button"
+            data-page="{{- prev_page -}}"
+            class="arrow-button arrow-button--prev{{- is_in_first_block ? ' disabled' : '' -}}"
+            title="{{- 'pagination.go_to_prev_page'|trans -}}"
+            aria-label="{{- 'pagination.go_to_prev_page'|trans -}}"
+            {{- is_in_first_block ? ' tabindex="-1"' : '' -}}
+          ></button>
+        {%- endapply -%}
       </li>
 
       {%- for i in 1..total_pages -%}
         <li>
-          <button
-            type="button"
-            data-page="{{- i -}}"
-            class="pagination__page{{- i == current_page ? ' pagination__page--is-active disabled' : '' -}}{{- (total_pages > max_visible_pages and (i < lower_bound or i > upper_bound)) ? ' hide' : '' -}}"
-            title="{{- 'pagination.go_to_page'|trans ~ ' ' ~ i -}}"
-            aria-label="{{- 'pagination.go_to_page'|trans ~ ' ' ~ i -}}"
-            {{- i == current_page ? ' tabindex="-1"' : '' -}}
-          >
-            {{- i -}}
-          </button>
+          {%- apply strip_spaces -%}
+            <button
+              type="button"
+              data-page="{{- i -}}"
+              class="pagination__page{{- i == current_page ? ' pagination__page--is-active disabled' : '' -}}{{- (total_pages > max_visible_pages and (i < lower_bound or i > upper_bound)) ? ' hide' : '' -}}"
+              title="{{- 'pagination.go_to_page'|trans ~ ' ' ~ i -}}"
+              aria-label="{{- 'pagination.go_to_page'|trans ~ ' ' ~ i -}}"
+              {{- i == current_page ? ' tabindex="-1"' : '' -}}
+            >
+              {{- i -}}
+            </button>
+          {%- endapply -%}
         </li>
       {%- endfor -%}
 
       <li>
-        <button
-          type="button"
-          data-page="{{- next_page -}}"
-          class="arrow-button arrow-button--next{{- is_in_last_block ? ' disabled' : '' -}}"
-          title="{{- 'pagination.go_to_next_page'|trans -}}"
-          aria-label="{{- 'pagination.go_to_next_page'|trans -}}"
-          {{- is_in_last_block ? ' tabindex="-1"' : '' -}}
-        ></button>
+        {%- apply strip_spaces -%}
+          <button
+            type="button"
+            data-page="{{- next_page -}}"
+            class="arrow-button arrow-button--next{{- is_in_last_block ? ' disabled' : '' -}}"
+            title="{{- 'pagination.go_to_next_page'|trans -}}"
+            aria-label="{{- 'pagination.go_to_next_page'|trans -}}"
+            {{- is_in_last_block ? ' tabindex="-1"' : '' -}}
+          ></button>
+        {%- endapply -%}
       </li>
     </ul>
   </nav>
