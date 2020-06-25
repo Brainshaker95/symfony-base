@@ -8,13 +8,12 @@ use App\Form\Type\UserType;
 use App\Service\FileService;
 use App\Service\HashService;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ProfileController extends AbstractController
+class ProfileController extends FrontendController
 {
     /**
      * @var string

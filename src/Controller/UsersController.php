@@ -10,11 +10,10 @@ use App\Service\HashService;
 use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class UsersController extends AbstractController
+class UsersController extends FrontendController
 {
     /**
      * @var EntityManagerInterface
@@ -73,6 +72,10 @@ class UsersController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
+        if (!$request->isMethod('POST')) {
+            return $this->renderError($this->methodNotAllowed());
+        }
+
         $id = $this->hashService->decode($request->get('id', 0));
 
         /**
@@ -112,6 +115,10 @@ class UsersController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
+        if (!$request->isMethod('POST')) {
+            return $this->renderError($this->methodNotAllowed());
+        }
+
         $id = $this->hashService->decode($request->get('id', 0));
 
         /**
@@ -148,6 +155,10 @@ class UsersController extends AbstractController
     public function updateRolesAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        if (!$request->isMethod('POST')) {
+            return $this->renderError($this->methodNotAllowed());
+        }
 
         $id    = $this->hashService->decode($request->get('id', 0));
         $roles = $request->get('roles', []);

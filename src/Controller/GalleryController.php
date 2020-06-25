@@ -9,7 +9,6 @@ use App\Repository\ImageRepository;
 use App\Service\FileService;
 use App\Service\HashService;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Form\Form;
@@ -19,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class GalleryController extends AbstractController
+class GalleryController extends FrontendController
 {
     protected const PAGE_SIZE         = 20;
     protected const MAX_VISIBLE_PAGES = 5;

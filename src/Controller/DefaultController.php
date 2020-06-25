@@ -2,12 +2,11 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class DefaultController extends AbstractController
+class DefaultController extends FrontendController
 {
     public function redirectToIndexAction(Request $request): RedirectResponse
     {

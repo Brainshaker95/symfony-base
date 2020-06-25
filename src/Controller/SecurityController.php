@@ -7,13 +7,12 @@ use App\Form\Type\LoginType;
 use App\Form\Type\RegisterType;
 use App\Security\LoginFormAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 
-class SecurityController extends AbstractController
+class SecurityController extends FrontendController
 {
     /**
      * @var LoginFormAuthenticator
