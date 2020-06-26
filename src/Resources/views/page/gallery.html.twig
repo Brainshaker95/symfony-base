@@ -13,7 +13,7 @@
   <div class="grid">
     {%- if paginator|length -%}
       {%- for image in paginator -%}
-        <div class="col-12 col-xs-6 col-md-4 col-lg-3 col-xl-1-5th">
+        <div class="col-12 col-xs-6 col-sm-4 col-md-3 col-xl-1-5th">
           {%- include 'shared/image.html.twig' with {
             image: image,
             class: 'responsive-image',

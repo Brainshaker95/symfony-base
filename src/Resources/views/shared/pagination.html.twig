@@ -16,10 +16,9 @@
         {%- apply strip_spaces -%}
           <a
             href="{{- path -}}?page={{- prev_page -}}"
-            class="arrow-button arrow-button--prev{{- is_in_first_block ? ' disabled' : '' -}}"
+            class="arrow-button arrow-button--prev"
             title="{{- 'pagination.go_to_prev_page'|trans -}}"
             aria-label="{{- 'pagination.go_to_prev_page'|trans -}}"
-            {{- is_in_first_block ? ' tabindex="-1"' : '' -}}
           ></a>
         {%- endapply -%}
       </li>
@@ -44,10 +43,9 @@
         {%- apply strip_spaces -%}
           <a
             href="{{- path -}}?page={{- next_page -}}"
-            class="arrow-button arrow-button--next{{- is_in_last_block ? ' disabled' : '' -}}"
+            class="arrow-button arrow-button--next"
             title="{{- 'pagination.go_to_next_page'|trans -}}"
             aria-label="{{- 'pagination.go_to_next_page'|trans -}}"
-            {{- is_in_last_block ? ' tabindex="-1"' : '' -}}
           ></a>
         {%- endapply -%}
       </li>
@@ -61,10 +59,9 @@
           <button
             type="button"
             data-page="{{- prev_page -}}"
-            class="arrow-button arrow-button--prev{{- is_in_first_block ? ' disabled' : '' -}}"
+            class="arrow-button arrow-button--prev"
             title="{{- 'pagination.go_to_prev_page'|trans -}}"
             aria-label="{{- 'pagination.go_to_prev_page'|trans -}}"
-            {{- is_in_first_block ? ' tabindex="-1"' : '' -}}
           ></button>
         {%- endapply -%}
       </li>
@@ -91,10 +88,9 @@
           <button
             type="button"
             data-page="{{- next_page -}}"
-            class="arrow-button arrow-button--next{{- is_in_last_block ? ' disabled' : '' -}}"
+            class="arrow-button arrow-button--next"
             title="{{- 'pagination.go_to_next_page'|trans -}}"
             aria-label="{{- 'pagination.go_to_next_page'|trans -}}"
-            {{- is_in_last_block ? ' tabindex="-1"' : '' -}}
           ></button>
         {%- endapply -%}
       </li>

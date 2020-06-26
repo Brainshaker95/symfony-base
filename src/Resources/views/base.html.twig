@@ -20,6 +20,8 @@
       {%- endblock -%}
     </head>
 
+    {%- do clear_user_files_from_tmp(app.getUser) -%}
+
     {# <body> #}
     <body class="theme--dark">
       <a class="skip-to-page-content" href="#main">

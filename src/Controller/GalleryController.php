@@ -8,6 +8,7 @@ use App\Form\Type\GalleryType;
 use App\Repository\ImageRepository;
 use App\Service\FileService;
 use App\Service\HashService;
+use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
@@ -20,7 +21,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class GalleryController extends FrontendController
 {
-    protected const PAGE_SIZE         = 20;
+    protected const PAGE_SIZE         = 5;
     protected const MAX_VISIBLE_PAGES = 5;
 
     /**
@@ -53,13 +54,19 @@ class GalleryController extends FrontendController
      */
     protected $translator;
 
+    /**
+     * @var UserService
+     */
+    protected $userService;
+
     public function __construct(
         string $uploadDirectory,
         EntityManagerInterface $entityManager,
         FileService $fileService,
         HashService $hashService,
         ImageRepository $imageRepository,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        UserService $userService
     ) {
         $this->uploadDirectory = $uploadDirectory;
         $this->entityManager   = $entityManager;
@@ -67,45 +74,7 @@ class GalleryController extends FrontendController
         $this->hashService     = $hashService;
         $this->imageRepository = $imageRepository;
         $this->translator      = $translator;
-    }
-
-    public function uploadImagesAction(Request $request): Response
-    {
-        /**
-         * @var User|null
-         */
-        $user     = $this->getUser();
-        $success  = false;
-        $filename = null;
-
-        if ($user) {
-            $encodedUserId = $this->hashService->encode($user->getId());
-            $method        = $request->getMethod();
-
-            if ($method === 'DELETE') {
-                $filename = $request->get('filename', '');
-
-                if (strpos($filename, $encodedUserId) === 0
-                    && $this->fileService->delete($filename, 'tmp')) {
-                    $success = true;
-                }
-            } else {
-                foreach ($request->files as $file) {
-                    $filename = $this->fileService->upload($file, 'tmp', $encodedUserId . '-');
-
-                    if ($filename) {
-                        $success = true;
-                    } else {
-                        $success = false;
-                    }
-                }
-            }
-        }
-
-        return $this->json([
-            'success'  => $success,
-            'filename' => $filename,
-        ]);
+        $this->userService     = $userService;
     }
 
     public function galleryAction(Request $request): Response
@@ -132,7 +101,7 @@ class GalleryController extends FrontendController
         }
 
         $paginator  = $this->imageRepository->getGalleryPaginator($page, $limit);
-        $totalPages = ceil(count($paginator) / $limit);
+        $totalPages = ceil($paginator->count() / $limit);
 
         if ($page > $totalPages) {
             $page      = (int) $totalPages;
@@ -143,22 +112,9 @@ class GalleryController extends FrontendController
 
         if ($form->isSubmitted()) {
             $hasErrors = !$this->handleForm($form, $user);
-
-            return $this->redirectToRoute('app_gallery');
         }
 
-        $finder    = new Finder();
-        $tmpFolder = __DIR__ . '..\\..\\..\\public\\uploads\\tmp';
-        $files     = [];
-
-        if (is_dir($tmpFolder)) {
-            $files = $finder->files()->in(__DIR__ . '..\\..\\..\\public\\uploads\\tmp');
-        }
-
-        // TODO: Also do this on page change
-        foreach ($files as $theFile) {
-            $this->fileService->delete($theFile->getRelativePathname(), 'tmp');
-        }
+        $this->userService->clearUserFilesFromTmp($user);
 
         return $this->render('page/gallery.html.twig', [
             'gallery_form'      => $form->createView(),
@@ -168,6 +124,44 @@ class GalleryController extends FrontendController
             'page_size'         => $limit,
             'total_pages'       => $totalPages,
             'max_visible_pages' => self::MAX_VISIBLE_PAGES,
+        ]);
+    }
+
+    public function uploadImagesAction(Request $request): Response
+    {
+        /**
+         * @var User|null
+         */
+        $user     = $this->getUser();
+        $success  = false;
+        $filename = null;
+
+        if ($user) {
+            $encodedUserId = $this->hashService->encode($user->getId());
+
+            if ($request->isMethod('DELETE')) {
+                $filename = $request->get('filename', '');
+
+                if (strpos($filename, $encodedUserId) === 0
+                    && $this->fileService->delete($filename, 'tmp')) {
+                    $success = true;
+                }
+            } else {
+                foreach ($request->files as $file) {
+                    $filename = $this->fileService->upload($file, 'tmp', $encodedUserId . '-');
+
+                    if ($filename) {
+                        $success = true;
+                    } else {
+                        $success = false;
+                    }
+                }
+            }
+        }
+
+        return $this->json([
+            'success'  => $success,
+            'filename' => $filename,
         ]);
     }
 
@@ -198,10 +192,8 @@ class GalleryController extends FrontendController
             if (strpos($filename, $encodedUserId) === 0) {
                 $form = $this->validateFile($filename, $file, $form, $fileConstraint);
 
-                if (count($form->getErrors(true))) {
-                    foreach ($files as $theFile) {
-                        $this->fileService->delete($theFile->getRelativePathname(), 'tmp');
-                    }
+                if ($form->getErrors(true)->count()) {
+                    $this->userService->clearUserFilesFromTmp($user);
 
                     return false;
                 }

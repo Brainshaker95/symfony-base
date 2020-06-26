@@ -38,7 +38,7 @@
                 <button
                   type="button"
                   class="button button--close delete-profile-image{{- can_modify_user ? '' : ' disabled' -}}"
-                  title="{{- 'delete_profile_image'|trans -}}"
+                  title="{{- 'page.users.delete_profile_image'|trans -}}"
                   aria-label="{{- 'page.users.delete_profile_image'|trans -}}"
                   data-id="{{- user.getId|encode -}}"
                   {{- can_modify_user ? '' : ' tabindex="-1"' -}}

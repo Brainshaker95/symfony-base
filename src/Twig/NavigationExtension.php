@@ -56,18 +56,18 @@ class NavigationExtension extends AbstractExtension
 
         foreach ($routes as $key => $route) {
             $options        = $route->getOptions();
-            $navigationType = isset($options['navigation']) ? $options['navigation'] : '';
+            $navigationType = $options['navigation'] ?? '';
 
             if (strpos($key, 'app_') !== 0 || $navigationType !== $type) {
                 continue;
             }
 
-            $order    = isset($options['order']) ? $options['order'] : 0;
-            $subpages = isset($options['subpages']) ? $options['subpages'] : [];
+            $order    = $options['order'] ?? 0;
+            $subpages = $options['subpages'] ?? [];
 
             $navigation[$order] = $this->getParsedNavigationItem(
                 $this->getName($key),
-                isset($options['role']) ? $options['role'] : null
+                $options['role'] ?? null
             );
 
             if ($subpages) {
@@ -82,7 +82,7 @@ class NavigationExtension extends AbstractExtension
 
                     $navigation[$order]['subpages'][] = $this->getParsedNavigationItem(
                         $this->getName($subpage),
-                        isset($subpageRouteOptions['role']) ? $subpageRouteOptions['role'] : null
+                        $subpageRouteOptions['role'] ?? null
                     );
                 }
             }
