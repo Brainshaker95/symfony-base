@@ -21,7 +21,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class GalleryController extends FrontendController
 {
-    protected const PAGE_SIZE         = 5;
+    protected const PAGE_SIZE         = 20;
     protected const MAX_VISIBLE_PAGES = 5;
 
     /**
@@ -100,18 +100,22 @@ class GalleryController extends FrontendController
             $page = 1;
         }
 
+        $form->handleRequest($request);
+
+        if ($request->isMethod('POST') && $form->isSubmitted()) {
+            $hasErrors = !$this->handleForm($form, $user);
+
+            if (!$hasErrors) {
+                $page = 1;
+            }
+        }
+
         $paginator  = $this->imageRepository->getGalleryPaginator($page, $limit);
         $totalPages = ceil($paginator->count() / $limit);
 
         if ($page > $totalPages) {
             $page      = (int) $totalPages;
             $paginator = $this->imageRepository->getGalleryPaginator($page, $limit);
-        }
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted()) {
-            $hasErrors = !$this->handleForm($form, $user);
         }
 
         $this->userService->clearUserFilesFromTmp($user);
@@ -132,29 +136,34 @@ class GalleryController extends FrontendController
         /**
          * @var User|null
          */
-        $user     = $this->getUser();
-        $success  = false;
-        $filename = null;
+        $user = $this->getUser();
 
-        if ($user) {
-            $encodedUserId = $this->hashService->encode($user->getId());
+        if (!$user) {
+            return $this->json([
+                'success'  => false,
+                'filename' => null,
+            ]);
+        }
 
-            if ($request->isMethod('DELETE')) {
-                $filename = $request->get('filename', '');
+        $encodedUserId = $this->hashService->encode($user->getId());
+        $success       = false;
+        $filename      = null;
 
-                if (strpos($filename, $encodedUserId) === 0
-                    && $this->fileService->delete($filename, 'tmp')) {
+        if ($request->isMethod('DELETE')) {
+            $filename = $request->get('filename', '');
+
+            if (strpos($filename, $encodedUserId) === 0
+                && $this->fileService->delete($filename, 'tmp')) {
+                $success = true;
+            }
+        } else {
+            foreach ($request->files as $file) {
+                $filename = $this->fileService->upload($file, 'tmp', $encodedUserId . '-');
+
+                if ($filename) {
                     $success = true;
-                }
-            } else {
-                foreach ($request->files as $file) {
-                    $filename = $this->fileService->upload($file, 'tmp', $encodedUserId . '-');
-
-                    if ($filename) {
-                        $success = true;
-                    } else {
-                        $success = false;
-                    }
+                } else {
+                    $success = false;
                 }
             }
         }
@@ -173,6 +182,7 @@ class GalleryController extends FrontendController
         $constraints    = $form->get('image')->getConfig()->getOption('constraints');
         $fileConstraint = null;
         $files          = [];
+        $successCount   = 0;
 
         $form->clearErrors(true);
 
@@ -181,8 +191,8 @@ class GalleryController extends FrontendController
         }
 
         foreach ($constraints as $constraint) {
-            if ($constraint instanceof Constraints\File) {
-                $fileConstraint = $constraint;
+            if ($constraint instanceof Constraints\All) {
+                $fileConstraint = $constraint->constraints[0];
             }
         }
 
@@ -202,13 +212,22 @@ class GalleryController extends FrontendController
 
                 if ($this->fileService->move($filename, 'tmp', $newFilename, 'gallery_images')) {
                     $this->addImageToGallery($user, $newFilename);
-                    $this->addFlash('success', 'page.gallery.image_save.success');
+                    $successCount += 1;
                 } else {
                     $this->addFlash('error', 'page.gallery.image_save.error');
                 }
 
                 $this->fileService->delete($filename, 'tmp');
             }
+        }
+
+        if ($successCount > 1) {
+            $this->addFlash('success', 'page.gallery.image_save.success.multiple');
+            $this->addFlash('_params', serialize([
+                '{{ successCount }}' => $successCount,
+            ]));
+        } elseif ($successCount > 0) {
+            $this->addFlash('success', 'page.gallery.image_save.success.single');
         }
 
         return true;

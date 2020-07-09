@@ -86,7 +86,7 @@ const generateMarkup = ($input, isDragAndDrop) => {
     />`));
   } else {
     $file
-      .append($('<progress class="file__progress" max=100 value=0></progress>'))
+      .append($('<div class="progress"><span><span></span></span></div>'))
       .append($('<ul class="file__list" />'));
   }
 
@@ -129,7 +129,7 @@ const preventDefaults = (event) => {
 
 const attachDragAndDropHandlers = ($input) => {
   const $file = $input.closest('.file');
-  const $progressBar = $file.find('.file__progress');
+  const $progressBar = $file.find('.progress');
   const $body = $('body');
 
   const highlight = () => {
@@ -143,7 +143,6 @@ const attachDragAndDropHandlers = ($input) => {
   let uploadProgress = [];
 
   const initializeProgress = (fileCount) => {
-    $progressBar.val(0);
     uploadProgress = [];
 
     for (let i = fileCount; i > 0; i -= 1) {
@@ -182,6 +181,8 @@ const attachDragAndDropHandlers = ($input) => {
       $lastListItem
         .find('.button--clear')
         .on('click', () => {
+          $input.val(null);
+
           ajax({
             url: $input.data('path') || '/',
             method: 'DELETE',
@@ -208,8 +209,16 @@ const attachDragAndDropHandlers = ($input) => {
     uploadProgress[fileCount] = percent;
 
     const total = uploadProgress.reduce((progress, current) => progress + current, 0);
+    const percentageFilled = total / uploadProgress.length;
 
-    $progressBar.val(total / uploadProgress.length);
+    $progressBar
+      .find('span')
+      .first()
+      .width(`${percentageFilled}%`);
+
+    if (percentageFilled >= 100) {
+      $progressBar.removeClass('progress--is-visible');
+    }
   };
 
   const uploadFile = (file, index) => {
@@ -217,41 +226,42 @@ const attachDragAndDropHandlers = ($input) => {
     const types = $input.data('mime-types');
     const allowedTypes = types.split(', ');
 
-    if (file.size > maxSize * 1000000) {
-      notify({
-        text: translate('error.form.image.max_size.exceeded', { limit: maxSize }),
-      });
+    // if (file.size > maxSize * 1000000) {
+    //   notify({
+    //     text: translate('error.form.image.max_size.exceeded', { limit: maxSize }),
+    //   });
 
-      return;
-    }
+    //   return;
+    // }
 
-    if (!allowedTypes.includes(file.type)) {
-      notify({
-        text: translate('error.form.image.mime_type.invalid', { types }),
-      });
+    // if (!allowedTypes.includes(file.type)) {
+    //   notify({
+    //     text: translate('error.form.image.mime_type.invalid', { types }),
+    //   });
 
-      return;
-    }
+    //   return;
+    // }
 
-    let alreadyAdded = false;
+    // let alreadyAdded = false;
 
-    $file.find('.file__list-name').each((index, name) => {
-      if (!alreadyAdded && $(name).text() === file.name) {
-        alreadyAdded = true;
-      }
-    });
+    // $file.find('.file__list-name').each((index, name) => {
+    //   if (!alreadyAdded && $(name).text() === file.name) {
+    //     alreadyAdded = true;
+    //   }
+    // });
 
-    if (alreadyAdded) {
-      notify({
-        text: translate('error.form.file.already_added'),
-      });
+    // if (alreadyAdded) {
+    //   notify({
+    //     text: translate('error.form.file.already_added'),
+    //   });
 
-      return;
-    }
+    //   return;
+    // }
 
     const formData = new FormData();
 
     formData.append('file', file);
+    $progressBar.addClass('progress--is-visible');
 
     ajax({
       url: $input.data('path') || '/',
@@ -268,6 +278,7 @@ const attachDragAndDropHandlers = ($input) => {
           return;
         }
 
+        $progressBar.removeClass('progress--is-visible');
         appendFile(file, response.filename);
       },
       xhr: () => {
@@ -292,6 +303,12 @@ const attachDragAndDropHandlers = ($input) => {
 
   const handleFiles = ([...files]) => {
     unhighlight();
+
+    $progressBar
+      .removeClass('progress--is-filled')
+      .find('span')
+      .first()
+      .width(0);
 
     if ($input.prop('multiple')) {
       initializeProgress(files.length);

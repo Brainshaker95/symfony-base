@@ -49,10 +49,11 @@ class GalleryType extends AbstractType
     {
         $builder
             ->add('image', Type\FileType::class, [
-                'required' => false,
-                'multiple' => true,
-                'label'    => 'label.image',
-                'attr'     => [
+                'required'   => false,
+                'multiple'   => true,
+                'data_class' => null,
+                'label'      => 'label.image',
+                'attr'       => [
                     'data-drag-and-drop' => true,
                     'data-path'          => $this->router->generate('app_api_upload_images'),
                     'data-placeholder'   => $this->translator->trans('placeholder.upload_images'),
@@ -63,11 +64,15 @@ class GalleryType extends AbstractType
                     new Constraints\NotBlank([
                         'message' => 'app.error.form.image.empty',
                     ]),
-                    new Constraints\File([
-                        'maxSize'          => $this->maxSize . 'M',
-                        'mimeTypes'        => $this->mimeTypes,
-                        'maxSizeMessage'   => 'app.error.form.image.max_size.exceeded',
-                        'mimeTypesMessage' => 'app.error.form.image.mime_type.invalid',
+                    new Constraints\All([
+                        'constraints' => [
+                            new Constraints\File([
+                                'maxSize'          => $this->maxSize . 'M',
+                                'mimeTypes'        => $this->mimeTypes,
+                                'maxSizeMessage'   => 'app.error.form.image.max_size.exceeded',
+                                'mimeTypesMessage' => 'app.error.form.image.mime_type.invalid',
+                            ]),
+                        ],
                     ]),
                 ],
             ])

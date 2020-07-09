@@ -110,16 +110,6 @@
       display: none;
     }
 
-    &:hover,
-    &:focus {
-      border-color: $primary !important;
-      background-color: transparent !important;
-
-      &::after {
-        border-color: $primary;
-      }
-    }
-
     &::after {
       top: 1.75em;
       right: 1.35em;
@@ -127,6 +117,16 @@
 
       @include breakpoint($main-navigation-breakpoint) {
         content: none;
+      }
+    }
+
+    &:hover,
+    &:focus {
+      border-color: $primary !important;
+      background-color: transparent !important;
+
+      &::after {
+        border-color: $primary;
       }
     }
 

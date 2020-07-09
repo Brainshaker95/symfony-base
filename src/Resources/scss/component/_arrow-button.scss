@@ -6,12 +6,12 @@
 
   &--prev,
   &--next {
-    &:hover::after {
-      border-color: darken($grey, 20%);
-    }
-
     &::after {
       top: 0.5em;
+    }
+
+    &:hover::after {
+      border-color: darken($grey, 20%);
     }
   }
 

@@ -14,10 +14,6 @@
     line-height: 2em;
     user-select: none;
 
-    &:hover {
-      text-decoration: none;
-    }
-
     &--is-active {
       background-color: $white;
       opacity: 1 !important;

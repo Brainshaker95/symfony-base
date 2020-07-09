@@ -36,6 +36,7 @@ class HelperExtension extends AbstractExtension
             new TwigFilter('decode', [$this, 'decode']),
             new TwigFilter('instanceof', [$this, 'instanceof']),
             new TwigFilter('strip_spaces', [$this, 'stripSpaces'], ['is_safe' => ['html']]),
+            new TwigFilter('unserialize', [$this, 'unserialize']),
         ];
     }
 
@@ -70,5 +71,15 @@ class HelperExtension extends AbstractExtension
         }
 
         return $html;
+    }
+
+    /**
+     * @param array<mixed> $options
+     *
+     * @return array<mixed>
+     */
+    public function unserialize(string $variable, array $options = []): array
+    {
+        return unserialize($variable, $options);
     }
 }

@@ -37,8 +37,10 @@
   }
 
   &__list {
+    position: relative;
     display: flex;
     flex-direction: column;
+    top: 2.5em;
     width: 100%;
 
     &-item {
@@ -90,7 +92,7 @@
     align-items: center;
     flex-direction: column;
     min-height: 300px;
-    padding: 1em;
+    padding: 3.5em 1em;
     border: 1px solid $white;
     cursor: default;
 
@@ -111,10 +113,6 @@
 
   &--is-highlighted {
     border: 1px solid $primary;
-  }
-
-  &__progress {
-    // display: none;
   }
 
   &__image {
