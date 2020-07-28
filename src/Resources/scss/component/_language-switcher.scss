@@ -13,11 +13,7 @@
     }
 
     &:hover {
-      color: $darkgrey !important;
-
-      &.navigation__link::after {
-        border-color: $darkgrey;
-      }
+      color: $white;
     }
 
     &:focus {
@@ -35,6 +31,6 @@
   }
 
   .subnavigation__link {
-    padding: 0.5em 0.75em;
+    padding: 0.5em;
   }
 }

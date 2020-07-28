@@ -3,8 +3,20 @@
   position: absolute;
   top: 100%;
   width: 100%;
-  background-color: $darkgrey;
+  background-color: $white;
   z-index: 1;
+
+  @include breakpoint($main-navigation-breakpoint) {
+    border: 1px solid $darkgrey;
+  }
+
+  .theme--dark & {
+    background-color: $darkgrey;
+
+    @include breakpoint($main-navigation-breakpoint) {
+      border: 1px solid $white;
+    }
+  }
 
   &__list {
     margin-bottom: 1em;
@@ -14,19 +26,30 @@
     }
   }
 
-  // TODO: Add light mode
-
   &__link {
     @include focus-color;
 
     display: block;
     padding: 0.5em 1em;
-    color: $white;
-    transition: color 300ms ease;
+    background-color: $white;
+    color: $darkgrey;
+    transition: background-color 300ms ease, color 300ms ease;
 
+    .theme--dark & {
+      background-color: $darkgrey;
+      color: $white;
+    }
+
+    &--is-active,
     &:hover {
-      color: $darkgrey;
+      background-color: $darkgrey;
+      color: $white;
       text-decoration: none;
+
+      .theme--dark & {
+        background-color: $white;
+        color: $darkgrey;
+      }
     }
   }
 }
@@ -43,17 +66,39 @@
   &__link {
     @include focus-color;
 
+    position: relative;
     display: block;
     color: $white;
     transition: color 300ms ease;
 
+    &::before {
+      position: absolute;
+      content: '';
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 0.2em;
+      background-color: $darkgrey;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 300ms ease;
+
+      .theme--dark & {
+        background-color: $white;
+      }
+
+      @include breakpoint($main-navigation-breakpoint) {
+        background-color: $white;
+        transform-origin: center;
+      }
+    }
+
     &--is-active,
     &:hover {
-      color: $darkgrey;
       text-decoration: none;
 
-      &::after {
-        border-color: $darkgrey !important;
+      &::before {
+        transform: scaleX(1);
       }
     }
 
@@ -101,12 +146,16 @@
     background-color: transparent;
     border: 0 !important;
     border-radius: 0;
-    border-left: 1px solid $white !important;
+    border-left: 1px solid $darkgrey !important;
     box-shadow: none !important;
     transition: border-color 300ms ease;
     -webkit-touch-callout: none;
     -webkit-tap-highlight-color: transparent;
     user-select: none;
+
+    .theme--dark & {
+      border-left: 1px solid $white !important;
+    }
 
     @include breakpoint($main-navigation-breakpoint) {
       display: none;
@@ -115,8 +164,12 @@
     &::after {
       top: 1.75em;
       right: 1.35em;
-      border-color: $white;
+      border-color: $darkgrey;
       font-size: 0.75em;
+
+      .theme--dark & {
+        border-color: $white;
+      }
 
       @include breakpoint($main-navigation-breakpoint) {
         content: none;
@@ -148,6 +201,11 @@
     .navigation {
       &__link {
         padding: 0 0.5em;
+
+        &::before {
+          bottom: -0.1em;
+          height: 0.1em;
+        }
       }
     }
   }
@@ -180,9 +238,15 @@
     .navigation {
       &__link {
         padding: 1em $grid-gutter;
+        color: $darkgrey;
+
+        .theme--dark & {
+          color: $white;
+        }
 
         @include breakpoint($main-navigation-breakpoint) {
           padding: 1em;
+          color: $white;
         }
       }
 
@@ -208,7 +272,11 @@
         display: none;
         overflow-y: scroll;
         height: 100%;
-        background-color: $darkgrey;
+        background-color: $white;
+
+        .theme--dark & {
+          background-color: $darkgrey;
+        }
 
         @include breakpoint($main-navigation-breakpoint) {
           display: flex !important;

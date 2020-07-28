@@ -51,7 +51,7 @@
   }
 
   &:focus {
-    box-shadow: none;
+    box-shadow: none !important;
 
     .hamburger__line {
       @include focus-background;

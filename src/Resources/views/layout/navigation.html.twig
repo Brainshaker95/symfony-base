@@ -6,9 +6,11 @@
       {%- set navigation_name      = navigation_item.navigation_name -%}
       {%- set hide_on_auth         = navigation_item.hide_on_auth -%}
       {%- set show_on_auth         = navigation_item.show_on_auth -%}
+      {%- set is_active            = navigation_item.is_active -%}
       {%- set subpages             = navigation_item.subpages|default -%}
       {%- set role                 = navigation_item.role -%}
       {%- set is_granted           = is_granted(role) -%}
+
       {%- set has_visible_subpages = false -%}
 
       {%- for subpage in subpages -%}
@@ -16,6 +18,10 @@
 
         {%- if (user and subpage.show_on_auth) or not subpage.role or subpage_is_granted or (user ? not subpage.hide_on_auth and subpage_is_granted : subpage.hide_on_auth) -%}
           {%- set has_visible_subpages = true -%}
+        {%- endif -%}
+
+        {%- if subpage.is_active -%}
+          {%- set is_active = true -%}
         {%- endif -%}
       {%- endfor -%}
 
@@ -27,7 +33,7 @@
               title="{{- navigation_name -}}"
               class="navigation__link
                 {{- subpages and has_visible_subpages ? ' navigation__link--has-subpages' : '' -}}
-                {{- navigation_item.is_active ? ' navigation__link--is-active' : '' -}}"
+                {{- is_active ? ' navigation__link--is-active' : '' -}}"
             >
               {{- navigation_name -}}
             </a>
