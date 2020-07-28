@@ -63,11 +63,6 @@
   &__row {
     position: relative;
 
-    &--has-value .form__label {
-      // TODO: Neccessary?
-      // transition: none;
-    }
-
     &--has-value,
     &:focus-within {
       .form__label:not(.form__label--is-static):not(.form__label--is-disabled) {

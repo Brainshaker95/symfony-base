@@ -1,5 +1,3 @@
-// TODO: Delete unused keyocdes
-
 export default {
   a: 65,
   arrowDown: 40,

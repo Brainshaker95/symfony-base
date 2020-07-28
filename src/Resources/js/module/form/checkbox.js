@@ -23,10 +23,14 @@ const generateMarkup = ($input) => {
     $parent.append($checkbox);
   }
 
-  // TODO: Add rewuired start back for checkbox label
+  const $label = $parent.find('.form__label--is-static');
+
+  if ($label.hasClass('form__label--is-required')) {
+    $label.html(`${$label.html()}*`);
+  }
 
   $checkbox
-    .append($parent.find('.form__label--is-static'))
+    .append($label)
     .append($input);
 };
 
