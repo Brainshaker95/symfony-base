@@ -80,7 +80,7 @@ class ProfileController extends FrontendController
             }
 
             /**
-             * @var UploadedFile
+             * @var UploadedFile|null
              */
             $uploadedImage = $form->get('image')->getData();
 

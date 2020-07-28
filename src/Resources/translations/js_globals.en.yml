@@ -1,5 +1,6 @@
 error.general: 'There was an unexpected error. Please try again later.'
 placeholder.upload_file: 'Upload file'
 remove: 'Remove'
+success.profile_image_deleted: 'The profile image of the user "{{ username }}" was successfully deleted'
 success.roles_updated: 'The roles of the user "{{ username }}" were successfully updated'
 success.user_deleted: 'The user "{{ username }}" was successfully deleted'

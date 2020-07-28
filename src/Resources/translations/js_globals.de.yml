@@ -1,5 +1,6 @@
 error.general: 'Es ist ein unerwarteter Fehler aufgetreten. Bitte versuche es später erneut.'
 placeholder.upload_file: 'Datei hochladen'
 remove: 'Entfernen'
+success.profile_image_deleted: 'Das Profilbild des Nutzers "{{ username }}" wurde erfolgreich gelöscht'
 success.roles_updated: 'Die Rollen des Nutzers "{{ username }}" wurden erfolgreich aktualisiert'
 success.user_deleted: 'Der Nutzer "{{ username }}" wurde erfolgreich gelöscht'

@@ -47,6 +47,11 @@ class UserType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        /**
+         * @var array<mixed>
+         */
+        $data = $options['data'];
+
         $builder
             ->add('image', Type\FileType::class, [
                 'required' => false,
@@ -71,7 +76,7 @@ class UserType extends AbstractType
                 'label'       => $this->translator->trans('theme'),
                 'attr'        => [
                     'class' => 'select--no-clear',
-                    'value' => $options['data']['theme'],
+                    'value' => $data['theme'],
                 ],
                 'choices' => [
                     'theme.dark'  => 'dark',

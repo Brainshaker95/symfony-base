@@ -55,10 +55,15 @@
         </div>
 
         <div class="col-3">
-          <div class="select-wrapper">
+          <div class="form__row">
             {%- set user_roles = user.getRoles -%}
+            {%- set select_id  = uuid() -%}
 
-            <select class="select__input user-roles" data-placeholder="{{- 'role.inactive'|trans -}}" multiple{{- can_modify_user ? '' : ' disabled' -}}>
+            <label for="{{- select_id -}}" class="form__label">
+              {{ 'label.role'|trans }}
+            </label>
+
+            <select id="{{- select_id -}}" class="select__input user-roles" data-placeholder="{{- 'role.inactive'|trans -}}" multiple{{- can_modify_user ? '' : ' disabled' -}}>
               {%- if 'ROLE_SUPER_ADMIN' in user_roles -%}
                 <option value="ROLE_SUPER_ADMIN" selected disabled>
                   {{- 'ROLE_SUPER_ADMIN'|role_name -}}

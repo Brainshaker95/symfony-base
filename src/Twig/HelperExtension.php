@@ -3,10 +3,10 @@
 namespace App\Twig;
 
 use App\Service\HashService;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
-use Symfony\Component\HttpKernel\KernelInterface;
-use Symfony\Component\Yaml\Yaml;
+use Twig\TwigFunction;
 
 class HelperExtension extends AbstractExtension
 {
@@ -40,6 +40,16 @@ class HelperExtension extends AbstractExtension
         ];
     }
 
+    /**
+     * @return array<TwigFunction>
+     */
+    public function getFunctions()
+    {
+        return [
+            new TwigFunction('uuid', 'uniqid'),
+        ];
+    }
+
     public function encode(string $string): string
     {
         return $this->hashService->encode($string);
@@ -58,7 +68,7 @@ class HelperExtension extends AbstractExtension
         return $variable instanceof $class;
     }
 
-    public function stripSpaces (string $html): string
+    public function stripSpaces(string $html): string
     {
         if ($this->environment === 'dev') {
             return $html;

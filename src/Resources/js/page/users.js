@@ -22,7 +22,7 @@ const requestDone = ($userRow, success, successMessage) => {
   return true;
 };
 
-const onModalConfirm = (close, selector, successCallback) => {
+const onModalConfirm = (close, selector, successMessage, successCallback) => {
   const $modal = $(`.${selector}-modal`);
   const $target = $modal.data('target');
   const $confirmButton = $modal.find('.modal__confirm');
@@ -44,7 +44,7 @@ const onModalConfirm = (close, selector, successCallback) => {
       if (requestDone(
         $userRow,
         response.success,
-        'success.user_deleted',
+        successMessage,
       )) {
         successCallback();
       }
@@ -59,7 +59,7 @@ $(() => {
   const $deleteProfileImageModal = $('.delete-profile-image-modal');
 
   const deleteUsermodal = initModal($deleteUserModal, {
-    onConfirm: (close) => onModalConfirm(close, 'delete-user', () => {
+    onConfirm: (close) => onModalConfirm(close, 'delete-user', 'success.user_deleted', () => {
       const $userRow = $deleteUserModal.data('target').closest('.users__row');
 
       $userRow.slideUp('fast', () => {
@@ -69,7 +69,7 @@ $(() => {
   });
 
   const deleteProfileImageModal = initModal($deleteProfileImageModal, {
-    onConfirm: (close) => onModalConfirm(close, 'delete-profile-image', () => {
+    onConfirm: (close) => onModalConfirm(close, 'delete-profile-image', 'success.profile_image_deleted', () => {
       const $target = $deleteProfileImageModal.data('target');
       const $userRow = $target.closest('.users__row');
 
