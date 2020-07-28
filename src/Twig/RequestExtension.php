@@ -3,11 +3,10 @@
 namespace App\Twig;
 
 use App\Service\TranslatorService;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\RouterInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
-use Symfony\Component\Routing\RouterInterface;
 
 class RequestExtension extends AbstractExtension implements GlobalsInterface
 {
@@ -24,7 +23,7 @@ class RequestExtension extends AbstractExtension implements GlobalsInterface
     public function __construct(RequestStack $requestStack, RouterInterface $router)
     {
         $this->requestStack = $requestStack;
-        $this->router = $router;
+        $this->router       = $router;
     }
 
     /**

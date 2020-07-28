@@ -1,5 +1,6 @@
 .language-switcher {
   &__button {
+    color: $white;
     font-size: 1em !important;
     padding: 0 1.25em 0 0.5em !important;
     transition: color 300ms ease;
@@ -20,10 +21,11 @@
     }
 
     &:focus {
-      color: $primary !important;
+      color: $focus-color !important;
+      box-shadow: none !important;
 
       &.navigation__link::after {
-        border-color: $primary;
+        border-color: $focus-color;
       }
     }
 

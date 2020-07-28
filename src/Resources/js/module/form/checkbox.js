@@ -23,6 +23,8 @@ const generateMarkup = ($input) => {
     $parent.append($checkbox);
   }
 
+  // TODO: Add rewuired start back for checkbox label
+
   $checkbox
     .append($parent.find('.form__label--is-static'))
     .append($input);

@@ -12,6 +12,10 @@
 
     &:hover::after {
       border-color: darken($grey, 20%);
+
+      .theme--dark & {
+        border-color: darken($grey, 20%);
+      }
     }
   }
 

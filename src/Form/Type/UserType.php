@@ -49,17 +49,14 @@ class UserType extends AbstractType
     {
         $builder
             ->add('image', Type\FileType::class, [
-                'required' => true,
-                'label'    => 'label.image',
+                'required' => false,
+                'label'    => 'label.profile_image',
                 'attr'     => [
-                    'data-placeholder'   => $this->translator->trans('placeholder.upload_image'),
-                    'data-max-size'      => $this->maxSize,
-                    'data-mime-types'    => implode(', ', $this->mimeTypes),
+                    'data-placeholder' => $this->translator->trans('placeholder.upload_image'),
+                    'data-max-size'    => $this->maxSize,
+                    'data-mime-types'  => implode(', ', $this->mimeTypes),
                 ],
                 'constraints' => [
-                    new Constraints\NotBlank([
-                        'message' => 'app.error.form.image.empty',
-                    ]),
                     new Constraints\File([
                         'maxSize'          => $this->maxSize . 'M',
                         'mimeTypes'        => $this->mimeTypes,
@@ -68,65 +65,81 @@ class UserType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('Text', Type\TextType::class)
-            ->add('Date', Type\DateType::class)
-            ->add('Time', Type\TimeType::class)
-            ->add('Number', Type\NumberType::class)
-            ->add('Datetime', Type\DateTimeType::class)
-            ->add('Select1', Type\ChoiceType::class, [
-                'required' => true,
-                'choices'  => [
-                    '1' => '1',
-                    '2' => '2',
-                    '3' => '3',
-                    '4' => '4',
-                    '5' => '5',
-                    '6' => '6',
-                    '7' => '7',
-                    '8' => '8',
-                    '9' => '9',
-                ],
-                'choice_attr' => function ($value) {
-                    $disabled = false;
-
-                    if ($value === '2' || $value === '6') {
-                        $disabled = true;
-                    }
-
-                    return $disabled ? ['disabled' => 'disabled'] : [];
-                },
-                'multiple' => true,
-            ])
-            ->add('Select2', Type\ChoiceType::class, [
-                'attr' => [
-                    'data-placeholder' => 'Custom Placeholder',
+            ->add('theme', Type\ChoiceType::class, [
+                'required'    => false,
+                'placeholder' => null,
+                'label'       => $this->translator->trans('theme'),
+                'attr'        => [
+                    'class' => 'select--no-clear',
+                    'value' => $options['data']['theme'],
                 ],
                 'choices' => [
-                    '1' => '1',
-                    '2' => '2',
-                    '3' => '3',
-                    '4' => '4',
+                    'theme.dark'  => 'dark',
+                    'theme.light' => 'light',
                 ],
-                'choice_attr' => function ($value) {
-                    $disabled = false;
-
-                    if ($value === 'friend') {
-                        $disabled = true;
-                    }
-
-                    return $disabled ? ['disabled' => 'disabled'] : [];
-                },
             ])
-            ->add('Checkbox1', Type\CheckboxType::class)
-            ->add('Checkbox2', Type\CheckboxType::class)
-            ->add('fellow', Type\ChoiceType::class, [
-                'choices' => [
-                    'RadioButton1' => '1',
-                    'RadioButton2' => '2',
-                    'RadioButton3' => '3',
-                ],
-                'expanded' => true,
-            ])
+            // ->add('text', Type\TextType::class)
+            // ->add('date', Type\DateType::class)
+            // ->add('time', Type\TimeType::class)
+            // ->add('number', Type\NumberType::class)
+            // ->add('datetime', Type\DateTimeType::class)
+            // ->add('select1', Type\ChoiceType::class, [
+            //     'required' => true,
+            //     'choices'  => [
+            //         '1' => '1',
+            //         '2' => '2',
+            //         '3' => '3',
+            //         '4' => '4',
+            //         '5' => '5',
+            //         '6' => '6',
+            //         '7' => '7',
+            //         '8' => '8',
+            //         '9' => '9',
+            //     ],
+            //     'choice_attr' => function ($value) {
+            //         $disabled = false;
+
+            //         if ($value === '2' || $value === '6') {
+            //             $disabled = true;
+            //         }
+
+            //         return $disabled ? ['disabled' => 'disabled'] : [];
+            //     },
+            //     'multiple' => true,
+            // ])
+            // ->add('select2', Type\ChoiceType::class, [
+            //     'attr' => [
+            //         'data-placeholder' => 'Custom Placeholder',
+            //     ],
+            //     'choices' => [
+            //         '1' => '1',
+            //         '2' => '2',
+            //         '3' => '3',
+            //         '4' => '4',
+            //     ],
+            //     'choice_attr' => function ($value) {
+            //         $disabled = false;
+
+            //         if ($value === 'friend') {
+            //             $disabled = true;
+            //         }
+
+            //         return $disabled ? ['disabled' => 'disabled'] : [];
+            //     },
+            // ])
+            // ->add('checkbox1', Type\CheckboxType::class)
+            // ->add('checkbox2', Type\CheckboxType::class)
+            // ->add('radio', Type\ChoiceType::class, [
+            //     'attr' => [
+            //         'class' => 'radio--show-label',
+            //     ],
+            //     'choices' => [
+            //         'RadioButton1' => '1',
+            //         'RadioButton2' => '2',
+            //         'RadioButton3' => '3',
+            //     ],
+            //     'expanded' => true,
+            // ])
             ->add('submit', Type\SubmitType::class, [
                 'label' => 'label.save',
                 'attr'  => [

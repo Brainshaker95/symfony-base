@@ -1,10 +1,8 @@
 .theme--dark button {
-  @include focus-border-primary;
+  @include focus-shadow;
 }
 
 .theme--dark .button {
-  @include focus-border-primary;
-
   &:hover {
     background-color: $lightgrey;
     color: $darkgrey;
@@ -17,65 +15,65 @@
 
   &--success {
     background-color: $darkgrey;
-    border: 1px solid $success;
-    color: $success;
+    border: 1px solid $success-dark;
+    color: $success-dark;
 
     &:hover {
-      background-color: $success;
+      background-color: $success-dark;
       color: $white;
     }
 
     &.button--is-loading::after {
-      border: 5px solid $success;
-      border-color: $success transparent;
+      border: 5px solid $success-dark;
+      border-color: $success-dark transparent;
     }
   }
 
   &--info {
     background-color: $darkgrey;
-    border: 1px solid $info;
-    color: $info;
+    border: 1px solid $info-dark;
+    color: $info-dark;
 
     &:hover {
-      background-color: $info;
+      background-color: $info-dark;
       color: $white;
     }
 
     &.button--is-loading::after {
-      border: 5px solid $info;
-      border-color: $info transparent;
+      border: 5px solid $info-dark;
+      border-color: $info-dark transparent;
     }
   }
 
   &--warning {
     background-color: $darkgrey;
-    border: 1px solid $warning;
-    color: $warning;
+    border: 1px solid $warning-dark;
+    color: $warning-dark;
 
     &:hover {
-      background-color: $warning;
+      background-color: $warning-dark;
       color: $white;
     }
 
     &.button--is-loading::after {
-      border: 5px solid $warning;
-      border-color: $warning transparent;
+      border: 5px solid $warning-dark;
+      border-color: $warning-dark transparent;
     }
   }
 
   &--error {
     background-color: $darkgrey;
-    border: 1px solid $error;
-    color: $error;
+    border: 1px solid $error-dark;
+    color: $error-dark;
 
     &:hover {
-      background-color: $error;
+      background-color: $error-dark;
       color: $white;
     }
 
     &.button--is-loading::after {
-      border: 5px solid $error;
-      border-color: $error transparent;
+      border: 5px solid $error-dark;
+      border-color: $error-dark transparent;
     }
   }
 
@@ -109,6 +107,10 @@
   &--clear {
     border: 0;
     background-color: transparent;
+
+    &:focus {
+      box-shadow: none;
+    }
 
     &:hover {
       background-color: transparent;

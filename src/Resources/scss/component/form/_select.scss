@@ -34,15 +34,27 @@
   }
 
   &__selection {
-    @include focus-border-primary;
+    @include focus-shadow;
 
     padding-right: 2.25em;
     border: 1px solid $grey;
     border-radius: 0.25em;
+    color: $white;
+    white-space: nowrap;
     transition: border-radius 300ms ease;
 
-    &--has-value {
+    .theme--dark & {
+      color: $darkgrey;
+    }
+
+    &--is-visible {
       padding-right: 3.25em;
+      color: rgba($darkgrey, 0.6);
+      transition: color 100ms ease;
+
+      .theme--dark & {
+        color: rgba($white, 0.6);
+      }
     }
   }
 
@@ -68,7 +80,7 @@
     position: absolute;
     top: 100%;
     width: 100%;
-    background-color: $darkgrey;
+    background-color: $white;
     border: 1px solid $grey;
     z-index: 1;
     border: {
@@ -77,29 +89,46 @@
       bottom-left-radius: 0.25em;
       bottom-right-radius: 0.25em;
     };
+
+    .theme--dark & {
+      background-color: $darkgrey;
+    }
   }
 
   &__option {
-    @include focus-outline-primary;
+    @include focus-outline;
 
     transition:
       background-color 150ms ease,
       color 150ms ease;
 
     &:hover {
-      background-color: $white;
-      color: $darkgrey;
+      background-color: $darkgrey;
+      color: $white;
+
+      .theme--dark & {
+        background-color: $white;
+        color: $darkgrey;
+      }
     }
 
     &--is-selected {
-      background-color: $grey;
-      color: $darkgrey;
+      background-color: rgba($black, 0.5);
+      color: $white;
+
+      .theme--dark & {
+        background-color: $grey;
+        color: $darkgrey;
+      }
     }
 
     &--is-disabled {
-      background-color: rgba($black, 0.25);
-      color: darken($grey, 20%);
+      color: rgba($darkgrey, 0.35);
       pointer-events: none;
+
+      .theme--dark & {
+        color: rgba($white, 0.35);
+      }
     }
   }
 

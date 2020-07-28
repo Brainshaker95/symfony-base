@@ -23,30 +23,35 @@
   transform: translateY(-50%);
 }
 
-@mixin focus-outline-primary {
+@mixin focus-color {
   &:focus {
-    outline: 1px solid $primary-hover;
-  }
-}
-
-@mixin focus-outline-secondary {
-  &:focus {
-    outline: 1px solid $secondary-hover;
-  }
-}
-
-@mixin focus-border-primary {
-  &:focus {
-    border: 1px solid $primary-hover;
+    color: $focus-color !important;
     outline: 0;
   }
 }
 
-@mixin focus-border-secondary {
+@mixin focus-border {
   &:focus {
-    border: 1px solid $secondary-hover;
-    outline: 0;
+    border: 1px solid $focus-color;
   }
+}
+
+@mixin focus-outline {
+  &:focus {
+    outline: 1px solid $focus-color;
+  }
+}
+
+@mixin focus-shadow {
+  &:focus {
+    border-color: $focus-color;
+    outline: 0;
+    box-shadow: 0 0 0px 1px $focus-color;
+  }
+}
+
+@mixin focus-background {
+  background-color: $focus-color;
 }
 
 @function strip-unit($value) {
@@ -76,8 +81,12 @@
       style: solid;
       width: 0.2em 0.2em 0 0;
       radius: 0.1em;
-      color: $white;
+      color: $darkgrey;
     };
+
+    .theme--dark & {
+      border-color: $white;
+    }
   }
 }
 
@@ -142,9 +151,13 @@
   top: -0.1em;
   left: 1.5em;
   width: calc(100% - 1.5em);
-  color: $white;
+  color: $darkgrey;
   transform: none;
   transition: none;
   pointer-events: all;
   cursor: pointer;
+
+  .theme--dark & {
+    color: $white;
+  }
 }

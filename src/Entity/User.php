@@ -23,7 +23,7 @@ class User implements UserInterface
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @ORM\Column(type="string", unique=true)
      */
     private $username;
 
@@ -38,6 +38,12 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    private $theme;
 
     /**
      * @var Image|null
@@ -85,6 +91,18 @@ class User implements UserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getTheme(): string
+    {
+        return (string) $this->theme;
+    }
+
+    public function setTheme(string $theme): self
+    {
+        $this->theme = $theme;
 
         return $this;
     }

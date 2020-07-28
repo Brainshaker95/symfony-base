@@ -6,8 +6,9 @@
   }
 
   &__input {
-    @include focus-border-primary;
+    @include focus-shadow;
 
+    max-height: 42px;
     margin-top: 1.6em;
     padding: 0.25em 0.5em;
     font-size: 1em;
@@ -41,10 +42,14 @@
 
     top: 0.9em;
     padding: 0 0.5em;
-    color: $white;
+    color: rgba($darkgrey, 0.6);
     pointer-events: none;
     user-select: none;
     transition: all 200ms ease;
+
+    .theme--dark & {
+      color: rgba($white, 0.6);
+    }
 
     &--is-disabled {
       color: darken($grey, 20%);
@@ -59,7 +64,8 @@
     position: relative;
 
     &--has-value .form__label {
-      transition: none;
+      // TODO: Neccessary?
+      // transition: none;
     }
 
     &--has-value,
@@ -86,6 +92,10 @@
 
     + .file {
       margin-top: 0.25em;
+    }
+
+    .theme--dark & {
+      color: $error-dark;
     }
   }
 }

@@ -23,6 +23,11 @@
     height: 0;
   }
 
+  .theme--dark & {
+    background-color: $darkgrey;
+    border: 1px solid $white;
+  }
+
   &--is-visible {
     opacity: 1;
     pointer-events: all;

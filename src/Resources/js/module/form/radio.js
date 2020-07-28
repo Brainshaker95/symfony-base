@@ -5,12 +5,17 @@ import keycode from '../../util/keycode';
 const generateMarkup = ($input) => {
   const $parent = $input.parent();
   const $error = $parent.find('.form__error');
+  const $label = $parent.prev('.form__label');
   const $radio = $('<div class="radio form__input" tabindex="0" />');
 
   if ($input.prop('disabled')) {
     $radio
       .addClass('radio--is-disabled')
       .attr('tabindex', -1);
+  }
+
+  if ($label.length) {
+    $parent.append($label);
   }
 
   if ($error.length) {

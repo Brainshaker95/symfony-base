@@ -35,11 +35,11 @@
 
 {%- block form_label -%}
   {%- if label is not same as(false) -%}
-    {%- set class = label_attr.class|default('') ~ ' form__label' -%}
+    {%- set class = (label_attr.class|default('') ~ ' form__label')|trim -%}
 
-    {%- if choices|default|length or (type is defined and type == 'file') -%}
+    {%- if (choices|default|length and not expanded and not 'select--no-clear' in attr['class']|default([])) or (type is defined and type == 'file' and attr['data-drag-and-drop']|default) -%}
       {%- set class = class ~ ' sr-only' -%}
-    {%- elseif is_static|default or checked is defined -%}
+    {%- elseif is_static|default or (expanded is defined and expanded) or checked is defined or (type is defined and type == 'file') -%}
       {%- set class = class ~ ' form__label--is-static' -%}
     {%- endif -%}
 
@@ -131,17 +131,17 @@
 {%- endblock choice_widget_collapsed -%}
 
 {%- block choice_widget_expanded -%}
-  <div {{- block('widget_container_attributes') -}}>
-  {%- for child in form -%}
-    {{- form_widget(child, {
-      attr: attr|merge({ class: (attr.class|default('') ~ ' radio__input')|trim })
-    }) -}}
+  <div class="radio__wrapper" {{ block('widget_container_attributes') }}>
+    {%- for child in form -%}
+      {{- form_widget(child, {
+        attr: attr|merge({ class: (attr.class|default('') ~ ' radio__input')|trim }),
+      }) -}}
 
-    {{- form_label(child, null, {
-      translation_domain: choice_translation_domain,
-      is_static: true,
-    }) -}}
-  {%- endfor -%}
+      {{- form_label(child, null, {
+        translation_domain: choice_translation_domain,
+        is_static: true,
+      }) -}}
+    {%- endfor -%}
   </div>
 {%- endblock choice_widget_expanded -%}
 

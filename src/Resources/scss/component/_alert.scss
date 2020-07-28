@@ -5,22 +5,52 @@
   border-radius: 0.25em;
 
   &--success {
+    background-color: rgba($success, 0.1);
     border-color: $success;
     color: $success;
   }
 
   &--info {
+    background-color: rgba($info, 0.1);
     border-color: $info;
     color: $info;
   }
 
   &--warning {
+    background-color: rgba($warning, 0.1);
     border-color: $warning;
     color: $warning;
   }
 
   &--error {
+    background-color: rgba($error, 0.1);
     border-color: $error;
     color: $error;
+  }
+
+  .theme--dark & {
+    &--success {
+      background-color: transparent;
+      border-color: $success-dark;
+      color: $success-dark;
+    }
+
+    &--info {
+      background-color: transparent;
+      border-color: $info-dark;
+      color: $info-dark;
+    }
+
+    &--warning {
+      background-color: transparent;
+      border-color: $warning-dark;
+      color: $warning-dark;
+    }
+
+    &--error {
+      background-color: transparent;
+      border-color: $error-dark;
+      color: $error-dark;
+    }
   }
 }

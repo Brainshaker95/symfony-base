@@ -22,19 +22,33 @@
 }
 
 .ui-datepicker {
-  background-color: $darkgrey;
-  border: 1px solid $white;
+  background-color: $white;
+  border: 1px solid $darkgrey;
+
+  .theme--dark & {
+    background-color: $darkgrey;
+    border: 1px solid $white;
+  }
 
   &-calendar a {
-    color: $white;
+    color: $darkgrey;
     border-radius: 0.25em;
     transition:
       background-color 300ms ease,
       color 300ms ease;
 
+    .theme--dark & {
+      color: $white;
+    }
+
     &:hover {
-      color: $darkgrey;
-      background-color: $white;
+      color: $white;
+      background-color: $darkgrey;
+
+      .theme--dark & {
+        color: $darkgrey;
+        background-color: $white;
+      }
     }
   }
 

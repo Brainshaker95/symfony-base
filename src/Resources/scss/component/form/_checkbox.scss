@@ -16,9 +16,10 @@
   &:focus {
     border: 0;
     outline: 0;
+    box-shadow: none;
 
     &::before {
-      border: 1px solid $primary-hover;
+      border: 1px solid $focus-color;
     }
   }
 
@@ -59,7 +60,7 @@
       content: '';
       height: 0.15em;
       border-radius: 0.15em;
-      background-color: $white;
+      background-color: $darkgrey;
       opacity: 0;
       transition: opacity 100ms ease;
     }

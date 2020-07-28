@@ -10,6 +10,11 @@ import navigation from './module/navigation';
 import translate from './util/translate';
 
 $(() => {
+  // TODO: Remove this button
+  $('.toggle-theme').on('click', () => {
+    $('body').toggleClass('theme--dark');
+  });
+
   accordion();
   anchor();
   flashMessages();

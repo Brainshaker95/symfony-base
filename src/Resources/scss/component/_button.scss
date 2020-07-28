@@ -1,5 +1,5 @@
 button {
-  @include focus-border-primary;
+  @include focus-shadow;
   @include responsive-font-size(
     $min-viewport-width,
     $max-viewport-width,
@@ -87,7 +87,7 @@ input[type="button"] {
   }
 
   &--success {
-    background-color: $white;
+    background-color: rgba($success, 0.1);
     border: 1px solid $success;
     color: $success;
 
@@ -103,7 +103,7 @@ input[type="button"] {
   }
 
   &--info {
-    background-color: $white;
+    background-color: rgba($info, 0.1);
     border: 1px solid $info;
     color: $info;
 
@@ -119,7 +119,7 @@ input[type="button"] {
   }
 
   &--warning {
-    background-color: $white;
+    background-color: rgba($warning, 0.1);
     border: 1px solid $warning;
     color: $warning;
 
@@ -135,7 +135,7 @@ input[type="button"] {
   }
 
   &--error {
-    background-color: $white;
+    background-color: rgba($error, 0.1);
     border: 1px solid $error;
     color: $error;
 
@@ -163,10 +163,10 @@ input[type="button"] {
 
   &--close {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
-    width: 2rem;
-    height: 2rem;
+    top: 1em;
+    right: 1em;
+    width: 1.5em;
+    height: 1.5em;
     padding: 0;
 
     &::before,
@@ -215,6 +215,8 @@ input[type="button"] {
 
     &:hover,
     &:focus {
+      box-shadow: none;
+      background-color: transparent;
       transform: translateY(-50%) scale(1.25) rotate(90deg);
 
       &::before,

@@ -14,7 +14,11 @@
     }
   }
 
+  // TODO: Add light mode
+
   &__link {
+    @include focus-color;
+
     display: block;
     padding: 0.5em 1em;
     color: $white;
@@ -23,11 +27,6 @@
     &:hover {
       color: $darkgrey;
       text-decoration: none;
-    }
-
-    &:focus {
-      color: $primary;
-      outline: 0;
     }
   }
 }
@@ -42,6 +41,8 @@
   }
 
   &__link {
+    @include focus-color;
+
     display: block;
     color: $white;
     transition: color 300ms ease;
@@ -56,13 +57,8 @@
       }
     }
 
-    &:focus {
-      outline: 0;
-      color: $primary;
-
-      &::after {
-        border-color: $primary !important;
-      }
+    &:focus::after {
+      border-color: $focus-color !important;
     }
 
     &--has-subpages {
@@ -77,6 +73,7 @@
         content: none;
         top: 1.4em;
         right: 0.8em;
+        border-color: $white;
         font-size: 0.75em;
 
         @include breakpoint($main-navigation-breakpoint) {
@@ -99,12 +96,17 @@
     @include center-v;
 
     right: 0;
-    height: 100%;
-    border: 0 !important;
     width: 3em;
+    height: 100%;
+    background-color: transparent;
+    border: 0 !important;
     border-radius: 0;
     border-left: 1px solid $white !important;
+    box-shadow: none !important;
     transition: border-color 300ms ease;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
 
     @include breakpoint($main-navigation-breakpoint) {
       display: none;
@@ -113,6 +115,7 @@
     &::after {
       top: 1.75em;
       right: 1.35em;
+      border-color: $white;
       font-size: 0.75em;
 
       @include breakpoint($main-navigation-breakpoint) {
@@ -122,11 +125,11 @@
 
     &:hover,
     &:focus {
-      border-color: $primary !important;
+      border-color: $focus-color !important;
       background-color: transparent !important;
 
       &::after {
-        border-color: $primary;
+        border-color: $focus-color;
       }
     }
 

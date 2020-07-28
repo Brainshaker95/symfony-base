@@ -4,21 +4,25 @@ import device from '../../util/device';
 import keyCode from '../../util/keycode';
 import { validate } from './validate';
 
-const checkValue = ($input) => {
+export const setFormRowClass = ($input) => {
   const type = $input.attr('type');
 
-  if (type === 'checkbox' || type === 'file'
-    || type === 'radio' || $input.prop('tagName') === 'SELECT') {
-    return;
+  if (type === 'checkbox' || type === 'radio') {
+    return false;
   }
 
   const $formRow = $input.closest('.form__row');
+  const value = $input.val();
 
-  if ($input.val()) {
+  if (value && value.length) {
     $formRow.addClass('form__row--has-value');
-  } else {
-    $formRow.removeClass('form__row--has-value');
+
+    return true;
   }
+
+  $formRow.removeClass('form__row--has-value');
+
+  return false;
 };
 
 export default () => {
@@ -28,10 +32,10 @@ export default () => {
       .closest('.form__row')
       .find('.form__label:not(.form__label--is-static)');
 
-    checkValue($input);
+    setFormRowClass($input);
 
     $input.on('change', () => {
-      checkValue($input);
+      setFormRowClass($input);
 
       if ($input.is(':required') || $input.data('required')) {
         validate($input);

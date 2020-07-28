@@ -16,9 +16,10 @@
   &:focus {
     border: 0;
     outline: 0;
+    box-shadow: none;
 
     &::before {
-      border: 1px solid $primary-hover;
+      border: 1px solid $focus-color;
     }
   }
 
@@ -41,9 +42,13 @@
       width: 0.4em;
       height: 0.4em;
       border-radius: 50%;
-      background-color: $white;
+      background-color: $darkgrey;
       opacity: 0;
       transition: opacity 100ms ease;
+    }
+
+    &::after {
+      content: none;
     }
 
     &.form__label--is-disabled {
@@ -80,5 +85,9 @@
       background-color: rgba($black, 0.25);
       transform: none;
     }
+  }
+
+  &__wrapper > .form__label--is-static {
+    @extend %label-target;
   }
 }

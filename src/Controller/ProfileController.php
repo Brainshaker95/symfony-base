@@ -58,22 +58,46 @@ class ProfileController extends FrontendController
             return $this->redirectToRoute('app_login');
         }
 
-        $form = $this->createForm(UserType::class);
+        $form = $this->createForm(UserType::class, [
+            'theme' => $user->getTheme() ?: 'dark',
+        ]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $theme     = $form->get('theme')->getData();
+            $hasErrors = false;
+
+            if ($theme) {
+                if (!in_array($theme, ['light', 'dark'])) {
+                    $theme = 'dark';
+                }
+
+                $user->setTheme($theme);
+
+                $this->entityManager->persist($user);
+                $this->entityManager->flush();
+            }
+
             /**
              * @var UploadedFile
              */
             $uploadedImage = $form->get('image')->getData();
-            $filename      = $this->fileService->upload($uploadedImage, 'profile_images');
 
-            if ($filename) {
-                $this->updateProfileImage($user, $filename);
-                $this->addFlash('success', 'page.profile.image_upload.success');
+            if ($uploadedImage) {
+                $filename = $this->fileService->upload($uploadedImage, 'profile_images');
+
+                if ($filename) {
+                    $this->updateProfileImage($user, $filename);
+                } else {
+                    $hasErrors = true;
+                }
+            }
+
+            if ($hasErrors) {
+                $this->addFlash('error', 'page.profile.update.error');
             } else {
-                $this->addFlash('error', 'page.profile.image_upload.error');
+                $this->addFlash('success', 'page.profile.update.success');
             }
         }
 

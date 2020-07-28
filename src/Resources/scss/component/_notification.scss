@@ -4,15 +4,26 @@
   right: 0;
   min-width: 300px;
   padding: 0.5rem 1rem;
-  border: 2px solid $black;
+  background-color: $white;
+  border: 2px solid $darkgrey;
   border-bottom: {
     left-radius: 0.25em;
     right-radius: 0.25em;
   };
-  color: $black;
+  color: $darkgrey;
   transform: translateY(-100%);
   transition: transform $notification-anim-time ease;
   z-index: 20;
+
+  &::after {
+    position: absolute;
+    content: '';
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+  }
 
   &--is-visible {
     transform: translateY(0);
@@ -21,20 +32,71 @@
   &--success {
     border-color: $success;
     color: $success;
+
+    &::after {
+      background-color: rgba($success, 0.1);
+    }
   }
 
   &--info {
+    background-color: rgba($info, 0.1);
     border-color: $info;
     color: $info;
+
+    &::after {
+      background-color: rgba($info, 0.1);
+    }
   }
 
   &--warning {
+    background-color: rgba($warning, 0.1);
     border-color: $warning;
     color: $warning;
+
+    &::after {
+      background-color: rgba($warning, 0.1);
+    }
   }
 
   &--error {
     border-color: $error;
     color: $error;
+
+    &::after {
+      background-color: rgba($error, 0.1);
+    }
+  }
+
+  .theme--dark & {
+    border: 2px solid $white;
+    color: $white;
+
+    &::after {
+      content: none;
+    }
+
+    &--success {
+      background-color: $darkgrey;
+      border-color: $success;
+      color: $success;
+    }
+
+    &--info {
+      background-color: $darkgrey;
+      border-color: $info;
+      color: $info;
+    }
+
+    &--warning {
+      background-color: $darkgrey;
+      border-color: $warning;
+      color: $warning;
+    }
+
+    &--error {
+      background-color: $darkgrey;
+      border-color: $error;
+      color: $error;
+    }
   }
 }

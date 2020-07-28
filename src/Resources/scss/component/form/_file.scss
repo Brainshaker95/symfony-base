@@ -1,14 +1,14 @@
 .file {
-  @include focus-border-primary;
+  @include focus-shadow;
 
   position: relative;
-  overflow: hidden;
-  padding: 0.25em 0.5em;
+  padding: 0;
+  border: 1px solid $grey;
   user-select: none;
   cursor: pointer;
 
-  &[title] {
-    padding: 0.25em 2em 0.25em 0.5em;
+  .form__label--is-static {
+    @extend %label-target;
   }
 
   &__input {
@@ -19,9 +19,22 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    color: $white;
+    padding: 0.25em 0.5em;
+    color: rgba($darkgrey, 0.6);
     pointer-events: none;
     transition: color 300ms ease;
+
+    .theme--dark & {
+      color: rgba($white, 0.6);
+    }
+
+    &--has-value {
+      color: $darkgrey;
+
+      .theme--dark & {
+        color: $white;
+      }
+    }
   }
 
   &--is-disabled {
@@ -34,6 +47,10 @@
     .file__path {
       color: darken($grey, 20%);
     }
+  }
+
+  &[title] .file__path {
+    padding: 0.25em 2em 0.25em 0.5em;
   }
 
   &__list {
@@ -68,13 +85,13 @@
 
   &:hover {
     .file__path {
-      color: $darkgrey;
+      color: $white;
     }
 
     .button--clear {
       &::before,
       &::after {
-        background-color: $darkgrey;
+        background-color: $white;
       }
     }
   }
@@ -82,7 +99,7 @@
   .button--clear:hover {
     &::before,
     &::after {
-      background-color: $darkgrey;
+      background-color: $white;
     }
   }
 
@@ -93,26 +110,31 @@
     flex-direction: column;
     min-height: 300px;
     padding: 3.5em 1em;
-    border: 1px solid $white;
+    border: 1px solid $darkgrey;
+    border-radius: 0.25em;
     cursor: default;
+
+    .theme--dark & {
+      border: 1px solid $white;
+    }
 
     &:hover .button--clear {
       &::before,
       &::after {
-        background-color: $white;
+        background-color: $darkgrey;
       }
     }
 
     .button--clear:hover {
       &::before,
       &::after {
-        background-color: $white;
+        background-color: $darkgrey;
       }
     }
   }
 
   &--is-highlighted {
-    border: 1px solid $primary;
+    border: 1px solid $focus-color;
   }
 
   &__image {

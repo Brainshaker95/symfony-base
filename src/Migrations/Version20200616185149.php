@@ -40,9 +40,10 @@ final class Version20200616185149 extends AbstractMigration
             (
                 id INT AUTO_INCREMENT NOT NULL,
                 image_id INT DEFAULT NULL,
-                username VARCHAR(180) NOT NULL,
+                username VARCHAR(255) NOT NULL,
                 roles LONGTEXT NOT NULL COMMENT \'(DC2Type:json)\',
                 password VARCHAR(255) NOT NULL,
+                theme VARCHAR(255) NOT NULL,
                 UNIQUE INDEX UNIQ_8D93D649F85E0677 (username),
                 UNIQUE INDEX UNIQ_8D93D6493DA5256D (image_id),
                 PRIMARY KEY(id)

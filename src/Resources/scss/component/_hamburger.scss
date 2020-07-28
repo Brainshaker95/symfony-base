@@ -50,7 +50,11 @@
     }
   }
 
-  &:focus .hamburger__line {
-    background-color: $primary;
+  &:focus {
+    box-shadow: none;
+
+    .hamburger__line {
+      @include focus-background;
+    }
   }
 }

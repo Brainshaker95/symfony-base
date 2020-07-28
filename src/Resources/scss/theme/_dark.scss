@@ -1,9 +1,6 @@
 @import 'dark/button';
 
 .theme--dark {
-  color: $white;
-  background-color: $darkgrey;
-
   input {
     background-color: $darkgrey;
     border: 1px solid $white;
@@ -34,37 +31,57 @@
     }
   }
 
-  .notification {
-    border: 2px solid $white;
-    color: $white;
-
-    &--success {
-      background-color: darken($success, 50%);
-      border-color: $success;
-      color: $success;
-    }
-
-    &--info {
-      background-color: darken($info, 50%);
-      border-color: $info;
-      color: $info;
-    }
-
-    &--warning {
-      background-color: darken($warning, 50%);
-      border-color: $warning;
-      color: $warning;
-    }
-
-    &--error {
-      background-color: darken($error, 50%);
-      border-color: $error;
-      color: $error;
+  .checkbox,
+  .radio {
+    .form__label--is-static {
+      &::before,
+      &::after {
+        background-color: $white;
+      }
     }
   }
 
-  .modal {
-    background-color: $darkgrey;
-    border: 1px solid $white;
+  .file {
+    .button--clear {
+      &:focus {
+        box-shadow: none;
+      }
+
+      &:hover {
+        &::before,
+        &::after {
+          background-color: $darkgrey;
+        }
+      }
+    }
+
+    &:hover {
+      .file__path {
+        color: $darkgrey;
+      }
+
+      .button--clear {
+        &::before,
+        &::after {
+          background-color: $darkgrey;
+        }
+      }
+    }
+
+    &--is-drag-and-drop {
+      &:hover .button--clear {
+        &::before,
+        &::after {
+          background-color: $white;
+        }
+      }
+
+      .button--clear:hover {
+        &::before,
+        &::after {
+          background-color: $white;
+        }
+      }
+    }
   }
 }

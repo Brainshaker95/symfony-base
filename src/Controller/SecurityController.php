@@ -58,12 +58,14 @@ class SecurityController extends FrontendController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword(
-                $this->passwordEncoder->encodePassword(
-                    $user,
-                    $form->get('password')->getData()
-                )
-            );
+            $user
+                ->setTheme('dark')
+                ->setPassword(
+                    $this->passwordEncoder->encodePassword(
+                        $user,
+                        $form->get('password')->getData()
+                    )
+                );
 
             $this->entityManager->persist($user);
             $this->entityManager->flush();

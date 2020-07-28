@@ -52,7 +52,7 @@ class GalleryType extends AbstractType
                 'required'   => false,
                 'multiple'   => true,
                 'data_class' => null,
-                'label'      => 'label.image',
+                'label'      => 'label.images',
                 'attr'       => [
                     'data-drag-and-drop' => true,
                     'data-path'          => $this->router->generate('app_api_upload_images'),

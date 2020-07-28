@@ -1,15 +1,32 @@
 import $ from 'jquery';
 
+import { setFormRowClass } from './input';
 import keycode from '../../util/keycode';
 import translate from '../../util/translate';
 
-const closeSelects = ($select = []) => {
-  if ($select.length && $select.hasClass('select--is-disabled')) {
+const setSelectionVisibility = ($select = []) => {
+  if (!$select.length) {
     return;
   }
 
+  const $selection = $select.find('.select__selection');
+  const hasValue = setFormRowClass($select.find('select'));
+
+  if ($select.hasClass('select--is-expanded')) {
+    if (hasValue) {
+      $selection.addClass('select__selection--is-visible');
+    } else {
+      $selection.removeClass('select__selection--is-visible');
+    }
+  } else {
+    $selection.addClass('select__selection--is-visible');
+  }
+};
+
+const closeSelects = () => {
+  setSelectionVisibility($('.select--is-expanded').first());
+
   $('.select')
-    .not($select)
     .removeClass('select--is-expanded')
     .find('.select__options')
     .stop()
@@ -19,22 +36,6 @@ const closeSelects = ($select = []) => {
 const clear = ($select) => {
   const $input = $select.find('.select__input');
 
-  $select.find('.button--clear').addClass('button--is-hidden');
-
-  $select
-    .find('.select__option')
-    .removeClass('select__option--is-selected')
-    .removeClass('select__option--is-anker');
-
-  $select
-    .find('option')
-    .removeAttr('selected');
-
-  $select
-    .find('.select__selection')
-    .removeClass('select__selection--has-value')
-    .text($input.data('placeholder') || '...');
-
   if ($select.hasClass('select--is-expanded')) {
     $select
       .removeClass('select--is-expanded')
@@ -43,20 +44,38 @@ const clear = ($select) => {
       .slideUp('fast');
   }
 
+  $select
+    .find('option')
+    .removeAttr('selected');
+
+  $select
+    .find('.select__option')
+    .removeClass('select__option--is-selected')
+    .removeClass('select__option--is-anker');
+
+  $select
+    .closest('.form__row')
+    .removeClass('form__row--has-value');
+
   $input
     .val(null)
     .trigger('change');
+
+  $select
+    .find('.select__selection')
+    .text(`${$input.data('placeholder') || '...'}`)
+    .removeClass('select__selection--is-visible');
 };
 
-const toggle = (event) => {
-  const $select = $(event.currentTarget).closest('.select');
+const toggle = ($target) => {
+  const $select = $target.closest('.select');
+  const $selection = $select.find('.select__selection');
   const $options = $select.find('.select__options');
-
-  closeSelects($select);
 
   if ($select.hasClass('select--is-expanded')) {
     $select.removeClass('select--is-expanded');
     $options.stop().slideUp('fast');
+    $selection.blur();
   } else {
     $select.addClass('select--is-expanded');
     $options.stop().slideDown('fast');
@@ -82,7 +101,7 @@ const select = (event, isKeyboardSelection) => {
   const $optionTags = $select.find('option').not(':disabled');
   const $ankers = $select.find('.select__option--is-anker');
   const isSelected = $target.hasClass('select__option--is-selected');
-  const selectedOptions = () => $optionTags.filter(':selected:not(:disabled)');
+  const selectedOptions = () => $optionTags.filter(':selected:not(:disabled), [selected]:not([disabled])');
   const $targetOption = $optionTags.filter((_, optionTag) => $(optionTag).text() === selectedValue);
   const singleSelection = !isMultiple || (isMultiple && !event.ctrlKey && !event.shiftKey);
   let targetValue = $targetOption.text();
@@ -95,13 +114,13 @@ const select = (event, isKeyboardSelection) => {
   const selectOption = ($optionTag, $option) => {
     $optionTag.attr('selected', 'selected');
     $option.addClass('select__option--is-selected');
-    $selection.addClass('select__selection--has-value');
+    $selection.addClass('select__selection--is-visible');
   };
 
   const deselectOptions = () => {
     $optionTags.removeAttr('selected');
     $options.removeClass('select__option--is-selected');
-    $selection.removeClass('select__selection--has-value');
+    $selection.removeClass('select__selection--is-visible');
   };
 
   const selectOptions = () => {
@@ -137,9 +156,15 @@ const select = (event, isKeyboardSelection) => {
       upperBound = targetIndex;
     }
 
+    const $allOptionTags = $select.find('option');
+
     $options.each((index, option) => {
       if (index >= lowerBound && index <= upperBound) {
-        selectOption($optionTags.eq(index), $(option));
+        const $optionTag = $allOptionTags.eq(index + 1);
+
+        if (!$optionTag.prop('disabled')) {
+          selectOption($optionTag, $(option));
+        }
       }
     });
   };
@@ -176,9 +201,6 @@ const select = (event, isKeyboardSelection) => {
   }
 
   $selection.text(targetValue);
-  $select
-    .find('.button--clear')
-    .removeClass('button--is-hidden');
 
   if (singleSelection) {
     closeSelects();
@@ -187,6 +209,7 @@ const select = (event, isKeyboardSelection) => {
 
 const generateMarkup = ($input) => {
   const $parent = $input.parent();
+  const $label = $parent.find('.form__label');
   const $error = $parent.find('.form__error');
   const $optionTags = $input.find('option');
   const $select = $('<div class="select form__input" />');
@@ -218,7 +241,7 @@ const generateMarkup = ($input) => {
   }
 
   if (!selection) {
-    selection = $input.data('placeholder') || '...';
+    selection = `${$input.data('placeholder') || '...'}`;
   }
 
   const $selection = $(`<div class="select__selection" tabindex="0">${selection}</div>`);
@@ -227,10 +250,6 @@ const generateMarkup = ($input) => {
     $select.addClass('select--is-disabled');
     $selection.attr('tabindex', -1);
     $clearButton.attr('tabindex', -1);
-  }
-
-  if (selectedOptionCount) {
-    $selection.addClass('select__selection--has-value');
   }
 
   $optionTags.each((index, optionTag) => {
@@ -260,11 +279,21 @@ const generateMarkup = ($input) => {
   }
 
   $select
-    .append($parent.find('.form__label'))
+    .append($label)
     .append($input)
-    .append($selection)
-    .append($selectOptions)
-    .append($clearButton);
+    .append($selection);
+
+  if (!$input.hasClass('select--no-clear')) {
+    $select.append($clearButton);
+  }
+
+  if (!selectedOptionCount) {
+    $select.closest('.form__row').removeClass('form__row--has-value');
+  } else {
+    $selection.addClass('select__selection--is-visible');
+  }
+
+  $select.append($selectOptions);
 };
 
 const attachHandlers = ($input) => {
@@ -273,7 +302,9 @@ const attachHandlers = ($input) => {
   const $selection = $select.find('.select__selection');
   const $clearButton = $select.find('.button--clear');
 
-  $selection.on('click', toggle);
+  $selection.on('click', ({ currentTarget }) => {
+    setTimeout(() => toggle($(currentTarget)), 0);
+  });
 
   $select.on('keydown', (event) => {
     const { which } = event;
@@ -301,8 +332,15 @@ const attachHandlers = ($input) => {
         if (!$select.prop('multiple') && !event.ctrlKey && !event.shiftKey) {
           $selection.focus();
         }
+      } else if ($focusedElement.hasClass('button--clear')) {
+        if ($input.prop('disabled')) {
+          return;
+        }
+
+        clear($select);
       } else {
-        toggle(event);
+        toggle($(event.currentTarget));
+        $selection.focus();
       }
     }
   });
@@ -310,9 +348,18 @@ const attachHandlers = ($input) => {
   $selection
     .add($options)
     .add($clearButton)
+    .on('focus', () => {
+      $selection.addClass('select__selection--is-visible');
+    })
     .on('focusout', () => {
       setTimeout(() => {
         if (!$select.find($(':focus')).length) {
+          const value = ($input.val() || []);
+
+          if (!value.length) {
+            $selection.removeClass('select__selection--is-visible');
+          }
+
           closeSelects();
         }
       }, 0);
@@ -327,30 +374,24 @@ const attachHandlers = ($input) => {
   });
 
   $input.on('change', () => {
-    const value = $input.val();
+    const selectedOptionCount = $input
+      .find('option')
+      .filter(':selected:not(:disabled), [selected]:not([disabled])')
+      .length;
 
-    if (value && value.length) {
+    if (selectedOptionCount) {
       $clearButton.removeClass('button--is-hidden');
     } else {
       $clearButton.addClass('button--is-hidden');
     }
   });
 
-  $clearButton.on('click keydown', (event) => {
-    if ($input.prop('disabled')
-      || (event.type === 'keydown' && event.which !== keycode.enter)) {
+  $clearButton.on('click', () => {
+    if ($input.prop('disabled')) {
       return;
     }
 
     clear($select);
-  });
-
-  $(document).on('click', ({ target }) => {
-    const $target = $(target);
-
-    if (!$target.closest('.select').length) {
-      closeSelects();
-    }
   });
 };
 

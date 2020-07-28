@@ -2,15 +2,21 @@ $accordion-padding: 0.5em;
 
 .accordion {
   &__item {
-    @include focus-border-primary;
+    @include focus-shadow;
 
     position: relative;
     margin-top: 0.5em;
-    border: 1px solid $white;
+    border: 1px solid $darkgrey;
     border-radius: 0.25em;
 
     &:first-child {
       margin-top: 0;
+    }
+
+    .theme--dark & {
+      @include focus-border;
+
+      border: 1px solid $white;
     }
   }
 

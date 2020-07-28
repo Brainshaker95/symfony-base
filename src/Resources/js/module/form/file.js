@@ -13,6 +13,10 @@ const updatePath = ($input, isClear) => {
   const { length } = files;
   let path = '';
 
+  if (isClear) {
+    $input.trigger('change');
+  }
+
   if (length) {
     Array.from(files).forEach(({ name }, index) => {
       path += index === length - 1 ? name : `${name}, `;
@@ -20,21 +24,15 @@ const updatePath = ($input, isClear) => {
 
     $file.attr('title', path);
     $clearButton.removeClass('button--is-hidden');
+    $path.addClass('file__path--has-value');
   } else {
     $clearButton.addClass('button--is-hidden');
+    $path.removeClass('file__path--has-value');
   }
 
   if (!path) {
     path = $input.data('placeholder') || translate('placeholder.upload_file');
     $file.removeAttr('title');
-
-    if ($input.prop('required')) {
-      path = `${path}*`;
-    }
-  }
-
-  if (isClear) {
-    $input.trigger('change');
   }
 
   $path.text(path);
@@ -75,6 +73,7 @@ const generateMarkup = ($input, isDragAndDrop) => {
   }
 
   $file
+    .append($parent.find('.form__label'))
     .append($input)
     .append($path);
 
@@ -91,10 +90,6 @@ const generateMarkup = ($input, isDragAndDrop) => {
   }
 
   $path.text($input.val() || $input.data('placeholder') || translate('placeholder.upload_file'));
-
-  if ($input.prop('required')) {
-    $path.text(`${$path.text()}*`);
-  }
 };
 
 const attachDefaultHandlers = ($input) => {
@@ -226,37 +221,37 @@ const attachDragAndDropHandlers = ($input) => {
     const types = $input.data('mime-types');
     const allowedTypes = types.split(', ');
 
-    // if (file.size > maxSize * 1000000) {
-    //   notify({
-    //     text: translate('error.form.image.max_size.exceeded', { limit: maxSize }),
-    //   });
+    if (file.size > maxSize * 1000000) {
+      notify({
+        text: translate('error.form.image.max_size.exceeded', { limit: maxSize }),
+      });
 
-    //   return;
-    // }
+      return;
+    }
 
-    // if (!allowedTypes.includes(file.type)) {
-    //   notify({
-    //     text: translate('error.form.image.mime_type.invalid', { types }),
-    //   });
+    if (!allowedTypes.includes(file.type)) {
+      notify({
+        text: translate('error.form.image.mime_type.invalid', { types }),
+      });
 
-    //   return;
-    // }
+      return;
+    }
 
-    // let alreadyAdded = false;
+    let alreadyAdded = false;
 
-    // $file.find('.file__list-name').each((index, name) => {
-    //   if (!alreadyAdded && $(name).text() === file.name) {
-    //     alreadyAdded = true;
-    //   }
-    // });
+    $file.find('.file__list-name').each((index, name) => {
+      if (!alreadyAdded && $(name).text() === file.name) {
+        alreadyAdded = true;
+      }
+    });
 
-    // if (alreadyAdded) {
-    //   notify({
-    //     text: translate('error.form.file.already_added'),
-    //   });
+    if (alreadyAdded) {
+      notify({
+        text: translate('error.form.file.already_added'),
+      });
 
-    //   return;
-    // }
+      return;
+    }
 
     const formData = new FormData();
 

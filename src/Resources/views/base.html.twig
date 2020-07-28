@@ -1,3 +1,10 @@
+{%- set user = app.getUser -%}
+{% set theme = 'dark' %}
+
+{%- if user -%}
+  {% set theme = user.getTheme|default('dark') %}
+{%- endif -%}
+
 {%- set html -%}
   <!DOCTYPE html>
   <html lang="{{- current_locale -}}">
@@ -20,10 +27,9 @@
       {%- endblock -%}
     </head>
 
-    {%- do clear_user_files_from_tmp(app.getUser) -%}
+    {%- do clear_user_files_from_tmp(user) -%}
 
-    {# <body> #}
-    <body class="theme--dark">
+    <body class="theme--{{- theme -}}">
       <a class="skip-to-page-content" href="#main">
         {{- 'skip_to_page_content'|trans -}}
       </a>

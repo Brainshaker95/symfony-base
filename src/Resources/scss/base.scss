@@ -11,8 +11,13 @@ body {
   );
 
   margin: 0;
-  color: $black;
+  color: $darkgrey;
   font-family: $font-family-base;
+
+  &.theme--dark {
+    color: $white;
+    background-color: $darkgrey;
+  }
 }
 
 ul {
@@ -22,7 +27,7 @@ ul {
 }
 
 a {
-  @include focus-outline-primary;
+  @include focus-outline;
 
   text-decoration: none;
 
