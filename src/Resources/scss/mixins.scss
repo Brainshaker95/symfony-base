@@ -1,6 +1,18 @@
 @mixin breakpoint($breakpoint) {
-  @media (min-width: map-get($grid-breakpoints, $breakpoint)) {
+  @media (min-width: map-get($breakpoints, $breakpoint)) {
     @content;
+  }
+}
+
+@mixin breakpointify($name) {
+  .#{$name} {
+    @each $breakpoint, $width in $breakpoints {
+      @include breakpoint($breakpoint) {
+        &-#{$breakpoint} {
+          @content;
+        }
+      }
+    }
   }
 }
 

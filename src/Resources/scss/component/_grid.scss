@@ -29,7 +29,7 @@
   }
 }
 
-@each $breakpoint, $width in $grid-breakpoints {
+@each $breakpoint, $width in $breakpoints {
   @include breakpoint($breakpoint) {
     @for $i from 1 through $grid-columns {
       .col-#{$breakpoint}-#{$i} {

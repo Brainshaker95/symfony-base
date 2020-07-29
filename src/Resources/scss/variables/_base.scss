@@ -12,3 +12,15 @@ $header-height: 4.475em;
 $main-navigation-breakpoint: sm;
 
 $notification-anim-time: 300ms;
+
+$breakpoints: (
+  xs: 420px,
+  sm: 640px,
+  md: 992px,
+  lg: 1200px,
+  xl: 1440px,
+);
+
+$container-sizes: (
+  xl: 1440px,
+);

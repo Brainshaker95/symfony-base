@@ -1,30 +1,32 @@
 <header class="header">
-  <div class="container header__top">
-    {%- include 'layout/navigation.html.twig' with {
-      key: 'secondary',
-    } -%}
-  </div>
+  <div class="container">
+    <div class="header__top">
+      {%- include 'layout/navigation.html.twig' with {
+        key: 'secondary',
+      } -%}
+    </div>
 
-  <div class="container header__bottom">
-    <a href="/" title="{{- 'title.index'|trans -}}">TODO</a>
+    <div class="header__bottom">
+      <a href="/" title="{{- 'title.index'|trans -}}">TODO</a>
 
-    <button type="button" class="toggle-theme">Toggle theme</button>
+      <button type="button" class="toggle-theme">Toggle theme</button>
 
-    {%- apply strip_spaces -%}
-      <button
-        type="button"
-        class="button button--normalized hamburger"
-        title="{{- 'navigation.toggle_menu'|trans -}}"
-        aria-label="{{- 'navigation.toggle_menu'|trans -}}"
-      >
-        <span class="hamburger__line hamburger__line--1"></span>
-        <span class="hamburger__line hamburger__line--2"></span>
-        <span class="hamburger__line hamburger__line--3"></span>
-      </button>
-    {%- endapply -%}
+      {%- apply strip_spaces -%}
+        <button
+          type="button"
+          class="button button--normalized hamburger"
+          title="{{- 'navigation.toggle_menu'|trans -}}"
+          aria-label="{{- 'navigation.toggle_menu'|trans -}}"
+        >
+          <span class="hamburger__line hamburger__line--1"></span>
+          <span class="hamburger__line hamburger__line--2"></span>
+          <span class="hamburger__line hamburger__line--3"></span>
+        </button>
+      {%- endapply -%}
 
-    {%- include 'layout/navigation.html.twig' with {
-      key: 'main',
-    } -%}
+      {%- include 'layout/navigation.html.twig' with {
+        key: 'main',
+      } -%}
+    </div>
   </div>
 </header>

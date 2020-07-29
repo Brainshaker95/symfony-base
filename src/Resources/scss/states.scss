@@ -28,10 +28,6 @@
   justify-content: flex-end !important;
 }
 
-.hide {
-  display: none !important;
-}
-
 .disabled {
   opacity: 0.5 !important;
   pointer-events: none !important;
@@ -54,4 +50,23 @@
   margin-bottom: 1em !important;
 }
 
+.mt--2 {
+  margin-top: -0.5em !important;
+}
+
+.show {
+  display: block;
+}
+
+@include breakpointify(show) {
+  display: block !important;
+}
+
+.hide {
+  display: none;
+}
+
+@include breakpointify(hide) {
+  display: none !important;
+}
 

@@ -3,23 +3,39 @@
 {%- block key -%}profile{%- endblock -%}
 
 {%- block content -%}
-  <div class="grid">
-    {%- set username = user.getUsername -%}
+  {{- form_start(profile_form) -}}
 
-      <div class="col-12 col-md-3">
-        <div class="profile__username">
-          {{- username -}}
+    <div class="grid">
+      {%- set username = user.getUsername -%}
+
+        <div class="col-12 col-sm-4 col-md-3 col-xl-2">
+          {%- include 'shared/image.html.twig' with {
+            image: user.getImage ?: asset('/build/images/placeholder-profile-image.jpg'),
+            class: 'responsive-image',
+            thumbnail: 'profile_image',
+            alt: username,
+            title: username,
+          } -%}
+
+          <div class="profile__username">
+            {{- username -}}
+          </div>
         </div>
 
-        {%- include 'shared/image.html.twig' with {
-          image: user.getImage ?: asset('/build/images/placeholder-profile-image.jpg'),
-          class: 'responsive-image',
-          thumbnail: 'profile_image',
-          alt: username,
-          title: username,
-        } -%}
+        <div class="col-8 hide show-sm hide-md"></div>
 
-        {{- form(profile_form) -}}
-      </div>
-  </div>
+        <div class="col-12 col-sm-6 col-md-3 col-xl-2 mt--2">
+          {{- form_row(profile_form.image) -}}
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-3 col-xl-2 mt--2">
+          {{- form_row(profile_form.theme) -}}
+        </div>
+
+        <div class="col-12">
+          {{- form_row(profile_form.submit) -}}
+        </div>
+    </div>
+
+  {{- form_end(profile_form) -}}
 {%- endblock -%}

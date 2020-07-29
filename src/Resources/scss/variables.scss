@@ -5,13 +5,13 @@
 /* stylelint-disable */
 :export {
   breakpoints: {
-    xs: map-get($grid-breakpoints, xs);
-    sm: map-get($grid-breakpoints, sm);
-    md: map-get($grid-breakpoints, md);
-    lg: map-get($grid-breakpoints, lg);
-    xl: map-get($grid-breakpoints, xl);
+    xs: map-get($breakpoints, xs);
+    sm: map-get($breakpoints, sm);
+    md: map-get($breakpoints, md);
+    lg: map-get($breakpoints, lg);
+    xl: map-get($breakpoints, xl);
   };
   notificationAnimationTime: $notification-anim-time;
-  mainNavigationBreakpoint: map-get($grid-breakpoints, $main-navigation-breakpoint);
+  mainNavigationBreakpoint: map-get($breakpoints, $main-navigation-breakpoint);
 };
 /* stylelint-enable */
