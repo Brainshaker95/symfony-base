@@ -27,21 +27,23 @@ const toggleAccordion = ($target) => {
 };
 
 const initAccordion = ($accordion) => {
+  const $accordionItem = $accordion.find('.accordion__item');
+
+  $accordionItem.attr('tabindex', 0);
+
   $accordion
     .find('.accordion__title')
     .on('click', ({ currentTarget }) => toggleAccordion($(currentTarget)));
 
-  $accordion
-    .find('.accordion__item')
-    .on('keydown', (event) => {
-      if (event.type === 'keydown' && event.which !== keycode.enter) {
-        return;
-      }
+  $accordionItem.on('keydown', (event) => {
+    if (event.type === 'keydown' && event.which !== keycode.enter) {
+      return;
+    }
 
-      toggleAccordion(
-        $(event.currentTarget).find('.accordion__title'),
-      );
-    });
+    toggleAccordion(
+      $(event.currentTarget).find('.accordion__title'),
+    );
+  });
 };
 
 export default () => {

@@ -2,7 +2,7 @@
   @include chevron-down-rotating-default;
 
   padding: 0;
-  border: 0;
+  border: 0 !important;
   user-select: none;
 
   &::after {
@@ -54,6 +54,14 @@
 
       .theme--dark & {
         color: rgba($white, 0.6);
+      }
+
+      .form__row--has-value & {
+        color: $darkgrey;
+
+        .theme--dark & {
+          color: $white;
+        }
       }
     }
   }

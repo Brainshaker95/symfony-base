@@ -73,7 +73,7 @@ class UserType extends AbstractType
             ->add('theme', Type\ChoiceType::class, [
                 'required'    => false,
                 'placeholder' => null,
-                'label'       => $this->translator->trans('theme'),
+                'label'       => 'label.theme',
                 'attr'        => [
                     'class' => 'select--no-clear',
                     'value' => $data['theme'],
@@ -88,8 +88,21 @@ class UserType extends AbstractType
             // ->add('time', Type\TimeType::class)
             // ->add('number', Type\NumberType::class)
             // ->add('datetime', Type\DateTimeType::class)
+            // ->add('textarea', Type\TextareaType::class, [
+            //     'required' => true,
+            //     'attr' => [
+            //         'maxlength' => 50,
+            //     ],
+            //     'constraints' => [
+            //         new Constraints\Length([
+            //             'max'        => 50,
+            //             'minMessage' => 'app.error.form.textarea.max',
+            //         ]),
+            //     ],
+            // ])
             // ->add('select1', Type\ChoiceType::class, [
             //     'required' => true,
+            //     'multiple' => true,
             //     'choices'  => [
             //         '1' => '1',
             //         '2' => '2',
@@ -110,7 +123,6 @@ class UserType extends AbstractType
 
             //         return $disabled ? ['disabled' => 'disabled'] : [];
             //     },
-            //     'multiple' => true,
             // ])
             // ->add('select2', Type\ChoiceType::class, [
             //     'attr' => [
@@ -132,8 +144,7 @@ class UserType extends AbstractType
             //         return $disabled ? ['disabled' => 'disabled'] : [];
             //     },
             // ])
-            // ->add('checkbox1', Type\CheckboxType::class)
-            // ->add('checkbox2', Type\CheckboxType::class)
+            // ->add('checkbox', Type\CheckboxType::class)
             // ->add('radio', Type\ChoiceType::class, [
             //     'attr' => [
             //         'class' => 'radio--show-label',

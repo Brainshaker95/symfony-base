@@ -1,4 +1,6 @@
 .modal {
+  @include hide-scrollbar;
+
   position: fixed;
   overflow-y: scroll;
   top: 50%;
@@ -14,14 +16,7 @@
   pointer-events: none;
   transition: opacity 300ms ease;
   transform: translate(-50%, -50%);
-  scrollbar-width: none;
-  -ms-overflow-style: none;
   z-index: 10;
-
-  &::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-  }
 
   .theme--dark & {
     background-color: $darkgrey;

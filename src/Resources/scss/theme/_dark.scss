@@ -1,9 +1,11 @@
 @import 'dark/button';
 
 .theme--dark {
-  input {
+  .form__input {
+    @include focus-border;
+    @include focus-shadow;
+
     background-color: $darkgrey;
-    border: 1px solid $white;
     color: $white;
   }
 

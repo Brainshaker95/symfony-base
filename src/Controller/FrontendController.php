@@ -9,7 +9,7 @@ class FrontendController extends AbstractController
 {
     public function renderError(?Response $response = null): Response
     {
-        $response = $response ? $response : $this->internalError();
+        $response = $response ?: $this->internalError();
 
         return $this->render('bundles/TwigBundle/Exception/error.html.twig', [
             'status_code' => $response->getStatusCode(),

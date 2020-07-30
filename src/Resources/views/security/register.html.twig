@@ -3,5 +3,9 @@
 {%- block title -%}{{- page_title('title.register') -}}{%- endblock -%}
 
 {%- block content -%}
-	{{- form(register_form) -}}
+  <div class="grid">
+	  <div class="col-12 col-md-6">
+	    {{- form(register_form) -}}
+    </div>
+  </div>
 {%- endblock -%}

@@ -162,3 +162,15 @@
 
   {{- block('form_widget_simple') -}}
 {%- endblock time_widget -%}
+
+{%- block textarea_widget -%}
+  <div class="textarea">
+    {%- if attr.maxlength is defined -%}
+      <div class="textarea__counter">
+        {{- value|default('')|length ~ ' / ' ~ attr.maxlength -}}
+      </div>
+    {%- endif -%}
+
+    <textarea class="textarea__input form__input" {{ block('widget_attributes') }}>{{ value }}</textarea>
+  </div>
+{%- endblock textarea_widget -%}

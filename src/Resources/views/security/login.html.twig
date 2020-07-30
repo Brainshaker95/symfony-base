@@ -3,5 +3,9 @@
 {%- block title -%}{{- page_title('title.login') -}}{%- endblock -%}
 
 {%- block content -%}
-	{{- form(login_form) -}}
+  <div class="grid">
+	  <div class="col-12 col-md-6">
+      {{- form(login_form) -}}
+    </div>
+  </div>
 {%- endblock -%}

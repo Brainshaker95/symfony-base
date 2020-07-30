@@ -34,6 +34,53 @@
   cursor: default !important;
 }
 
+.line-after {
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    @include center-v;
+
+    content: '';
+    width: 100%;
+    height: 1px;
+    margin-left: 0.5em;
+    background-color: $white;
+  }
+}
+
+.mt-1 {
+  margin-top: 0.25em !important;
+}
+
+.mt-2 {
+  margin-top: 0.5em !important;
+}
+
+.mt-3 {
+  margin-top: 0.75em !important;
+}
+
+.mt-4 {
+  margin-top: 1em !important;
+}
+
+.mt-5 {
+  margin-top: 1.25em !important;
+}
+
+.mt-6 {
+  margin-top: 1.5em !important;
+}
+
+.mt-7 {
+  margin-top: 1.75em !important;
+}
+
+.mt-8 {
+  margin-top: 2em !important;
+}
+
 .mb-1 {
   margin-bottom: 0.25em !important;
 }
@@ -48,10 +95,6 @@
 
 .mb-4 {
   margin-bottom: 1em !important;
-}
-
-.mt--2 {
-  margin-top: -0.5em !important;
 }
 
 .show {
@@ -69,4 +112,3 @@
 @include breakpointify(hide) {
   display: none !important;
 }
-

@@ -24,6 +24,7 @@ export const validate = ($input) => {
   const isCheckbox = type === 'checkbox';
   const isFileInput = type === 'file';
   const isSelect = $input.prop('tagName') === 'SELECT';
+  const isTextarea = $input.prop('tagName') === 'TEXTAREA';
   let error;
 
   $input
@@ -43,6 +44,14 @@ export const validate = ($input) => {
     error = translate('error.form.checkbox.empty');
   } else if (type === 'email' && emailInvalid(value)) {
     error = translate('error.form.email.invalid');
+  } else if (isTextarea) {
+    const maxLength = $input.attr('maxlength');
+
+    if (maxLength && value.length > maxLength) {
+      error = translate('error.form.textarea.max', {
+        limit: maxLength,
+      });
+    }
   } else if (type === 'password') {
     const min = $input.attr('min');
 

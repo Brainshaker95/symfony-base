@@ -14,7 +14,7 @@ export default () => {
     const { currentTarget } = event;
     const { hash } = currentTarget;
     const $target = $(currentTarget);
-    const isSkipToContent = $target.hasClass('skip-to-page-content')
+    const isSkipToContent = $target.hasClass('skip-to-page-content');
 
     event.preventDefault();
     window.location.hash = $target.attr('href');

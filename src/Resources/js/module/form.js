@@ -6,6 +6,7 @@ import initFileInputs from './form/file';
 import initInputs from './form/input';
 import initRadioButtons from './form/radio';
 import initSelects from './form/select';
+import initTextareas from './form/textarea';
 import { validateForm } from './form/validate';
 
 export default () => {
@@ -15,6 +16,7 @@ export default () => {
   initInputs();
   initRadioButtons();
   initSelects();
+  initTextareas();
 
   $('.form').on('submit', (event) => {
     const $form = $(event.currentTarget);

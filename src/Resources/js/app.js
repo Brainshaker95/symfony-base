@@ -4,6 +4,7 @@ import 'lazysizes';
 
 import accordion from './module/accordion';
 import anchor from './module/anchor';
+import initAjaxForm from './module/form/ajax';
 import flashMessages from './module/flash-messages';
 import form from './module/form';
 import navigation from './module/navigation';

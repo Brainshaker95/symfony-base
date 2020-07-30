@@ -4,7 +4,6 @@
 
 {%- block content -%}
   {{- form_start(profile_form) -}}
-
     <div class="grid">
       {%- set username = user.getUsername -%}
 
@@ -22,20 +21,25 @@
           </div>
         </div>
 
-        <div class="col-8 hide show-sm hide-md"></div>
+        <div class="col-12 col-sm-8 col-md-9 col-xl-10">
+          <h4 class="line-after">
+            {{- 'page.profile.user_settings'|trans -}}
+          </h4>
 
-        <div class="col-12 col-sm-6 col-md-3 col-xl-2 mt--2">
-          {{- form_row(profile_form.image) -}}
-        </div>
+          <div class="grid no-gutter-y">
+            <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+              {{- form_row(profile_form.image) -}}
+            </div>
 
-        <div class="col-12 col-sm-6 col-md-3 col-xl-2 mt--2">
-          {{- form_row(profile_form.theme) -}}
+            <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+              {{- form_row(profile_form.theme) -}}
+            </div>
+          </div>
         </div>
 
         <div class="col-12">
           {{- form_row(profile_form.submit) -}}
         </div>
     </div>
-
   {{- form_end(profile_form) -}}
 {%- endblock -%}

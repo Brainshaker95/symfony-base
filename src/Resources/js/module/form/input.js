@@ -26,7 +26,7 @@ export const setFormRowClass = ($input) => {
 };
 
 export default () => {
-  $('input, select').each((index, input) => {
+  $('input, select, textarea').each((index, input) => {
     const $input = $(input);
     const $label = $input
       .closest('.form__row')

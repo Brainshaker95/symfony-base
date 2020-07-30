@@ -208,6 +208,12 @@
         }
       }
     }
+
+    .subnavigation {
+      &__list {
+        text-align: center;
+      }
+    }
   }
 
   &--main {
@@ -264,6 +270,21 @@
             @include breakpoint($main-navigation-breakpoint) {
               right: 0;
             }
+          }
+        }
+
+        &:not(.navigation__link--has-subpages) {
+          &::before {
+            width: calc(100% + 1em);
+          }
+
+          &::after {
+            position: absolute;
+            content: '';
+            top: 0;
+            left: 100%;
+            width: 1em;
+            height: 100%;
           }
         }
       }
