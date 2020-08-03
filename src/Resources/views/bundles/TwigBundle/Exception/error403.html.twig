@@ -3,5 +3,8 @@
 {%- block key -%}forbidden{%- endblock -%}
 
 {%- block content -%}
-  TODO: error 403
+  {%- include 'shared/error.html.twig' with {
+    title: 'page.error.forbidden.title'|trans([], 'messages', current_locale),
+    text: 'page.error.forbidden.text'|trans([], 'messages', current_locale),
+  } -%}
 {%- endblock -%}

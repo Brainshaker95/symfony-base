@@ -20,7 +20,7 @@ class AssetExtension extends AbstractExtension
     }
 
     /**
-     * @return array<mixed>|string
+     * @return array<mixed>
      */
     public function getLiipConfig(string $thumbnail)
     {
@@ -28,13 +28,13 @@ class AssetExtension extends AbstractExtension
             $liipConfig = file_get_contents(__DIR__ . '..\\..\\..\\config\\packages\\liip_imagine.yml');
 
             if (!$liipConfig) {
-                return '';
+                return [];
             }
 
             $config     = Yaml::parse($liipConfig);
             $filterSets = $config['liip_imagine']['filter_sets'];
 
-            if ($filterSets[$thumbnail]) {
+            if ($filterSets[$thumbnail] && isset($filterSets[$thumbnail]['filters'])) {
                 $filters = $filterSets[$thumbnail]['filters'];
 
                 if ($filters && $filters['thumbnail']) {
@@ -52,6 +52,6 @@ class AssetExtension extends AbstractExtension
             throw new Exception($e);
         }
 
-        return '';
+        return [];
     }
 }

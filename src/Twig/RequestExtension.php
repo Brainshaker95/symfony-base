@@ -40,7 +40,8 @@ class RequestExtension extends AbstractExtension implements GlobalsInterface
             ];
         }
 
-        $locale = $request->getLocale();
+        $pathParts = explode('/', $request->getPathInfo());
+        $locale    = $pathParts[1] ?: 'en';
 
         return [
             'current_locale' => in_array($locale, TranslatorService::LOCALES) ? $locale : 'en',

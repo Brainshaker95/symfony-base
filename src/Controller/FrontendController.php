@@ -18,7 +18,7 @@ class FrontendController extends AbstractController
 
     public function renderForbidden(): Response
     {
-        return $this->render('bundles/TwigBundle/Exception/error404.html.twig', [], $this->forbidden());
+        return $this->render('bundles/TwigBundle/Exception/error403.html.twig', [], $this->forbidden());
     }
 
     public function renderNotFound(): Response

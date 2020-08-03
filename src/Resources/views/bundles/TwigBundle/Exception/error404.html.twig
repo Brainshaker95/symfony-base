@@ -3,7 +3,8 @@
 {%- block key -%}not_found{%- endblock -%}
 
 {%- block content -%}
-  TODO: error 404
-
-  <img src="{{ asset('/build/images/bathrobe-guy.png') }}">
+  {%- include 'shared/error.html.twig' with {
+    title: 'page.error.not_found.title'|trans([], 'messages', current_locale),
+    text: 'page.error.not_found.text'|trans([], 'messages', current_locale),
+  } -%}
 {%- endblock -%}
