@@ -3,13 +3,9 @@
 }
 
 body {
-  @include responsive-font-size(
-    $min-viewport-width,
-    $max-viewport-width,
-    $min-font-size,
-    $max-font-size
-  );
+  @include responsive-font-size($min-font-size, $max-font-size);
 
+  position: relative;
   margin: 0;
   color: $darkgrey;
   font-family: $font-family-base;
@@ -38,7 +34,12 @@ a {
 
 #main {
   display: block;
-  margin-top: $header-height;
+  min-height: 100vh;
+  padding: $header-height 0 $footer-height-mobile;
+
+  @include breakpoint(sm) {
+    padding: $header-height 0 $footer-height;
+  }
 }
 
 .responsive-image {

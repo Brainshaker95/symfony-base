@@ -216,6 +216,21 @@
     }
   }
 
+  &--footer {
+    .navigation {
+      &__link {
+        margin-right: 1em;
+        color: $darkgrey;
+
+        &::before {
+          bottom: -0.1em;
+          height: 0.1em;
+          background-color: $darkgrey;
+        }
+      }
+    }
+  }
+
   &--main {
     position: fixed;
     top: $header-height;

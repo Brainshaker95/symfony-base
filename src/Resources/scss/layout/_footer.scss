@@ -1,0 +1,39 @@
+.footer {
+  display: flex;
+  align-items: flex-end;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: $footer-height-mobile;
+
+  @include breakpoint(sm) {
+    height: $footer-height;
+  }
+
+  &__inner {
+    @include responsive-font-size(16px, 18px);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5em 0;
+    border-top: 1px solid $darkgrey;
+
+    @include breakpoint(sm) {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    .theme--dark & {
+      border-top: 1px solid $white;
+    }
+  }
+
+  &__copyright {
+    margin-top: 1em;
+
+    @include breakpoint(sm) {
+      margin-top: 0;
+    }
+  }
+}

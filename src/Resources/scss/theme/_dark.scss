@@ -1,6 +1,14 @@
 @import 'dark/button';
 
 .theme--dark {
+  .navigation--footer .navigation__link {
+    color: $white;
+
+    &::before {
+      background-color: $white;
+    }
+  }
+
   .form__input {
     @include focus-border;
     @include focus-shadow;

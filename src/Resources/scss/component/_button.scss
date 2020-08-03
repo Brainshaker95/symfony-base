@@ -1,11 +1,6 @@
 button {
+  @include responsive-font-size($min-font-size, $max-font-size);
   @include focus-shadow;
-  @include responsive-font-size(
-    $min-viewport-width,
-    $max-viewport-width,
-    $min-font-size,
-    $max-font-size
-  );
 
   padding: 0.5em 1em;
   background-color: $white;

@@ -1,5 +1,13 @@
 <footer class="footer">
-  {%- include 'layout/navigation.html.twig' with {
-    key: 'footer',
-  } -%}
+  <div class="container">
+    <div class="footer__inner">
+      {%- include 'layout/navigation.html.twig' with {
+        key: 'footer',
+      } -%}
+
+      <div class="footer__copyright">
+        &copy; Patrick Rupp {{ 'now'|date('Y') -}}
+      </div>
+    </div>
+  </div>
 </footer>

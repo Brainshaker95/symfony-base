@@ -80,7 +80,7 @@
   @return $value / ($value * 0 + 1);
 }
 
-@mixin responsive-font-size($min-viewport-width, $max-viewport-width, $min-font-size, $max-font-size) {
+@mixin responsive-font-size($min-font-size, $max-font-size, $min-viewport-width: $min-viewport-width, $max-viewport-width: $max-viewport-width) {
   font-size: $min-font-size;
 
   @media screen and (min-width: $min-viewport-width) {
