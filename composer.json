@@ -1,9 +1,9 @@
 {
   "name": "brainshaker/symfony-base",
+  "description": "Skeleton project for easy development of symfony applications",
   "type": "project",
   "license": "MIT",
   "homepage": "https://github.com/Brainshaker95/symfony-base",
-  "description": "Symfony Base",
   "authors": [
     {
       "name": "Patrick Rupp"
