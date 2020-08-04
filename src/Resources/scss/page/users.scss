@@ -1,13 +1,25 @@
 .users {
-  &__profile-image-wrapper {
-    position: relative;
-  }
-
-  &__delete-col {
-    position: relative;
+  .delete-user,
+  .delete-profile-image {
+    top: 0.5em;
+    right: 0.5em;
   }
 
   .select {
     margin-top: 1em;
+  }
+
+  .update-roles {
+    display: block;
+    width: 100%;
+    margin: 0.5em auto 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 300ms ease;
+
+    &--is-visible {
+      opacity: 1;
+      pointer-events: all;
+    }
   }
 }

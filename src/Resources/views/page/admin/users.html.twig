@@ -19,33 +19,31 @@
       {%- set can_modify_user = app.getUser|can_modify(user) -%}
 
       <div class="grid users__row">
-        <div class="col-1"></div>
+        <div class="col-2"></div>
 
-        <div class="col-2">
-          <div class="users__profile-image-wrapper">
-            {%- set image = user.getImage -%}
+        <div class="col-1 relative">
+          {%- set image = user.getImage -%}
 
-            {%- include 'shared/image.html.twig' with {
-              image: image ?: asset('/build/images/placeholder-profile-image.jpg'),
-              class: 'responsive-image users__profile-image',
-              thumbnail: 'profile_image',
-              alt: username,
-              title: username,
-            } -%}
+          {%- include 'shared/image.html.twig' with {
+            image: image ?: asset('/build/images/placeholder-profile-image.jpg'),
+            class: 'responsive-image users__profile-image',
+            thumbnail: 'profile_image',
+            alt: username,
+            title: username,
+          } -%}
 
-            {%- if image -%}
-              {%- apply strip_spaces -%}
-                <button
-                  type="button"
-                  class="button button--close delete-profile-image{{- can_modify_user ? '' : ' disabled' -}}"
-                  title="{{- 'page.users.delete_profile_image'|trans -}}"
-                  aria-label="{{- 'page.users.delete_profile_image'|trans -}}"
-                  data-id="{{- user.getId|encode -}}"
-                  {{- can_modify_user ? '' : ' tabindex="-1"' -}}
-                ></button>
-              {%- endapply -%}
-            {%- endif -%}
-          </div>
+          {%- if image -%}
+            {%- apply strip_spaces -%}
+              <button
+                type="button"
+                class="button button--close delete-profile-image{{- can_modify_user ? '' : ' disabled' -}}"
+                title="{{- 'page.users.delete_profile_image'|trans -}}"
+                aria-label="{{- 'page.users.delete_profile_image'|trans -}}"
+                data-id="{{- user.getId|encode -}}"
+                {{- can_modify_user ? '' : ' tabindex="-1"' -}}
+              ></button>
+            {%- endapply -%}
+          {%- endif -%}
         </div>
 
         <div class="col-3">
@@ -102,7 +100,7 @@
 
         <div class="col-1"></div>
 
-        <div class="col-1 users__delete-col">
+        <div class="col-1 relative">
           {%- apply strip_spaces -%}
             <button
               type="button"

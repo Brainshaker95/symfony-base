@@ -2,12 +2,23 @@ import $ from 'jquery';
 
 import keycode from '../../util/keycode';
 
+const uncheckChildren = ($target, isChecked) => {
+  if ($target.find('[data-conditional]').length && !isChecked) {
+    $target
+      .find('.checkbox')
+      .removeClass('checkbox--is-checked')
+      .find('.checkbox__input')
+      .prop('checked', false);
+  }
+};
+
 const generateMarkup = ($input) => {
   const $parent = $input.parent();
   const $error = $parent.find('.form__error');
   const $checkbox = $('<div class="checkbox form__input" tabindex="0" />');
+  const isChecked = $input.prop('checked');
 
-  if ($input.prop('checked')) {
+  if (isChecked) {
     $checkbox.addClass('checkbox--is-checked');
   }
 
@@ -29,6 +40,21 @@ const generateMarkup = ($input) => {
     $label.html(`${$label.html()}*`);
   }
 
+  const conditionalToggle = $input.data('conditional-toggle');
+
+  if (conditionalToggle && isChecked) {
+    const [id, type, cssClass] = conditionalToggle.split('-');
+    const $target = $(`[data-conditional="${id}"]`);
+
+    if (type === 'class') {
+      $target.removeClass(cssClass);
+    } else if (type === 'slide') {
+      $target.stop().slideDown(300);
+    }
+
+    uncheckChildren($target, isChecked);
+  }
+
   $checkbox
     .append($label)
     .append($input);
@@ -36,8 +62,20 @@ const generateMarkup = ($input) => {
 
 const attachHandlers = ($input) => {
   const $checkbox = $input.closest('.checkbox');
+  const conditionalToggle = $input.data('conditional-toggle');
+  let $target = [];
+  let cssClass;
+  let type;
+  let id;
+
+  if (conditionalToggle) {
+    [id, type, cssClass] = conditionalToggle.split('-');
+    $target = $(`[data-conditional="${id}"]`);
+  }
 
   $checkbox.on('click keydown', (event) => {
+    event.preventDefault();
+
     if ($input.prop('disabled')
       || (event.type === 'keydown' && event.which !== keycode.enter)) {
       return;
@@ -49,6 +87,16 @@ const attachHandlers = ($input) => {
     } else {
       $input.prop('checked', true);
       $checkbox.addClass('checkbox--is-checked');
+    }
+
+    if ($target.length) {
+      if (type === 'class') {
+        $target.toggleClass(cssClass);
+      } else if (type === 'slide') {
+        $target.stop().slideToggle(300);
+      }
+
+      uncheckChildren($target, $input.prop('checked'));
     }
 
     $input.trigger('change');

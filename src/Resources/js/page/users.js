@@ -115,7 +115,8 @@ $(() => {
     $(currentTarget)
       .closest('.users__row')
       .find('.update-roles')
-      .prop('disabled', false);
+      .prop('disabled', false)
+      .addClass('update-roles--is-visible');
   });
 
   $('.update-roles').on('click', ({ currentTarget }) => {
@@ -133,6 +134,9 @@ $(() => {
         response.success,
         'success.roles_updated',
       ),
+      always: () => {
+        $target.removeClass('update-roles--is-visible');
+      },
     });
   });
 });

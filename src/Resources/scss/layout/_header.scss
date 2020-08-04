@@ -16,10 +16,13 @@
   &__bottom {
     display: flex;
     justify-content: space-between;
-    margin-top: 1em;
+  }
 
-    @include breakpoint($main-navigation-breakpoint) {
-      margin-top: 0;
-    }
+  &__brand {
+    display: block;
+  }
+
+  &__logo {
+    max-width: 220px;
   }
 }

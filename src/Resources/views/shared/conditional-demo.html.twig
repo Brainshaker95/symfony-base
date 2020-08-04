@@ -1,0 +1,51 @@
+{# TODO: This file is just for demo purposes, remove if not needed #}
+
+{%- set area_1_id = uuid() -%}
+
+<div class="grid no-gutter-y mt-4">
+  <div class="col-12">
+    <label for="test" class="form__label--is-static">Condtionally activate next row?</label>
+    <input type="checkbox" id="test" name="test" class="checkbox__input" data-conditional-toggle="{{- area_1_id -}}-slide">
+  </div>
+</div>
+
+<div data-conditional="{{- area_1_id -}}">
+  <h4 class="line-after mt-4">
+    {{- 'page.profile.user_settings'|trans -}}
+  </h4>
+
+  <div class="grid no-gutter-y">
+    <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+      a
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+      b
+    </div>
+  </div>
+</div>
+
+{%- set area_2_id = uuid() -%}
+
+<div class="grid no-gutter-y mt-4">
+  <div class="col-12">
+    <label for="test" class="form__label--is-static">Condtionally activate next row?</label>
+    <input type="checkbox" id="test" name="test" class="checkbox__input" data-conditional-toggle="{{- area_2_id -}}-class-disabled">
+  </div>
+</div>
+
+<div data-conditional="{{- area_2_id -}}" class="disabled">
+  <h4 class="line-after mt-4">
+    {{- 'page.profile.user_settings'|trans -}}
+  </h4>
+
+  <div class="grid no-gutter-y">
+    <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+      a
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+      b
+    </div>
+  </div>
+</div>

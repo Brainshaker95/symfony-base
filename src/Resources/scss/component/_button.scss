@@ -56,7 +56,8 @@ input[type="button"] {
   }
 
   &--is-loading {
-    pointer-events: none;
+    width: auto !important;
+    pointer-events: none !important;
 
     @keyframes loader {
       from {

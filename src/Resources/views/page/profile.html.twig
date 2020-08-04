@@ -35,6 +35,62 @@
               {{- form_row(profile_form.theme) -}}
             </div>
           </div>
+
+          {%- set conditional_1_id = uuid() -%}
+
+          <div class="grid no-gutter-y mt-4">
+            <div class="col-12">
+              {{ form_row(profile_form.conditional_1, {
+                attr: {
+                  'data-conditional-toggle': conditional_1_id ~ '-slide',
+                },
+              }) }}
+            </div>
+          </div>
+
+          <div data-conditional="{{- conditional_1_id -}}">
+            <h4 class="line-after mt-4">
+              {{- 'page.profile.user_settings'|trans -}}
+            </h4>
+
+            <div class="grid no-gutter-y">
+              <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                a
+              </div>
+
+              <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                b
+              </div>
+            </div>
+
+            {%- set conditional_2_id = uuid() -%}
+
+            <div class="grid no-gutter-y mt-4">
+              <div class="col-12">
+                {{ form_row(profile_form.conditional_2, {
+                  attr: {
+                    'data-conditional-toggle': conditional_2_id ~ '-slide',
+                  },
+                }) }}
+              </div>
+            </div>
+
+            <div data-conditional="{{- conditional_2_id -}}">
+              <h4 class="line-after mt-4">
+                {{- 'page.profile.user_settings'|trans -}}
+              </h4>
+
+              <div class="grid no-gutter-y">
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                  a
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                  b
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="col-12">

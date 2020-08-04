@@ -11,16 +11,18 @@ import navigation from './module/navigation';
 import translate from './util/translate';
 
 $(() => {
-  // TODO: Remove this button
-  $('.toggle-theme').on('click', () => {
-    $('body').toggleClass('theme--dark');
-  });
-
   accordion();
   anchor();
   flashMessages();
   form();
   navigation();
+
+  // Quick theme toggle
+
+  // $('.header').append('<button type="button" class="toggle-theme">Toggle theme</button>');
+  // $('.toggle-theme').on('click', () => {
+  //   $('body').toggleClass('theme--dark');
+  // });
 
   // Form example usage
 

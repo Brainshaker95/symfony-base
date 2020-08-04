@@ -83,6 +83,12 @@ class UserType extends AbstractType
                     'theme.light' => 'light',
                 ],
             ])
+            ->add('conditional_1', Type\CheckboxType::class, [
+                'required'    => false,
+            ])
+            ->add('conditional_2', Type\CheckboxType::class, [
+                'required'    => false,
+            ])
             // ->add('text', Type\TextType::class)
             // ->add('date', Type\DateType::class)
             // ->add('time', Type\TimeType::class)
