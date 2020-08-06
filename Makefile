@@ -1,3 +1,5 @@
+include .env
+
 cache-clear:
 	php bin/console cache:clear
 
@@ -21,13 +23,16 @@ migration:
 	php bin/console doctrine:migrations:diff
 
 phpstan:
-	bash -c 'vendor/bin/phpstan analyse src --level=8'
+	bash -c 'vendor/bin/phpstan analyse src --level=${PHPSTAN_LEVEL}'
+
+startup:
+	yarn startup
 
 webpack:
 	yarn encore dev
 
 webpack-p:
-	yarn encore production
+	yarn encore prod
 
 webpack-watch:
 	yarn encore dev --watch

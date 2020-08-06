@@ -6,6 +6,10 @@
   background-color: $header-background-color;
   z-index: 5;
 
+  + * {
+    padding-top: $header-height;
+  }
+
   &__top {
     display: flex;
     justify-content: flex-end;

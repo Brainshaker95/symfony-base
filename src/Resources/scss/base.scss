@@ -35,10 +35,10 @@ a {
 #main {
   display: block;
   min-height: 100vh;
-  padding: $header-height 0 $footer-height-mobile;
+  padding-bottom: $footer-height-mobile;
 
   @include breakpoint(sm) {
-    padding: $header-height 0 $footer-height;
+    padding-bottom: $footer-height;
   }
 }
 

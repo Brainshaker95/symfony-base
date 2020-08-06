@@ -1,7 +1,5 @@
-parameters:
-  hashids_salt: k8rourn0zwJgPJISnmS1
-  hashids_padding: 8
-  upload_directory: '%kernel.project_dir%/public/uploads'
+imports:
+  - { resource: parameters.yml }
 
 services:
   _defaults:

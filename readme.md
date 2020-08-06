@@ -4,7 +4,6 @@
 
 - [Prerequisites](#prerequisites)
 - [Installing](#installing)
-- [Configuration](#configuration)
 - [Commands](#commands)
 
 ___
@@ -15,29 +14,35 @@ ___
   * [Yarn](https://yarnpkg.com/)
   * [Composer](https://getcomposer.org/)
 
+  ### Optional Tools
+
+  * [Make](http://gnuwin32.sourceforge.net/packages/make.htm)
+
 ___
 
 ## Installing
 
-```shell
-  yarn && composer install
-```
-With make
+### Automatically
 
 ```shell
+  (yarn|make) startup
+```
+
+### Manually
+
+```shell
+  yarn && composer install
+
+  # or with make
+
   make install
 ```
 
-___
-
-## Configuration
+Set up environment and configure to your needs
 
 ```shell
   cp .env.example .env
 ```
-
-Configure to your needs
-
 ___
 
 ## Commands
@@ -51,6 +56,9 @@ ___
 
   # watch assets
   yarn watch
+
+  # initialize project
+  yarn startup
 ```
 
 &nbsp;
@@ -73,6 +81,8 @@ With make
   migration: // create migration
 
   phpstan: // execute php analysis
+
+  startup: // initialize project
 
   webpack: // build assets dev
 

@@ -19,10 +19,10 @@ $(() => {
 
   // Quick theme toggle
 
-  // $('.header').append('<button type="button" class="toggle-theme">Toggle theme</button>');
-  // $('.toggle-theme').on('click', () => {
-  //   $('body').toggleClass('theme--dark');
-  // });
+  $('.header').append('<button type="button" class="toggle-theme">Toggle theme</button>');
+  $('.toggle-theme').on('click', () => {
+    $('body').toggleClass('theme--dark');
+  });
 
   // Form example usage
 

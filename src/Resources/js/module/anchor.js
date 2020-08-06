@@ -1,32 +1,37 @@
 import $ from 'jquery';
 
 import scrollTo from '../util/scroll-to';
+import isInView from '../util/is-in-view';
 
-const focusFirstFocusable = (hash) => {
-  $(`${hash}`)
-    .find('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
-    .first()
-    .focus();
-};
+const firstFocusable = ($target) => $target
+  .find('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
+  .first();
 
 export default () => {
   $('a[href*=\\#]').on('click', (event) => {
     const { currentTarget } = event;
-    const { hash } = currentTarget;
-    const $target = $(currentTarget);
-    const isSkipToContent = $target.hasClass('skip-to-page-content');
+    const $anchor = $(currentTarget);
+    const $target = $(currentTarget.hash);
+    const isSkipToContent = $anchor.hasClass('skip-to-page-content');
 
     event.preventDefault();
-    window.location.hash = $target.attr('href');
+    window.location.hash = $anchor.attr('href');
 
-    if (isSkipToContent) {
-      $target.hide();
-      focusFirstFocusable(hash);
+    if (!isSkipToContent) {
+      scrollTo($target);
+
+      return;
     }
 
-    scrollTo($(`${hash}`), 0, () => {
-      if (isSkipToContent) {
-        $target.show();
+    const $firstFocusable = firstFocusable($target);
+
+    $anchor.hide();
+
+    scrollTo($target, 0, () => {
+      $anchor.show();
+
+      if (isInView($firstFocusable)) {
+        $firstFocusable.focus();
       }
     });
   });
