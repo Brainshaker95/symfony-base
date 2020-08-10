@@ -1,8 +1,18 @@
+@import '../declarations';
+
 .users {
   .delete-user,
   .delete-profile-image {
     top: 0.5em;
     right: 0.5em;
+  }
+
+  .delete-users__col {
+    top: -8.5em;
+
+    @include breakpoint(sm) {
+      top: auto;
+    }
   }
 
   .select {

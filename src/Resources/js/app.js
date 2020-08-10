@@ -5,8 +5,10 @@ import 'lazysizes';
 import accordion from './module/accordion';
 import anchor from './module/anchor';
 import initAjaxForm from './module/form/ajax';
+import initModal from './module/modal';
 import flashMessages from './module/flash-messages';
 import form from './module/form';
+import { initStorageConsent } from './util/storage';
 import navigation from './module/navigation';
 import translate from './util/translate';
 
@@ -17,12 +19,14 @@ $(() => {
   form();
   navigation();
 
+  // initStorageConsent();
+
   // Quick theme toggle
 
-  $('.header').append('<button type="button" class="toggle-theme">Toggle theme</button>');
-  $('.toggle-theme').on('click', () => {
-    $('body').toggleClass('theme--dark');
-  });
+  // $('.header').append('<button type="button" class="toggle-theme">Toggle theme</button>');
+  // $('.toggle-theme').on('click', () => {
+  //   $('body').toggleClass('theme--dark');
+  // });
 
   // Form example usage
 

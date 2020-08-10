@@ -40,7 +40,7 @@ class TranslatorService
     {
         return $this->translator->trans($key)
             . $this->translator->trans('title.separator')
-            . $this->translator->trans('title.index');
+            . $this->translator->trans('title.suffix');
     }
 
     public function getRoleName(string $role): string

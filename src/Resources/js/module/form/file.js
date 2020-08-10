@@ -2,7 +2,7 @@ import $ from 'jquery';
 
 import ajax from '../../util/ajax';
 import keycode from '../../util/keycode';
-import notify from '../../util/notify';
+import notify from '../notify';
 import translate from '../../util/translate';
 
 const updatePath = ($input, isClear) => {

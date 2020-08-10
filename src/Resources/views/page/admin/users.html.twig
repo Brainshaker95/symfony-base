@@ -5,6 +5,10 @@
 {%- block has_page_script -%}true{%- endblock -%}
 
 {%- block content -%}
+  {%- include 'layout/navigation.html.twig' with {
+    key: 'admin',
+  } -%}
+
   {%- apply strip_spaces -%}
     <div
       class="users"
@@ -19,9 +23,9 @@
       {%- set can_modify_user = app.getUser|can_modify(user) -%}
 
       <div class="grid users__row">
-        <div class="col-1"></div>
+        <div class="col-1 hide show-lg"></div>
 
-        <div class="col-1 relative">
+        <div class="col-12 col-sm-3 col-md-3 col-lg-2 relative">
           {%- set image = user.getImage -%}
 
           {%- include 'shared/image.html.twig' with {
@@ -46,13 +50,13 @@
           {%- endif -%}
         </div>
 
-        <div class="col-3">
+        <div class="col-12 col-sm-2 col-md-3 col-lg-2">
           <div class="users__username">
             {{- username -}}
           </div>
         </div>
 
-        <div class="col-3">
+        <div class="col-12 col-sm-5 col-md-4 col-lg-3">
           <div class="form__row">
             {%- set user_roles = user.getRoles -%}
             {%- set select_id  = uuid() -%}
@@ -98,9 +102,9 @@
           {%- endapply -%}
         </div>
 
-        <div class="col-2"></div>
+        <div class="col-2 hide show-lg"></div>
 
-        <div class="col-1 relative">
+        <div class="col-12 col-sm-2 col-lg-1 relative delete-users__col">
           {%- apply strip_spaces -%}
             <button
               type="button"
@@ -113,7 +117,7 @@
           {%- endapply -%}
         </div>
 
-        <div class="col-1"></div>
+        <div class="col-1 hide show-lg"></div>
       </div>
     {%- endfor -%}
   </div>

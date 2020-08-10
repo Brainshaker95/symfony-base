@@ -2,7 +2,7 @@ import $ from 'jquery';
 
 import ajax from '../util/ajax';
 import initModal from '../module/modal';
-import notify from '../util/notify';
+import notify from '../module/notify';
 import translate from '../util/translate';
 
 const requestDone = ($userRow, success, successMessage) => {

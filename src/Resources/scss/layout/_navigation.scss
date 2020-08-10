@@ -231,6 +231,26 @@
     }
   }
 
+  &--admin {
+    padding-bottom: 0.5em;
+    margin-bottom: 2em;
+
+    .navigation {
+      &__list {
+        flex-wrap: wrap;
+      }
+
+      &__link {
+        margin-right: 1em;
+
+        &::before {
+          bottom: -0.1em;
+          height: 0.1em;
+        }
+      }
+    }
+  }
+
   &--main {
     position: fixed;
     top: $header-height;

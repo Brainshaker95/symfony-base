@@ -1,10 +1,9 @@
+// TODO: This file is just for demo purposes, remove if not needed
+
 import $ from 'jquery';
 
 export const storageNames = {
-  consent: 'DAVEGAME_CONSENT',
-  levels: 'DAVEGAME_LEVELS',
-  progression: 'DAVEGAME_PROGRESSION',
-  scores: 'DAVEGAME_SCORES',
+  consent: 'SYMFONY_BASE_CONSENT',
 };
 
 export const initStorageConsent = () => {
@@ -12,9 +11,18 @@ export const initStorageConsent = () => {
     return;
   }
 
-  $('body').append(templates.storageConsent);
+  $('body').append(`<div class="storage-consent">
+    <button class="accept">accept</button>
+    <button class="decline">decline</button>
+  </div>`);
 
   const $storageConsent = $('.storage-consent');
+
+  $storageConsent.css({
+    background: 'royalblue',
+    'z-index': 1,
+    position: 'absolute',
+  });
 
   $storageConsent.find('.accept').on('click', () => {
     localStorage.setItem(storageNames.consent, true);

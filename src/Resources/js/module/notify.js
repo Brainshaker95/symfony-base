@@ -1,7 +1,7 @@
 import $ from 'jquery';
 
-import translate from './translate';
-import scssVars from './scss-vars';
+import translate from '../util/translate';
+import scssVars from '../util/scss-vars';
 
 const appendNotification = (options) => {
   const $notification = $(`<div class="notification notification--${options.type}">${options.text}</div>`);

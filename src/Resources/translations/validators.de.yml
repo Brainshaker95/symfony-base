@@ -7,6 +7,7 @@ app.error.form.image.max_size.exceeded: 'Die maximale Dateigröße beträgt {{ l
 app.error.form.image.mime_type.invalid: 'Erlaubte Dateitypen sind: {{ types }}'
 app.error.form.password.empty: 'Bitte gebe ein Passwort ein'
 app.error.form.password.min: 'Das Passwort sollte mindestens {{ limit }} Zeichen enthalten'
+app.error.form.privacy.empty: 'Bitte stimme der Datenschutzerklärung zu'
 app.error.form.text.empty: 'Bitte fülle dieses Feld aus'
 app.error.form.textarea.max: 'Dieses Feld sollte maximal {{ limit }} Zeichen enthalten'
 app.error.form.username.empty: 'Bitte gebe einen Nutzernamen ein'

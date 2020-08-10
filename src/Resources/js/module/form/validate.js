@@ -41,7 +41,11 @@ export const validate = ($input) => {
       error = translate('error.form.text.empty');
     }
   } else if (isCheckbox && !$input.is(':checked')) {
-    error = translate('error.form.checkbox.empty');
+    if ($input.attr('id').indexOf('privacy') > -1) {
+      error = translate('error.form.privacy.empty');
+    } else {
+      error = translate('error.form.checkbox.empty');
+    }
   } else if (type === 'email' && emailInvalid(value)) {
     error = translate('error.form.email.invalid');
   } else if (isTextarea) {

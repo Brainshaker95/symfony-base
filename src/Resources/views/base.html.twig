@@ -14,7 +14,7 @@
 
       {%- block meta -%}{%- endblock -%}
 
-      <title>{%- block title -%}{{- 'title.index'|trans -}}{%- endblock -%}</title>
+      <title>{%- block title -%}{{- page_title('title.index') -}}{%- endblock -%}</title>
 
       {%- block styles -%}
         {{- encore_entry_link_tags('main') -}}

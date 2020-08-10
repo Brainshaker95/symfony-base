@@ -3,9 +3,11 @@
 {%- block key -%}admin{%- endblock -%}
 
 {%- block content -%}
-  Admin<br>
-
   {%- include 'layout/navigation.html.twig' with {
     key: 'admin',
   } -%}
+
+  <h1>
+    {{- 'page.dashboard.headline'|trans -}}
+  </h1>
 {%- endblock -%}

@@ -7,6 +7,7 @@ app.error.form.image.max_size.exceeded: 'The maximum file size is {{ limit }} MB
 app.error.form.image.mime_type.invalid: 'Allowed file types are: {{ types }}'
 app.error.form.password.empty: 'Please enter a password'
 app.error.form.password.min: 'The password should at least contain {{ limit }} characters'
+app.error.form.privacy.empty: 'Please accept the privacy policy'
 app.error.form.text.empty: 'Please fill out this field'
 app.error.form.textarea.max: 'This field should contain {{ limit }} characters at most'
 app.error.form.username.empty: 'Please enter a username'

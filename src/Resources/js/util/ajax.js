@@ -1,6 +1,6 @@
 import $ from 'jquery';
 
-import notify from './notify';
+import notify from '../module/notify';
 import translate from './translate';
 
 let loading;

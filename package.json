@@ -2,9 +2,10 @@
   "name": "symfony-base",
   "version": "1.0.0",
   "description": "Skeleton project for easy development of symfony applications",
-  "author": "Patrick Rupp",
   "license": "MIT",
+  "homepage": "https://github.com/Brainshaker95/symfony-base",
   "private": true,
+  "author": "Patrick Rupp",
   "scripts": {
     "dev": "encore dev",
     "prod": "encore prod",

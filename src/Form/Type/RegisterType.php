@@ -52,6 +52,16 @@ class RegisterType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('privacy', Type\CheckboxType::class, [
+                'required' => true,
+                'mapped'   => false,
+                'label'    => 'label.privacy',
+                'constraints' => [
+                    new Constraints\IsTrue([
+                        'message' => 'app.error.form.privacy.empty',
+                    ]),
+                ],
+            ])
             ->add('submit', Type\SubmitType::class, [
                 'label' => 'label.register',
             ]);

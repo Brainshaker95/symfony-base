@@ -25,6 +25,7 @@ ul {
 a {
   @include focus-outline;
 
+  color: $blue;
   text-decoration: none;
 
   &:hover {
