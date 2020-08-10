@@ -11,7 +11,7 @@ info.user_not_activated: 'Inaktiver Account. Bitte warte auf die Freischaltung d
 label.images: 'Bilder'
 label.login: 'Anmelden'
 label.password: 'Passwort'
-label.privacy: 'Hiermit bestätige ich, dass ich die <a href="/de/privacy">Datenschutzerklärung</a> gelesen und akzeptiert habe.'
+label.privacy: 'Hiermit bestätige ich, dass ich die <a href="/de/privacy" target="_blank" rel="noopener noreferrer">Datenschutzerklärung</a> gelesen und akzeptiert habe.'
 label.profile_image: 'Profilbild'
 label.register: 'Registrieren'
 label.remember_me: 'Angemeldet bleiben'
