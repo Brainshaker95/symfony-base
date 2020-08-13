@@ -6,7 +6,7 @@
       } -%}
 
       <div class="footer__copyright">
-        &copy; {{ 'footer.copyright'|trans }} {{ 'now'|date('Y') -}}
+        {{- ('&copy;' ~ ' ' ~ ('footer.copyright'|trans) ~ ' ' ~ 'now'|date('Y'))|raw -}}
       </div>
     </div>
   </div>

@@ -31,11 +31,8 @@ export default () => {
       return;
     }
 
-    const $target = $(currentTarget);
-
-    $target.toggleClass('navigation__link--is-expanded');
-
-    $target
+    $(currentTarget)
+      .toggleClass('navigation__link--is-expanded')
       .next('.subnavigation')
       .stop()
       .slideToggle('fast');
@@ -58,83 +55,82 @@ export default () => {
       }
     });
 
-  $mainNavigationList
-    .add($('.navigation--secondary .navigation__list'))
-    .on('keydown', (event) => {
-      const { which } = event;
-      const $focusedLink = $(':focus');
-      const $focusedItem = $focusedLink.closest('.navigation__item');
-      const isLink = $focusedLink.hasClass('navigation__link');
-      const hasSubNavigation = $focusedItem.find('.subnavigation').length;
+  $('.navigation__list').on('keydown', (event) => {
+    const { which } = event;
+    const $focusedLink = $(':focus');
+    const $focusedItem = $focusedLink.closest('.navigation__item');
+    const isLink = $focusedLink.hasClass('navigation__link');
+    const hasSubNavigation = $focusedItem.find('.subnavigation').length;
 
-      const focusPrevItem = () => {
-        $focusedItem.prev().find('.navigation__link').focus();
-      };
+    const focusPrevItem = () => {
+      $focusedItem.prev().find('.navigation__link').focus();
+    };
 
-      const focusNextItem = () => {
-        $focusedItem.next().find('.navigation__link').focus();
-      };
+    const focusNextItem = () => {
+      $focusedItem.next().find('.navigation__link').focus();
+    };
 
-      if (which === keycode.escape) {
-        if ($(event.currentTarget).closest('.navigation--main').length && isMobile()) {
-          closeMainNavigation();
-        }
-      } else if (which === keycode.arrowUp) {
-        event.preventDefault();
-
-        if (!hasSubNavigation) {
-          focusPrevItem();
-
-          return;
-        }
-
-        const $prevLink = $focusedLink.parent().prev().find('.subnavigation__link');
-
-        if (isLink && !isMobile()) {
-          $focusedItem.prev().find('.navigation__link').focus();
-        } else if ($prevLink.length) {
-          $prevLink.focus();
-        } else if ($focusedLink[0] === $focusedItem.find('.subnavigation__link').first()[0]) {
-          $focusedItem.find('.navigation__link').focus();
-        } else {
-          focusPrevItem();
-        }
-      } else if (which === keycode.arrowDown) {
-        event.preventDefault();
-
-        if (!hasSubNavigation) {
-          focusNextItem();
-
-          return;
-        }
-
-        const $nextLink = $focusedLink.parent().next().find('.subnavigation__link');
-
-        if (isLink && !isMobile()) {
-          $focusedItem.find('.subnavigation .subnavigation__link').first().focus();
-        } else if ($nextLink.length) {
-          $nextLink.focus();
-        } else {
-          focusNextItem();
-        }
+    if (which === keycode.escape) {
+      if ($(event.currentTarget).closest('.navigation--main').length && isMobile()) {
+        closeMainNavigation();
       }
-    })
-    .on('focusout', (event) => {
-      if (!$(event.currentTarget).closest('.navigation--main').length) {
+    } else if (which === keycode.tab) {
+      if (!isMobile() || !$(event.currentTarget).closest('.navigation--main').length) {
         return;
       }
 
       setTimeout(() => {
-        if (!$mainNavigationList.find($(':focus')).length && isMobile()) {
+        if ($focusedLink.length && $focusedLink.hasClass('hamburger')) {
+          return;
+        }
+
+        if (!$mainNavigationList.find(':focus').length) {
           closeMainNavigation();
         }
       }, 0);
-    });
+    } else if (which === keycode.arrowUp) {
+      event.preventDefault();
+
+      if (!hasSubNavigation) {
+        focusPrevItem();
+
+        return;
+      }
+
+      const $prevLink = $focusedLink.parent().prev().find('.subnavigation__link');
+
+      if (isLink && !isMobile()) {
+        $focusedItem.prev().find('.navigation__link').focus();
+      } else if ($prevLink.length) {
+        $prevLink.focus();
+      } else if ($focusedLink[0] === $focusedItem.find('.subnavigation__link').first()[0]) {
+        $focusedItem.find('.navigation__link').focus();
+      } else {
+        focusPrevItem();
+      }
+    } else if (which === keycode.arrowDown) {
+      event.preventDefault();
+
+      if (!hasSubNavigation) {
+        focusNextItem();
+
+        return;
+      }
+
+      const $nextLink = $focusedLink.parent().next().find('.subnavigation__link');
+
+      if (isLink && !isMobile()) {
+        $focusedItem.find('.subnavigation .subnavigation__link').first().focus();
+      } else if ($nextLink.length) {
+        $nextLink.focus();
+      } else {
+        focusNextItem();
+      }
+    }
+  });
 
   $('.navigation__toggle-submenu').on('click', ({ currentTarget }) => {
-    const $target = $(currentTarget);
-
-    $target
+    $(currentTarget)
       .toggleClass('navigation__toggle-submenu--is-expanded')
       .closest('.navigation__item')
       .find('.subnavigation')
@@ -148,11 +144,8 @@ export default () => {
         return;
       }
 
-      const $target = $(currentTarget);
-
-      $target.addClass('navigation__link--is-expanded');
-
-      $target
+      $(currentTarget)
+        .addClass('navigation__link--is-expanded')
         .closest('.navigation__item')
         .find('.subnavigation')
         .stop()
@@ -177,6 +170,10 @@ export default () => {
         .slideDown('fast');
     })
     .on('mouseleave focusout', (event) => {
+      // if (isMobile()) {
+      //   return;
+      // }
+
       const $target = $(event.currentTarget);
 
       setTimeout(() => {
@@ -192,6 +189,10 @@ export default () => {
           .find('.subnavigation')
           .stop()
           .slideUp('fast');
+
+        $target
+          .find('.navigation__toggle-submenu')
+          .removeClass('navigation__toggle-submenu--is-expanded');
       }, 0);
     });
 };
