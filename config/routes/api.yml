@@ -6,6 +6,10 @@ app_api_delete_user:
   path: /api/delete_user
   controller: App\Controller\UsersController::deleteUserAction
 
+app_api_gallery_paging:
+  path: /api/gallery_paging
+  controller: App\Controller\GalleryController::pagingAction
+
 app_api_update_roles:
   path: /api/update_roles
   controller: App\Controller\UsersController::updateRolesAction

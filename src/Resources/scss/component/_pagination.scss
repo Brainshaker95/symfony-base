@@ -13,9 +13,14 @@
     text-align: center;
     line-height: 2em;
     user-select: none;
+    transition: none;
 
     .theme--dark & {
       color: $white;
+    }
+
+    &:hover {
+      text-decoration: underline;
     }
 
     &--is-active {

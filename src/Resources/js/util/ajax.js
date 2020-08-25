@@ -24,7 +24,7 @@ export default (opts) => {
 
   if ($button) {
     $button
-      .addClass('button--is-loading')
+      .addClass('loading')
       .data('text', $button.text() || $button.data('text'))
       .text('')
       .blur();
@@ -52,7 +52,7 @@ export default (opts) => {
       if ($button) {
         $button
           .text($button.data('text'))
-          .removeClass('button--is-loading');
+          .removeClass('loading');
       }
 
       options.always();

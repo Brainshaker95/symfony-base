@@ -1,0 +1,20 @@
+{%- set is_template = is_template is defined ? is_template : false -%}
+{%- set image = image is defined ? image : '' -%}
+{%- set image = image|instanceof('App\\Entity\\Image') ? image.getPath : image -%}
+{%- set is_svg = image|slice(image|length - 3, 3) == 'svg' -%}
+{%- set thumbnail = 'gallery_image' -%}
+
+{%- apply strip_spaces -%}
+  <div class="col-12 col-xs-6 col-sm-4 col-md-3 col-xl-1-5th">
+    <img
+      class="responsive-image lazyload"
+      {% if not is_template %}
+        src="{{- is_svg ? image : image|imagine_filter(thumbnail, thumbnail|get_liip_preview_config) -}}"
+        data-src="{{- image|imagine_filter(thumbnail) -}}"
+      {% else %}
+        data-reference="image"
+      {% endif %}
+    >
+    <a data-reference="link"></a>
+  </div>
+{%- endapply -%}

@@ -6,6 +6,7 @@ use App\Entity\Image;
 use App\Entity\User;
 use App\Form\Type\GalleryType;
 use App\Repository\ImageRepository;
+use App\Service\AssetService;
 use App\Service\FileService;
 use App\Service\HashService;
 use App\Service\UserService;
@@ -14,6 +15,7 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints;
@@ -21,13 +23,17 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class GalleryController extends FrontendController
 {
-    protected const PAGE_SIZE         = 20;
-    protected const MAX_VISIBLE_PAGES = 5;
+    protected const PAGE_SIZE = 20;
 
     /**
      * @var string
      */
     protected $uploadDirectory;
+
+    /**
+     * @var AssetService
+     */
+    protected $assetService;
 
     /**
      * @var EntityManagerInterface
@@ -61,6 +67,7 @@ class GalleryController extends FrontendController
 
     public function __construct(
         string $uploadDirectory,
+        AssetService $assetService,
         EntityManagerInterface $entityManager,
         FileService $fileService,
         HashService $hashService,
@@ -69,6 +76,7 @@ class GalleryController extends FrontendController
         UserService $userService
     ) {
         $this->uploadDirectory = $uploadDirectory;
+        $this->assetService    = $assetService;
         $this->entityManager   = $entityManager;
         $this->fileService     = $fileService;
         $this->hashService     = $hashService;
@@ -111,23 +119,69 @@ class GalleryController extends FrontendController
         }
 
         $paginator  = $this->imageRepository->getGalleryPaginator($page, $limit);
-        $totalPages = ceil($paginator->count() / $limit);
+        $totalPages = (int) ceil($paginator->count() / $limit);
 
         if ($page > $totalPages) {
-            $page      = (int) $totalPages;
+            $page      = $totalPages;
             $paginator = $this->imageRepository->getGalleryPaginator($page, $limit);
         }
 
         $this->userService->clearUserFilesFromTmp($user);
 
-        return $this->render('page/gallery.html.twig', [
-            'gallery_form'      => $form->createView(),
-            'has_errors'        => $hasErrors,
-            'paginator'         => $paginator,
-            'current_page'      => $page,
-            'page_size'         => $limit,
-            'total_pages'       => $totalPages,
-            'max_visible_pages' => self::MAX_VISIBLE_PAGES,
+        return $this->render('page/gallery/gallery.html.twig', [
+            'gallery_form' => $form->createView(),
+            'has_errors'   => $hasErrors,
+            'paginator'    => $paginator,
+            'current_page' => $page,
+            'page_size'    => $limit,
+            'total_pages'  => $totalPages,
+        ]);
+    }
+
+    /**
+     * @return Response|JsonResponse
+     */
+    public function pagingAction(Request $request)
+    {
+        if (!$request->isMethod('POST')) {
+            return $this->methodNotAllowed();
+        }
+
+        /**
+         * @var User|null
+         */
+        $user   = $this->getUser();
+        $images = [];
+
+        if ($user) {
+            $limit = self::PAGE_SIZE;
+            $page  = (int) $request->get('page', 1);
+
+            if ($page < 1) {
+                $page = 1;
+            }
+
+            $paginator  = $this->imageRepository->getGalleryPaginator($page, $limit);
+            $totalPages = (int) ceil($paginator->count() / $limit);
+
+            if ($page > $totalPages) {
+                $page      = $totalPages;
+                $paginator = $this->imageRepository->getGalleryPaginator($page, $limit);
+            }
+
+            foreach ($paginator as $image) {
+                $path = $image->getPath();
+
+                $images[] = [
+                    'image__src'      => $this->assetService->getPreviewSrc($path, 'gallery_image'),
+                    'image__data-src' => $this->assetService->getThumbnailSrc($path, 'gallery_image'),
+                ];
+            }
+        }
+
+        return $this->json([
+            'success' => count($images) > 0,
+            'images'  => $images,
         ]);
     }
 

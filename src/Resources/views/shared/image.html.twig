@@ -7,11 +7,12 @@
 
 {%- apply strip_spaces -%}
   <img
-    src="{{- is_svg ? image : (lazyload ? image|imagine_filter('preview', thumbnail|get_liip_config) : image|imagine_filter(thumbnail)) -}}"
+    src="{{- is_svg ? image : (lazyload ? image|imagine_filter(thumbnail, thumbnail|get_liip_preview_config) : image|imagine_filter(thumbnail)) -}}"
+    class="{{- class|trim -}}{{- lazyload ? ' lazyload' : '' -}}"
+    alt="{{- alt|default -}}"
+    title="{{- title|default -}}"
     {% if lazyload %}
       data-src="{{- image|imagine_filter(thumbnail) -}}"
     {% endif %}
-    class="{{- class|trim -}}{{- lazyload ? ' lazyload' : '' -}}"
-    alt="{{- alt|default -}}"
-    title="{{- title|default -}}">
+  >
 {%- endapply -%}

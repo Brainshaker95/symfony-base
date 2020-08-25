@@ -55,33 +55,6 @@ input[type="button"] {
     display: none;
   }
 
-  &--is-loading {
-    width: auto !important;
-    pointer-events: none !important;
-
-    @keyframes loader {
-      from {
-        transform: rotate(0deg);
-      }
-
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    &::after {
-      content: '';
-      display: block;
-      width: 1.5em;
-      height: 1.5em;
-      padding: 0;
-      border-radius: 50%;
-      border: 5px solid $darkgrey;
-      border-color: $darkgrey transparent;
-      animation: loader 1.2s linear infinite;
-    }
-  }
-
   &--success {
     background-color: rgba($success, 0.1);
     border: 1px solid $success;
@@ -92,7 +65,7 @@ input[type="button"] {
       color: $white;
     }
 
-    &.button--is-loading::after {
+    &.loading::after {
       border: 5px solid $success;
       border-color: $success transparent;
     }
@@ -108,7 +81,7 @@ input[type="button"] {
       color: $white;
     }
 
-    &.button--is-loading::after {
+    &.loading::after {
       border: 5px solid $info;
       border-color: $info transparent;
     }
@@ -124,7 +97,7 @@ input[type="button"] {
       color: $white;
     }
 
-    &.button--is-loading::after {
+    &.loading::after {
       border: 5px solid $warning;
       border-color: $warning transparent;
     }
@@ -140,7 +113,7 @@ input[type="button"] {
       color: $white;
     }
 
-    &.button--is-loading::after {
+    &.loading::after {
       border: 5px solid $error;
       border-color: $error transparent;
     }

@@ -1,8 +1,10 @@
 import $ from 'jquery';
 
-export default ($target, offset = 0, callback = () => {}) => {
-  if (!$target.length) {
-    return;
+export default ($theTarget, offset = 0, callback = () => {}) => {
+  let $target = $theTarget;
+
+  if (!$target || !$target.length) {
+    $target = $('main');
   }
 
   $('html, body').animate({

@@ -8,11 +8,6 @@
     color: $darkgrey;
   }
 
-  &--is-loading::after {
-    border: 5px solid $white;
-    border-color: $white transparent;
-  }
-
   &--success {
     background-color: $darkgrey;
     border: 1px solid $success-dark;
@@ -23,7 +18,7 @@
       color: $white;
     }
 
-    &.button--is-loading::after {
+    &.loading::after {
       border: 5px solid $success-dark;
       border-color: $success-dark transparent;
     }
@@ -39,7 +34,7 @@
       color: $white;
     }
 
-    &.button--is-loading::after {
+    &.loading::after {
       border: 5px solid $info-dark;
       border-color: $info-dark transparent;
     }
@@ -55,7 +50,7 @@
       color: $white;
     }
 
-    &.button--is-loading::after {
+    &.loading::after {
       border: 5px solid $warning-dark;
       border-color: $warning-dark transparent;
     }
@@ -71,7 +66,7 @@
       color: $white;
     }
 
-    &.button--is-loading::after {
+    &.loading::after {
       border: 5px solid $error-dark;
       border-color: $error-dark transparent;
     }

@@ -12,8 +12,8 @@ export const initStorageConsent = () => {
   }
 
   $('body').append(`<div class="storage-consent">
-    <button class="accept">accept</button>
-    <button class="decline">decline</button>
+    <button type="button" class="accept">accept</button>
+    <button type="button" class="decline">decline</button>
   </div>`);
 
   const $storageConsent = $('.storage-consent');

@@ -73,7 +73,7 @@ class UsersController extends FrontendController
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         if (!$request->isMethod('POST')) {
-            return $this->renderError($this->methodNotAllowed());
+            return $this->methodNotAllowed();
         }
 
         $id = $this->hashService->decode($request->get('id', 0));
@@ -116,7 +116,7 @@ class UsersController extends FrontendController
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         if (!$request->isMethod('POST')) {
-            return $this->renderError($this->methodNotAllowed());
+            return $this->methodNotAllowed();
         }
 
         $id = $this->hashService->decode($request->get('id', 0));
@@ -157,7 +157,7 @@ class UsersController extends FrontendController
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         if (!$request->isMethod('POST')) {
-            return $this->renderError($this->methodNotAllowed());
+            return $this->methodNotAllowed();
         }
 
         $id    = $this->hashService->decode($request->get('id', 0));

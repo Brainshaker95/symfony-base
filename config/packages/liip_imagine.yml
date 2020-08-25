@@ -1,8 +1,6 @@
 liip_imagine:
   driver: gd
   filter_sets:
-    preview:
-      quality: 1
     default:
       quality: 75
     gallery_image:

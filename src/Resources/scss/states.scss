@@ -97,6 +97,10 @@
 
 .show {
   display: block;
+
+  &-i {
+    display: block !important;
+  }
 }
 
 @include breakpointify(show) {
@@ -105,8 +109,16 @@
 
 .hide {
   display: none;
+
+  &-i {
+    display: none !important;
+  }
 }
 
 @include breakpointify(hide) {
   display: none !important;
+}
+
+.loading {
+  @extend %loading;
 }

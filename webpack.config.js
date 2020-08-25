@@ -1,8 +1,5 @@
 const Encore = require('@symfony/webpack-encore');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
-
-const sourceMap = Encore.isProduction();
 
 Encore
   .setOutputPath('public/build/')
@@ -12,8 +9,10 @@ Encore
   .addEntry('users', './src/Resources/js/page/users.js')
   .addStyleEntry('main', './src/Resources/scss/main.scss')
   .addStyleEntry('page_users', './src/Resources/scss/page/users.scss')
-  .enableSourceMaps(!sourceMap)
+  .splitEntryChunks()
+  .enableSassLoader()
   .enablePostCssLoader()
+  .enableSourceMaps(!Encore.isProduction())
   .cleanupOutputBeforeBuild()
   .enableVersioning()
   .enableSingleRuntimeChunk()
@@ -28,35 +27,6 @@ Encore
   .addPlugin(new StyleLintPlugin({
     context: 'src',
     emitErrors: false,
-  }))
-  .addPlugin(new MiniCssExtractPlugin({
-    filename: '[name].[chunkhash].css',
-    chunkFilename: '[name].[chunkhash].css',
-  }))
-  .addLoader({
-    test: /\.s[ac]ss$/,
-    use: [
-      MiniCssExtractPlugin.loader,
-      {
-        loader: 'css-loader',
-        options: {
-          sourceMap,
-          importLoaders: 1,
-        },
-      },
-      {
-        loader: 'postcss-loader',
-        options: { sourceMap },
-      },
-      {
-        loader: 'resolve-url-loader',
-        options: { sourceMap },
-      },
-      {
-        loader: 'sass-loader',
-        options: { sourceMap },
-      },
-    ],
-  });
+  }));
 
 module.exports = Encore.getWebpackConfig();

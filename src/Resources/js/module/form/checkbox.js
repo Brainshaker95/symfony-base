@@ -12,6 +12,7 @@ const uncheckChildren = ($target, isChecked) => {
   }
 };
 
+// TODO: Maybe generate markup in form theme instead of js for form elements?
 const generateMarkup = ($input) => {
   const $parent = $input.parent();
   const $error = $parent.find('.form__error');
