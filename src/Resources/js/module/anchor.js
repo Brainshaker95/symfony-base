@@ -31,7 +31,7 @@ export default () => {
       $anchor.show();
 
       if (isInView($firstFocusable)) {
-        $firstFocusable.focus();
+        $firstFocusable.trigger('focus');
       }
     });
   });

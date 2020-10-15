@@ -76,14 +76,14 @@ const attachHandlers = ($input) => {
 
   $checkbox.on('click keydown', (event) => {
     if ($(event.target).prop('tagName') === 'A'
-      || (event.type === 'keydown' && event.which === keycode.tab)) {
+      || (event.type === 'keydown' && event.key === keycode.tab)) {
       return;
     }
 
     event.preventDefault();
 
     if ($input.prop('disabled')
-      || (event.type === 'keydown' && event.which !== keycode.enter)) {
+      || (event.type === 'keydown' && event.key !== keycode.enter)) {
       return;
     }
 

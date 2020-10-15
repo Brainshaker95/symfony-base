@@ -4,6 +4,44 @@ import 'jquery-ui/ui/widgets/datepicker';
 import keycode from '../../util/keycode';
 import translate from '../../util/translate';
 
+const days = [
+  'monday',
+  'tuesday',
+  'wednesday',
+  'thursday',
+  'friday',
+  'saturday',
+  'sunday',
+];
+
+const months = [
+  'january',
+  'february',
+  'march',
+  'april',
+  'may',
+  'june',
+  'july',
+  'august',
+  'september',
+  'october',
+  'november',
+  'december',
+];
+
+const dayNames = [];
+const dayNamesMin = [];
+const monthNames = [];
+
+days.forEach((day) => {
+  dayNames.push(translate(`datepicker.day.long.${day}`));
+  dayNamesMin.push(translate(`datepicker.day.min.${day}`));
+});
+
+months.forEach((month) => {
+  monthNames.push(translate(`datepicker.month.${month}`));
+});
+
 const generateMarkup = ($input) => {
   const $parent = $input.parent();
   const $error = $parent.find('.form__error');
@@ -43,7 +81,7 @@ const attachHandlers = ($input) => {
 
   $clearButton.on('click keydown', (event) => {
     if ($input.prop('disabled')
-      || (event.type === 'keydown' && event.which !== keycode.enter)) {
+      || (event.type === 'keydown' && event.key !== keycode.enter)) {
       return;
     }
 
@@ -60,12 +98,13 @@ export default () => {
 
     if ($input.attr('type') === 'date') {
       $input.datepicker({
-        dateFormat: 'yy-mm-dd',
-        dayNamesMin: [ "Su","Mo","Tu","We","Th","Fr","Sa" ],
-        monthNames: [ "January","February","March","April","May","June", "July","August","September","October","November","December" ],
+        monthNames,
+        dayNames,
+        dayNamesMin,
         firstDay: 1,
-        prevText: "Prev",
-        nextText: "Next",
+        dateFormat: 'yy-mm-dd',
+        prevText: translate('datepicker.prev_month'),
+        nextText: translate('datepicker.next_month'),
         beforeShow: (input) => {
           $(input)
             .prev('.form__label')

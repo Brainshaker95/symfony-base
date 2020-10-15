@@ -97,7 +97,7 @@ const attachDefaultHandlers = ($input) => {
 
   $file.on('click keydown', (event) => {
     if (event.target !== event.currentTarget
-      || (event.type === 'keydown' && event.which !== keycode.enter)) {
+      || (event.type === 'keydown' && event.key !== keycode.enter)) {
       return;
     }
 
@@ -106,7 +106,7 @@ const attachDefaultHandlers = ($input) => {
       return;
     }
 
-    $input.click();
+    $input.trigger('click');
   });
 
   $input.on('change', () => updatePath($input));
@@ -239,7 +239,7 @@ const attachDragAndDropHandlers = ($input) => {
 
     let alreadyAdded = false;
 
-    $file.find('.file__list-name').each((index, name) => {
+    $file.find('.file__list-name').each((i, name) => {
       if (!alreadyAdded && $(name).text() === file.name) {
         alreadyAdded = true;
       }
@@ -328,7 +328,7 @@ const attachDragAndDropHandlers = ($input) => {
   $file.on('change', () => handleFiles($input[0].files));
 
   $file.find('.file__button').on('click', (event) => {
-    if (event.type === 'keydown' && event.which !== keycode.enter) {
+    if (event.type === 'keydown' && event.key !== keycode.enter) {
       return;
     }
 
@@ -336,7 +336,7 @@ const attachDragAndDropHandlers = ($input) => {
       return;
     }
 
-    $input.click();
+    $input.trigger('click');
   });
 };
 

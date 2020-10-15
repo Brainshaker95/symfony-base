@@ -2,7 +2,7 @@
 @import 'variables/base';
 @import 'variables/grid';
 
-/* stylelint-disable */
+/* stylelint-disable selector-pseudo-class-no-unknown, property-no-unknown, no-extra-semicolons */
 :export {
   breakpoints: {
     xs: map-get($breakpoints, xs);
@@ -14,4 +14,4 @@
   notificationAnimationTime: $notification-anim-time;
   mainNavigationBreakpoint: map-get($breakpoints, $main-navigation-breakpoint);
 };
-/* stylelint-enable */
+/* stylelint-enable selector-pseudo-class-no-unknown, property-no-unknown, no-extra-semicolons */

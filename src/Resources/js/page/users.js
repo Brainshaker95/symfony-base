@@ -59,38 +59,49 @@ $(() => {
   const $deleteProfileImageModal = $('.delete-profile-image-modal');
 
   const deleteUsermodal = initModal($deleteUserModal, {
-    onConfirm: (close) => onModalConfirm(close, 'delete-user', 'success.user_deleted', () => {
-      const $userRow = $deleteUserModal.data('target').closest('.users__row');
+    onConfirm: (close) => onModalConfirm(
+      close,
+      'delete-user',
+      'success.user_deleted',
+      () => {
+        const $userRow = $deleteUserModal
+          .data('target')
+          .closest('.users__row');
 
-      $userRow.slideUp('fast', () => {
-        $userRow.remove();
-      });
-    }),
+        $userRow.slideUp('fast', () => {
+          $userRow.remove();
+        });
+      },
+    ),
   });
 
   const deleteProfileImageModal = initModal($deleteProfileImageModal, {
-    onConfirm: (close) => onModalConfirm(close, 'delete-profile-image', 'success.profile_image_deleted', () => {
-      const $target = $deleteProfileImageModal.data('target');
-      const $userRow = $target.closest('.users__row');
+    onConfirm: (close) => onModalConfirm(
+      close,
+      'delete-profile-image',
+      'success.profile_image_deleted',
+      () => {
+        const $target = $deleteProfileImageModal.data('target');
+        const $userRow = $target.closest('.users__row');
 
-      $target.remove();
-      $userRow
-        .find('.users__profile-image')
-        .attr('src', `${$('[data-placeholder-image]').data('placeholder-image')}`);
-    }),
+        $target.remove();
+        $userRow
+          .find('.users__profile-image')
+          .attr('src', `${$('[data-placeholder-image]')
+            .data('placeholder-image')}`);
+      },
+    ),
   });
 
-  const handleButtonClick = ($target, selector) => {
+  const openModal = ($target, selector) => {
     const $modal = $(`.${selector}-modal`);
 
     $modal
       .find('.modal__body')
-      .text(
-        $target
-          .closest('.users__row')
-          .find('.users__username')
-          .text(),
-      );
+      .text($target
+        .closest('.users__row')
+        .find('.users__username')
+        .text());
 
     $modal.data('target', $target);
 
@@ -101,12 +112,12 @@ $(() => {
     }
   };
 
-  $('.delete-user').on('click', ({ currentTarget }) => handleButtonClick(
+  $('.delete-user').on('click', ({ currentTarget }) => openModal(
     $(currentTarget),
     'delete-user',
   ));
 
-  $('.delete-profile-image').on('click', ({ currentTarget }) => handleButtonClick(
+  $('.delete-profile-image').on('click', ({ currentTarget }) => openModal(
     $(currentTarget),
     'delete-profile-image',
   ));

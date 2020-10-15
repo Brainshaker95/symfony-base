@@ -27,7 +27,7 @@ export default (opts) => {
       .addClass('loading')
       .data('text', $button.text() || $button.data('text'))
       .text('')
-      .blur();
+      .trigger('blur');
   }
 
   if (loading && !options.allowParallelRequests) {

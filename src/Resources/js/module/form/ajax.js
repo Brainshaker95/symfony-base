@@ -4,9 +4,8 @@ import ajax from '../../util/ajax';
 import { validateForm } from './validate';
 
 export default (opts = {}) => {
-  const $firstForm = $('.form').eq(0);
   const options = {
-    $form: $firstForm,
+    $form: $('.form').eq(0),
     ...opts,
   };
 
@@ -25,7 +24,7 @@ export default (opts = {}) => {
       method: $form.attr('method'),
       url: $form.attr('action'),
       data: $form.serialize(),
-      $button: $firstForm.find('[type="submit"]'),
+      $button: $form.find('[type="submit"]'),
       ...options,
     });
   });

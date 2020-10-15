@@ -1,38 +1,38 @@
 include .env
 
 cache-clear:
-	php bin/console cache:clear
+	bash -c 'bin/console cache:clear'
 
 clear-thumbs:
-	php bin/console liip:imagine:cache:remove
+	bash -c 'bin/console liip:imagine:cache:remove'
 
 entity:
-	php bin/console make:entity
+	bash -c 'bin/console make:entity'
 
 install:
-	yarn
-	composer install
+	bash -c 'yarn'
+	bash -c 'composer install'
 
 migrate:
-	php bin/console doctrine:migrations:migrate
+	bash -c 'bin/console doctrine:migrations:migrate'
 
 migrate-first:
-	php bin/console doctrine:migrations:migrate first
+	bash -c 'bin/console doctrine:migrations:migrate first'
 
 migration:
-	php bin/console doctrine:migrations:diff
+	bash -c 'bin/console doctrine:migrations:diff'
 
 phpstan:
 	bash -c 'vendor/bin/phpstan analyse src --level=${PHPSTAN_LEVEL}'
 
 startup:
-	yarn startup
+	bash -c 'yarn startup'
 
 webpack:
-	yarn encore dev
+	bash -c 'yarn encore dev'
 
 webpack-p:
-	yarn encore prod
+	bash -c 'yarn encore prod'
 
 webpack-watch:
-	yarn encore dev --watch
+	bash -c 'yarn encore dev --watch'

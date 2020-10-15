@@ -43,14 +43,11 @@ export default () => {
     });
 
     if ($input.attr('type') === 'number') {
-      $input.on('keydown', ({ which }) => which !== keyCode.e
-        && which !== keyCode.dot
-        && which !== keyCode.comma
-        && which !== keyCode.plus
-        && which !== keyCode.minus
-        && which !== keyCode.numComma
-        && which !== keyCode.numPlus
-        && which !== keyCode.numMinus);
+      $input.on('keydown', ({ code }) => code !== keyCode.comma
+        && code !== keyCode.e
+        && code !== keyCode.minus
+        && code !== keyCode.period
+        && code !== keyCode.plus);
     }
 
     if (device('ie') && $label.length) {

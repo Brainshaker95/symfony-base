@@ -25,34 +25,30 @@ class AssetService
      */
     public function getLiipPreviewConfig(string $thumbnail)
     {
-        try {
-            $liipConfig = file_get_contents(__DIR__ . '..\\..\\..\\config\\packages\\liip_imagine.yml');
+        $liipConfig = file_get_contents(__DIR__ . '..\\..\\..\\config\\packages\\liip_imagine.yml');
 
-            if (!$liipConfig) {
-                return [];
+        if (!$liipConfig) {
+            return [];
+        }
+
+        $config     = Yaml::parse($liipConfig);
+        $filterSets = $config['liip_imagine']['filter_sets'];
+
+        if (isset($filterSets[$thumbnail]) && isset($filterSets[$thumbnail]['filters'])) {
+            $filters = $filterSets[$thumbnail]['filters'];
+
+            if (isset($filters['thumbnail'])) {
+                $thumbnailConfig = $filters['thumbnail'];
+
+                return [
+                    'thumbnail' => array_merge($thumbnailConfig, [
+                        'size' => [
+                            $thumbnailConfig['size'][0] / 10,
+                            $thumbnailConfig['size'][1] / 10,
+                        ],
+                    ]),
+                ];
             }
-
-            $config     = Yaml::parse($liipConfig);
-            $filterSets = $config['liip_imagine']['filter_sets'];
-
-            if (isset($filterSets[$thumbnail]) && isset($filterSets[$thumbnail]['filters'])) {
-                $filters = $filterSets[$thumbnail]['filters'];
-
-                if (isset($filters['thumbnail'])) {
-                    $thumbnailConfig = $filters['thumbnail'];
-
-                    return [
-                        'thumbnail' => array_merge($thumbnailConfig, [
-                            'size' => [
-                                $thumbnailConfig['size'][0] / 10,
-                                $thumbnailConfig['size'][1] / 10,
-                            ],
-                        ]),
-                    ];
-                }
-            }
-        } catch (Exception $e) {
-            throw new Exception($e);
         }
 
         return [];

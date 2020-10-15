@@ -75,7 +75,7 @@ const toggle = ($target) => {
   if ($select.hasClass('select--is-expanded')) {
     $select.removeClass('select--is-expanded');
     $options.stop().slideUp('fast');
-    $selection.blur();
+    $selection.trigger('blur');
   } else {
     $select.addClass('select--is-expanded');
     $options.stop().slideDown('fast');
@@ -307,30 +307,30 @@ const attachHandlers = ($input) => {
   });
 
   $select.on('keydown', (event) => {
-    const { which } = event;
+    const { key } = event;
     const $focusedElement = $(':focus');
 
-    if (which === keycode.escape) {
+    if (key === keycode.escape) {
       closeSelects();
-      $selection.focus();
-    } else if (which === keycode.arrowUp) {
+      $selection.trigger('focus');
+    } else if (key === keycode.arrowUp) {
       event.preventDefault();
 
-      $focusedElement.prev().focus();
-    } else if (which === keycode.arrowDown) {
+      $focusedElement.prev().trigger('focus');
+    } else if (key === keycode.arrowDown) {
       event.preventDefault();
 
       if ($(event.target).hasClass('select__selection')) {
-        $select.find('.select__option').first().focus();
+        $select.find('.select__option').first().trigger('focus');
       } else {
-        $focusedElement.next().focus();
+        $focusedElement.next().trigger('focus');
       }
-    } else if (which === keycode.enter) {
+    } else if (key === keycode.enter) {
       if ($focusedElement.hasClass('select__option')) {
         select(event, true);
 
         if (!$select.prop('multiple') && !event.ctrlKey && !event.shiftKey) {
-          $selection.focus();
+          $selection.trigger('focus');
         }
       } else if ($focusedElement.hasClass('button--clear')) {
         if ($input.prop('disabled')) {
@@ -340,7 +340,7 @@ const attachHandlers = ($input) => {
         clear($select);
       } else {
         toggle($(event.currentTarget));
-        $selection.focus();
+        $selection.trigger('focus');
       }
     }
   });

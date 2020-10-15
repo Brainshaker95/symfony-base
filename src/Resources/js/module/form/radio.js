@@ -40,7 +40,7 @@ const attachHandlers = ($input) => {
   $radio.on('click keydown', (event) => {
     if ($input.prop('disabled')
       || $input.prop('checked')
-      || (event.type === 'keydown' && event.which !== keycode.enter)) {
+      || (event.type === 'keydown' && event.key !== keycode.enter)) {
       return;
     }
 

@@ -41,40 +41,40 @@ export default () => {
   $hamburger
     .on('click', toggleMainNavigation)
     .on('keydown', (event) => {
-      const { which } = event;
+      const { key } = event;
 
-      if (which === keycode.escape) {
+      if (key === keycode.escape) {
         closeMainNavigation();
-      } else if (which === keycode.arrowDown) {
+      } else if (key === keycode.arrowDown) {
         event.preventDefault();
 
         $mainNavigation
           .find('.navigation__link')
           .first()
-          .focus();
+          .trigger('focus');
       }
     });
 
   $('.navigation__list').on('keydown', (event) => {
-    const { which } = event;
+    const { key } = event;
     const $focusedLink = $(':focus');
     const $focusedItem = $focusedLink.closest('.navigation__item');
     const isLink = $focusedLink.hasClass('navigation__link');
     const hasSubNavigation = $focusedItem.find('.subnavigation').length;
 
     const focusPrevItem = () => {
-      $focusedItem.prev().find('.navigation__link').focus();
+      $focusedItem.prev().find('.navigation__link').trigger('focus');
     };
 
     const focusNextItem = () => {
-      $focusedItem.next().find('.navigation__link').focus();
+      $focusedItem.next().find('.navigation__link').trigger('focus');
     };
 
-    if (which === keycode.escape) {
+    if (key === keycode.escape) {
       if ($(event.currentTarget).closest('.navigation--main').length && isMobile()) {
         closeMainNavigation();
       }
-    } else if (which === keycode.tab) {
+    } else if (key === keycode.tab) {
       if (!isMobile() || !$(event.currentTarget).closest('.navigation--main').length) {
         return;
       }
@@ -88,7 +88,7 @@ export default () => {
           closeMainNavigation();
         }
       }, 0);
-    } else if (which === keycode.arrowUp) {
+    } else if (key === keycode.arrowUp) {
       event.preventDefault();
 
       if (!hasSubNavigation) {
@@ -100,15 +100,15 @@ export default () => {
       const $prevLink = $focusedLink.parent().prev().find('.subnavigation__link');
 
       if (isLink && !isMobile()) {
-        $focusedItem.prev().find('.navigation__link').focus();
+        $focusedItem.prev().find('.navigation__link').trigger('focus');
       } else if ($prevLink.length) {
-        $prevLink.focus();
+        $prevLink.trigger('focus');
       } else if ($focusedLink[0] === $focusedItem.find('.subnavigation__link').first()[0]) {
-        $focusedItem.find('.navigation__link').focus();
+        $focusedItem.find('.navigation__link').trigger('focus');
       } else {
         focusPrevItem();
       }
-    } else if (which === keycode.arrowDown) {
+    } else if (key === keycode.arrowDown) {
       event.preventDefault();
 
       if (!hasSubNavigation) {
@@ -120,9 +120,9 @@ export default () => {
       const $nextLink = $focusedLink.parent().next().find('.subnavigation__link');
 
       if (isLink && !isMobile()) {
-        $focusedItem.find('.subnavigation .subnavigation__link').first().focus();
+        $focusedItem.find('.subnavigation .subnavigation__link').first().trigger('focus');
       } else if ($nextLink.length) {
-        $nextLink.focus();
+        $nextLink.trigger('focus');
       } else {
         focusNextItem();
       }
@@ -170,9 +170,9 @@ export default () => {
         .slideDown('fast');
     })
     .on('mouseleave focusout', (event) => {
-      // if (isMobile()) {
-      //   return;
-      // }
+      if (isMobile()) {
+        return;
+      }
 
       const $target = $(event.currentTarget);
 
@@ -195,4 +195,24 @@ export default () => {
           .removeClass('navigation__toggle-submenu--is-expanded');
       }, 0);
     });
+
+  let resizeTimeout;
+
+  $(window).on('resize', () => {
+    if (resizeTimeout) {
+      clearTimeout(resizeTimeout);
+    }
+
+    resizeTimeout = setTimeout(() => {
+      if (!$mainNavigation.hasClass('navigation--is-expanded')) {
+        return;
+      }
+
+      if (!isMobile()) {
+        $body.removeClass('no-scroll');
+      } else {
+        $body.addClass('no-scroll');
+      }
+    }, 100);
+  });
 };
