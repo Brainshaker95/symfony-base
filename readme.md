@@ -66,6 +66,8 @@ ___
 With make
 
 ```makefile
+  help: // show this help
+  
   cache-clear: // clear symfony cache
 
   clear-thumbs: // clear liip imagine cache
