@@ -102,15 +102,14 @@ class GalleryController extends FrontendController
             $page  = (int) $request->get('page', 1);
 
             if ($page < 1) {
-                $page = 1;
+                return $this->notFound();
             }
 
             $paginator  = $this->imageRepository->getGalleryPaginator($page, $limit);
             $totalPages = (int) ceil($paginator->count() / $limit);
 
             if ($page > $totalPages) {
-                $page      = $totalPages;
-                $paginator = $this->imageRepository->getGalleryPaginator($page, $limit);
+                return $this->notFound();
             }
 
             foreach ($paginator as $image) {
