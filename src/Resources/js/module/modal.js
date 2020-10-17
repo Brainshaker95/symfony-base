@@ -2,8 +2,8 @@ import $ from 'jquery';
 
 export default ($modal, opts = {}) => {
   const options = {
-    onOpen: () => {},
-    onClose: () => {},
+    onOpen: $.noop,
+    onClose: $.noop,
     onConfirm: (close) => close(),
     onDecline: (close) => close(),
     ...opts,

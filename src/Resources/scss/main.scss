@@ -1,3 +1,5 @@
+@import '~@fancyapps/fancybox/dist/jquery.fancybox.css';
+
 @import 'declarations';
 
 @import 'animations';
@@ -26,6 +28,7 @@
 @import 'component/grid';
 @import 'component/hamburger';
 @import 'component/language-switcher';
+@import 'component/lightbox';
 @import 'component/modal';
 @import 'component/notification';
 @import 'component/pagination';

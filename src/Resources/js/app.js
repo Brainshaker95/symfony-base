@@ -9,6 +9,7 @@ import initModal from './module/modal';
 import flashMessages from './module/flash-messages';
 import form from './module/form';
 import { initStorageConsent } from './util/storage';
+import lightbox from './module/lightbox';
 import navigation from './module/navigation';
 import translate from './util/translate';
 
@@ -17,6 +18,7 @@ $(() => {
   anchor();
   flashMessages();
   form();
+  lightbox();
   navigation();
 
   // initStorageConsent();

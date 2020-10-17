@@ -82,7 +82,7 @@
           <button
             type="button"
             data-page="{{- prev_page -}}"
-            class="button--normalized arrow-button arrow-button--prev"
+            class="button button--normalized arrow-button arrow-button--prev"
             title="{{- 'pagination.go_to_prev_page'|trans -}}"
             aria-label="{{- 'pagination.go_to_prev_page'|trans -}}"
           ></button>
@@ -97,7 +97,7 @@
             <button
               type="button"
               data-page="{{- i -}}"
-              class="button--normalized pagination__page{{- i == current_page ? ' pagination__page--is-active disabled' : '' -}}{{- is_hidden ? ' hide-i' : '' -}}"
+              class="button button--normalized pagination__page{{- i == current_page ? ' pagination__page--is-active disabled' : '' -}}{{- is_hidden ? ' hide-i' : '' -}}"
               title="{{- 'pagination.go_to_page'|trans ~ ' ' ~ i -}}"
               aria-label="{{- 'pagination.go_to_page'|trans ~ ' ' ~ i -}}"
               {{- i == current_page ? ' tabindex="-1"' : '' -}}
@@ -113,7 +113,7 @@
           <button
             type="button"
             data-page="{{- next_page -}}"
-            class="button--normalized arrow-button arrow-button--next"
+            class="button button--normalized arrow-button arrow-button--next"
             title="{{- 'pagination.go_to_next_page'|trans -}}"
             aria-label="{{- 'pagination.go_to_next_page'|trans -}}"
           ></button>

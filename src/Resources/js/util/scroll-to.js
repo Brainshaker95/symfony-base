@@ -1,6 +1,6 @@
 import $ from 'jquery';
 
-export default ($theTarget, offset = 0, callback = () => {}) => {
+export default ($theTarget, offset = 0, callback = $.noop) => {
   let $target = $theTarget;
 
   if (!$target || !$target.length) {

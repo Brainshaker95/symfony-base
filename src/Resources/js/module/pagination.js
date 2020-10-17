@@ -6,36 +6,40 @@ import notify from './notify';
 export default (opts) => {
   const options = {
     $paginations: null,
-    onLoading: () => {},
-    done: () => {},
+    onLoading: $.noop,
+    done: $.noop,
+    data: {},
     ...opts,
   };
 
-  if (!options.$paginations) {
-    return;
+  const { $paginations } = options;
+
+  if (!$paginations) {
+    return {};
   }
 
   let url;
 
-  options.$paginations.each((index, pagination) => {
+  $paginations.each((index, pagination) => {
     if (!url) {
       url = $(pagination).data('path');
     }
   });
 
   if (!url) {
-    return;
+    return {};
   }
 
-  const loadPage = (page) => {
+  const loadPage = (page, callback = $.noop) => {
     options.onLoading();
 
     ajax({
       url,
+      ...options,
       data: {
         page,
+        ...options.data,
       },
-      ...options,
       done: (response) => {
         if (!response.success) {
           notify();
@@ -44,16 +48,35 @@ export default (opts) => {
         }
 
         options.done(response);
+        callback();
       },
     });
   };
 
   const updatePagination = (page) => {
     if (window.history.replaceState) {
-      window.history.replaceState(null, null, `${window.location.pathname}?page=${page}`);
+      const params = [];
+
+      if (options.method === 'GET') {
+        Object.entries(options.data).forEach(([key, value]) => {
+          const keyValue = `${key}=${value}`;
+
+          if (!params.length) {
+            params.push(`?${keyValue}`);
+          } else {
+            params.push(`&${keyValue}`);
+          }
+        });
+      }
+
+      window.history.replaceState(
+        null,
+        null,
+        `${window.location.pathname}${params.join('')}${params.length ? '&' : '?'}page=${page}`,
+      );
     }
 
-    options.$paginations.each((index, pagination) => {
+    $paginations.each((index, pagination) => {
       const $pagination = $(pagination);
       const $pageButtons = $pagination.find('.pagination__page');
       const totalPages = $pagination.data('total-pages');
@@ -104,8 +127,7 @@ export default (opts) => {
     });
   };
 
-  options.$paginations.each((index, pagination) => {
-    const $pagination = $(pagination);
+  const attachHandlers = ($pagination) => {
     const totalPages = $pagination.data('total-pages');
 
     $pagination.find('.arrow-button--prev, .arrow-button--next').on('click', ({ currentTarget }) => {
@@ -131,5 +153,12 @@ export default (opts) => {
       updatePagination(page);
       loadPage(page);
     });
-  });
+  };
+
+  $paginations.each((index, pagination) => attachHandlers($(pagination)));
+
+  return {
+    loadPage,
+    update: updatePagination,
+  };
 };

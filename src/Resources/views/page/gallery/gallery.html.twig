@@ -3,6 +3,8 @@
 {%- block key -%}gallery{%- endblock -%}
 {%- block has_page_script -%}true{%- endblock -%}
 
+{%- set lightbox_id = uuid() -%}
+
 {%- block content -%}
   <div class="flex justify-end">
     <button class="button button--info mb-2 upload-images">
@@ -15,6 +17,7 @@
       {%- for image in paginator -%}
         {%- include 'page/gallery/_gallery-item.html.twig' with {
           image: image,
+          lightbox_id: lightbox_id,
         } -%}
       {%- endfor -%}
     </div>
@@ -26,7 +29,6 @@
       class: 'gallery-pagination',
       path: path('app_api_gallery_paging'),
       current_page: current_page,
-      page_size: page_size,
       total_pages: total_pages,
     } -%}
   {%- else -%}
@@ -46,6 +48,7 @@
   <template class="gallery-grid-template">
     {%- include 'page/gallery/_gallery-item.html.twig' with {
       is_template: true,
+      lightbox_id: lightbox_id,
     } -%}
   </template>
 {%- endblock -%}
