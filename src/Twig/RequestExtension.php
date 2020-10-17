@@ -3,28 +3,15 @@
 namespace App\Twig;
 
 use App\Service\TranslatorService;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Routing\RouterInterface;
+use App\Traits\HasRequestStack;
+use App\Traits\HasRouter;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
 
 class RequestExtension extends AbstractExtension implements GlobalsInterface
 {
-    /**
-     * @var RequestStack
-     */
-    protected $requestStack;
-
-    /**
-     * @var RouterInterface
-     */
-    protected $router;
-
-    public function __construct(RequestStack $requestStack, RouterInterface $router)
-    {
-        $this->requestStack = $requestStack;
-        $this->router       = $router;
-    }
+    use HasRequestStack;
+    use HasRouter;
 
     /**
      * @return array<mixed>

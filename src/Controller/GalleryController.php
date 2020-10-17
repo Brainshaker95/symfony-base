@@ -5,12 +5,14 @@ namespace App\Controller;
 use App\Entity\Image;
 use App\Entity\User;
 use App\Form\Type\GalleryType;
-use App\Repository\ImageRepository;
-use App\Service\AssetService;
-use App\Service\FileService;
-use App\Service\HashService;
-use App\Service\UserService;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Traits\HasAssetService;
+use App\Traits\HasEntityManager;
+use App\Traits\HasFileService;
+use App\Traits\HasHashService;
+use App\Traits\HasImageRepository;
+use App\Traits\HasTranslator;
+use App\Traits\HasUploadDirectory;
+use App\Traits\HasUserService;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Form\Form;
@@ -19,71 +21,19 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class GalleryController extends FrontendController
 {
+    use HasAssetService;
+    use HasEntityManager;
+    use HasFileService;
+    use HasHashService;
+    use HasImageRepository;
+    use HasTranslator;
+    use HasUserService;
+    use HasUploadDirectory;
+
     protected const PAGE_SIZE = 20;
-
-    /**
-     * @var string
-     */
-    protected $uploadDirectory;
-
-    /**
-     * @var AssetService
-     */
-    protected $assetService;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    protected $entityManager;
-
-    /**
-     * @var FileService
-     */
-    protected $fileService;
-
-    /**
-     * @var HashService
-     */
-    protected $hashService;
-
-    /**
-     * @var ImageRepository
-     */
-    protected $imageRepository;
-
-    /**
-     * @var TranslatorInterface
-     */
-    protected $translator;
-
-    /**
-     * @var UserService
-     */
-    protected $userService;
-
-    public function __construct(
-        string $uploadDirectory,
-        AssetService $assetService,
-        EntityManagerInterface $entityManager,
-        FileService $fileService,
-        HashService $hashService,
-        ImageRepository $imageRepository,
-        TranslatorInterface $translator,
-        UserService $userService
-    ) {
-        $this->uploadDirectory = $uploadDirectory;
-        $this->assetService    = $assetService;
-        $this->entityManager   = $entityManager;
-        $this->fileService     = $fileService;
-        $this->hashService     = $hashService;
-        $this->imageRepository = $imageRepository;
-        $this->translator      = $translator;
-        $this->userService     = $userService;
-    }
 
     public function galleryAction(Request $request): Response
     {
@@ -133,7 +83,6 @@ class GalleryController extends FrontendController
             'has_errors'   => $hasErrors,
             'paginator'    => $paginator,
             'current_page' => $page,
-            'page_size'    => $limit,
             'total_pages'  => $totalPages,
         ]);
     }
@@ -143,10 +92,6 @@ class GalleryController extends FrontendController
      */
     public function pagingAction(Request $request)
     {
-        if (!$request->isMethod('POST')) {
-            return $this->methodNotAllowed();
-        }
-
         /**
          * @var User|null
          */
@@ -173,6 +118,7 @@ class GalleryController extends FrontendController
                 $path = $image->getPath();
 
                 $images[] = [
+                    'link__href'      => $path,
                     'image__src'      => $this->assetService->getPreviewSrc($path, 'gallery_image'),
                     'image__data-src' => $this->assetService->getThumbnailSrc($path, 'gallery_image'),
                 ];

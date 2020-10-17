@@ -5,6 +5,7 @@ services:
   _defaults:
     autowire: true
     autoconfigure: true
+    public: false
 
   App\:
     resource: '../src/*'
@@ -13,21 +14,22 @@ services:
   App\Controller\:
     resource: '../src/Controller'
     tags: ['controller.service_arguments']
+    public: true
 
   App\Controller\GalleryController:
     class: App\Controller\GalleryController
-    arguments:
-      - '%upload_directory%'
+    calls:
+      - ['setUploadDirectory', ['%upload_directory%']]
 
   App\Controller\ProfileController:
     class: App\Controller\ProfileController
-    arguments:
-      - '%upload_directory%'
+    calls:
+      - ['setUploadDirectory', ['%upload_directory%']]
 
   App\Service\FileService:
     class: App\Service\FileService
-    arguments:
-      - '%upload_directory%'
+    calls:
+      - ['setUploadDirectory', ['%upload_directory%']]
 
   App\Service\HashService:
     class: App\Service\HashService

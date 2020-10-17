@@ -18,8 +18,8 @@ export default () => {
   initSelects();
   initTextareas();
 
-  $('.form').on('submit', (event) => {
-    const $form = $(event.currentTarget);
+  $('.form').on('submit', ({ currentTarget }) => {
+    const $form = $(currentTarget);
 
     if ($form.data('ajax')) {
       return true;

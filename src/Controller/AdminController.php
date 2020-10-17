@@ -2,28 +2,20 @@
 
 namespace App\Controller;
 
-use App\Repository\UserRepository;
+use App\Traits\HasUserRepository;
 use Symfony\Component\HttpFoundation\Response;
 
 class AdminController extends FrontendController
 {
+    use HasUserRepository;
+
     /**
      * @var array<string>
      */
-    protected static $roles = [
+    protected const ROLES = [
         'ROLE_ADMIN',
         'ROLE_USER',
     ];
-
-    /**
-     * @var UserRepository;
-     */
-    protected $userRepository;
-
-    public function __construct(UserRepository $userRepository)
-    {
-        $this->userRepository = $userRepository;
-    }
 
     public function adminAction(): Response
     {
@@ -38,7 +30,7 @@ class AdminController extends FrontendController
 
         return $this->render('page/admin/users.html.twig', [
             'users' => $this->userRepository->findAll(),
-            'roles' => self::$roles,
+            'roles' => self::ROLES,
         ]);
     }
 }

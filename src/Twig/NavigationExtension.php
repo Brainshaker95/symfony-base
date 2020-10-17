@@ -2,38 +2,17 @@
 
 namespace App\Twig;
 
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Routing\RouterInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use App\Traits\HasRequestStack;
+use App\Traits\HasRouter;
+use App\Traits\HasTranslator;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class NavigationExtension extends AbstractExtension
 {
-    /**
-     * @var RequestStack
-     */
-    protected $requestStack;
-
-    /**
-     * @var RouterInterface
-     */
-    protected $router;
-
-    /**
-     * @var TranslatorInterface
-     */
-    protected $translator;
-
-    public function __construct(
-        RequestStack $requestStack,
-        RouterInterface $router,
-        TranslatorInterface $translator
-    ) {
-        $this->requestStack = $requestStack;
-        $this->router       = $router;
-        $this->translator   = $translator;
-    }
+    use HasRequestStack;
+    use HasRouter;
+    use HasTranslator;
 
     /**
      * @return array<TwigFunction>
@@ -62,7 +41,7 @@ class NavigationExtension extends AbstractExtension
                 continue;
             }
 
-            $order    = $options['order'] ?? 0;
+            $order    = $options['order']    ?? 0;
             $subpages = $options['subpages'] ?? [];
 
             $navigation[$order] = $this->getParsedNavigationItem(

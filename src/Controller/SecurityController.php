@@ -6,7 +6,7 @@ use App\Entity\User;
 use App\Form\Type\LoginType;
 use App\Form\Type\RegisterType;
 use App\Security\LoginFormAuthenticator;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Traits\HasEntityManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -14,15 +14,12 @@ use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 
 class SecurityController extends FrontendController
 {
+    use HasEntityManager;
+
     /**
      * @var LoginFormAuthenticator
      */
     protected $authenticator;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    protected $entityManager;
 
     /**
      * @var GuardAuthenticatorHandler
@@ -37,11 +34,9 @@ class SecurityController extends FrontendController
     public function __construct(
         LoginFormAuthenticator $authenticator,
         GuardAuthenticatorHandler $guardHandler,
-        EntityManagerInterface $entityManager,
         UserPasswordEncoderInterface $passwordEncoder
     ) {
         $this->authenticator   = $authenticator;
-        $this->entityManager   = $entityManager;
         $this->guardHandler    = $guardHandler;
         $this->passwordEncoder = $passwordEncoder;
     }
@@ -78,7 +73,7 @@ class SecurityController extends FrontendController
             );
         }
 
-        return $this->render('security/register.html.twig', [
+        return $this->render('page/register.html.twig', [
             'register_form' => $form->createView(),
         ]);
     }
@@ -89,7 +84,7 @@ class SecurityController extends FrontendController
             'username' => $request->getSession()->get('last_username'),
         ]);
 
-        return $this->render('security/login.html.twig', [
+        return $this->render('page/login.html.twig', [
             'login_form' => $form->createView(),
         ]);
     }

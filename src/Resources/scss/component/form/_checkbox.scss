@@ -92,3 +92,17 @@
     }
   }
 }
+
+[data-conditional] {
+  display: none;
+
+  &[class] {
+    transition: all 300ms ease;
+    display: block;
+  }
+
+  [data-conditional],
+  .checkbox {
+    margin-left: 1em;
+  }
+}

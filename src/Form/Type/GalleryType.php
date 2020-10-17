@@ -2,15 +2,18 @@
 
 namespace App\Form\Type;
 
+use App\Traits\HasRouter;
+use App\Traits\HasTranslator;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Validator\Constraints;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class GalleryType extends AbstractType
 {
+    use HasRouter;
+    use HasTranslator;
+
     /**
      * @var int
      */
@@ -24,22 +27,6 @@ class GalleryType extends AbstractType
         'image/png',
         'image/svg+xml',
     ];
-
-    /**
-     * @var RouterInterface
-     */
-    protected $router;
-
-    /**
-     * @var TranslatorInterface
-     */
-    protected $translator;
-
-    public function __construct(RouterInterface $router, TranslatorInterface $translator)
-    {
-        $this->router     = $router;
-        $this->translator = $translator;
-    }
 
     /**
      * @param FormBuilderInterface<string> $builder
@@ -69,8 +56,8 @@ class GalleryType extends AbstractType
                             new Constraints\File([
                                 'maxSize'          => $this->maxSize . 'M',
                                 'mimeTypes'        => $this->mimeTypes,
-                                'maxSizeMessage'   => 'app.error.form.image.max_size.exceeded',
-                                'mimeTypesMessage' => 'app.error.form.image.mime_type.invalid',
+                                'maxSizeMessage'   => 'app.error.form.max_size.exceeded',
+                                'mimeTypesMessage' => 'app.error.form.mime_type.invalid',
                             ]),
                         ],
                     ]),
@@ -79,7 +66,7 @@ class GalleryType extends AbstractType
             ->add('submit', Type\SubmitType::class, [
                 'label' => 'label.save',
                 'attr'  => [
-                    'class' => 'button--info',
+                    'class' => 'button button--info',
                 ],
             ])
         ;

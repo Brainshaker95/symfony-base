@@ -2,25 +2,17 @@
 
 namespace App\Service;
 
+use App\Traits\HasTranslator;
 use Symfony\Component\Translation\DataCollectorTranslator;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TranslatorService
 {
+    use HasTranslator;
+
     public const LOCALES = [
         'en',
         'de',
     ];
-
-    /**
-     * @var TranslatorInterface
-     */
-    protected $translator;
-
-    public function __construct(TranslatorInterface $translator)
-    {
-        $this->translator = $translator;
-    }
 
     /**
      * @return array<string>

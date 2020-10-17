@@ -30,7 +30,7 @@ const generateMarkup = ($input) => {
   }
 
   $radio
-    .append($parent.find(`.form__label--is-static[for="${$input.attr('id')}"]`))
+    .append($parent.find(`.form__label[for="${$input.attr('id')}"]`))
     .append($input);
 };
 

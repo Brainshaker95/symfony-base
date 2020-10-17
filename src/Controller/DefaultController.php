@@ -12,7 +12,7 @@ class DefaultController extends FrontendController
     {
         return $this->redirectToRoute('app_index', [
             '_locale' => $request->getLocale(),
-        ]);
+        ], 301);
     }
 
     public function indexAction(): Response

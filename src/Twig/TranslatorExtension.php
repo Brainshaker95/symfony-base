@@ -2,22 +2,14 @@
 
 namespace App\Twig;
 
-use App\Service\TranslatorService;
+use App\Traits\HasTranslatorService;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 class TranslatorExtension extends AbstractExtension
 {
-    /**
-     * @var TranslatorService
-     */
-    protected $translatorService;
-
-    public function __construct(TranslatorService $translatorService)
-    {
-        $this->translatorService = $translatorService;
-    }
+    use HasTranslatorService;
 
     /**
      * @return array<TwigFilter>

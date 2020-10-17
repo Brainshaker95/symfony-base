@@ -2,28 +2,16 @@
 
 namespace App\Service;
 
+use App\Traits\HasSlugger;
+use App\Traits\HasUploadDirectory;
 use Exception;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 class FileService
 {
-    /**
-     * @var string
-     */
-    protected $uploadDirectory;
-
-    /**
-     * @var SluggerInterface
-     */
-    protected $slugger;
-
-    public function __construct(string $uploadDirectory, SluggerInterface $slugger)
-    {
-        $this->uploadDirectory = $uploadDirectory;
-        $this->slugger         = $slugger;
-    }
+    use HasSlugger;
+    use HasUploadDirectory;
 
     public function upload(UploadedFile $file, string $folder = '', string $filePrefix = ''): ?string
     {
@@ -68,7 +56,7 @@ class FileService
         $currentDirectory = $this->uploadDirectory;
         $targetDirectory  = $this->uploadDirectory . '/' . $targetDirectory;
 
-        if(!is_dir($targetDirectory)) {
+        if (!is_dir($targetDirectory)) {
             mkdir($targetDirectory);
         }
 

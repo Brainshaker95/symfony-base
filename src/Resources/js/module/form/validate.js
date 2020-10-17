@@ -15,16 +15,13 @@ const inputTypes = [
   'text',
 ];
 
-const emailInvalid = (value) => value.trim().indexOf(' ') > -1 || !value.match(/\w+@\w+\.\w+/g);
+const emailInvalid = (value) => value.trim().indexOf(' ') > -1 || !value.match(/^[^@\s]+@[^@\s.]+\.[^@.\s]+$/);
 
 export const validate = ($input) => {
+  const tagName = $input.prop('tagName');
   const name = $input.attr('name');
   const type = $input.attr('type');
   const value = $input.val();
-  const isCheckbox = type === 'checkbox';
-  const isFileInput = type === 'file';
-  const isSelect = $input.prop('tagName') === 'SELECT';
-  const isTextarea = $input.prop('tagName') === 'TEXTAREA';
   let error;
 
   $input
@@ -32,7 +29,7 @@ export const validate = ($input) => {
     .find('.form__error')
     .remove();
 
-  if (!value || (isSelect && !value.length)) {
+  if (!value || (tagName === 'SELECT' && !value.length)) {
     if (inputNames.includes(name)) {
       error = translate(`error.form.${name}.empty`);
     } else if (inputTypes.includes(type)) {
@@ -40,7 +37,7 @@ export const validate = ($input) => {
     } else {
       error = translate('error.form.text.empty');
     }
-  } else if (isCheckbox && !$input.is(':checked')) {
+  } else if (type === 'checkbox' && !$input.is(':checked')) {
     if ($input.attr('id').indexOf('privacy') > -1) {
       error = translate('error.form.privacy.empty');
     } else {
@@ -48,7 +45,7 @@ export const validate = ($input) => {
     }
   } else if (type === 'email' && emailInvalid(value)) {
     error = translate('error.form.email.invalid');
-  } else if (isTextarea) {
+  } else if (tagName === 'TEXTAREA') {
     const maxLength = $input.attr('maxlength');
 
     if (maxLength && value.length > maxLength) {
@@ -64,7 +61,7 @@ export const validate = ($input) => {
         limit: min,
       });
     }
-  } else if (isFileInput) {
+  } else if (type === 'file') {
     Array.from($input[0].files).forEach((file) => {
       const maxSize = $input.data('max-size') || Infinity;
       const mimeTypes = ($input.data('mime-types') || []).split(', ');
@@ -82,17 +79,9 @@ export const validate = ($input) => {
   }
 
   if (error) {
-    const $error = $(`<div class="form__error">${error}</div>`);
-
-    if (isCheckbox) {
-      $error.insertAfter($input.closest('.checkbox'));
-    } else if (isFileInput) {
-      $error.insertAfter($input.closest('.file'));
-    } else if (isSelect) {
-      $error.insertAfter($input.closest('.select'));
-    } else {
-      $error.insertAfter($input);
-    }
+    $input
+      .closest('.form__row')
+      .append(`<div class="form__error">${error}</div>`);
 
     return false;
   }

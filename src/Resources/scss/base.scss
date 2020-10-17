@@ -25,7 +25,7 @@ ul {
 a {
   @include focus-outline;
 
-  color: $blue;
+  color: $primary;
   text-decoration: none;
 
   &:hover {
@@ -71,14 +71,5 @@ template {
   &:focus {
     opacity: 1;
     pointer-events: all;
-  }
-}
-
-[data-conditional] {
-  display: none;
-
-  &[class] {
-    transition: all 300ms ease;
-    display: block;
   }
 }

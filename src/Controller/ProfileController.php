@@ -5,9 +5,10 @@ namespace App\Controller;
 use App\Entity\Image;
 use App\Entity\User;
 use App\Form\Type\UserType;
-use App\Service\FileService;
-use App\Service\HashService;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Traits\HasEntityManager;
+use App\Traits\HasFileService;
+use App\Traits\HasHashService;
+use App\Traits\HasUploadDirectory;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,37 +16,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ProfileController extends FrontendController
 {
-    /**
-     * @var string
-     */
-    protected $uploadDirectory;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    protected $entityManager;
-
-    /**
-     * @var FileService
-     */
-    protected $fileService;
-
-    /**
-     * @var HashService
-     */
-    protected $hashService;
-
-    public function __construct(
-        string $uploadDirectory,
-        EntityManagerInterface $entityManager,
-        FileService $fileService,
-        HashService $hashService
-    ) {
-        $this->uploadDirectory = $uploadDirectory;
-        $this->entityManager   = $entityManager;
-        $this->fileService     = $fileService;
-        $this->hashService     = $hashService;
-    }
+    use HasEntityManager;
+    use HasFileService;
+    use HasHashService;
+    use HasUploadDirectory;
 
     public function profileAction(Request $request): Response
     {
@@ -58,31 +32,16 @@ class ProfileController extends FrontendController
             return $this->redirectToRoute('app_login');
         }
 
-        $form = $this->createForm(UserType::class, [
-            'theme' => $user->getTheme() ?: 'dark',
-        ]);
+        $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $theme     = $form->get('theme')->getData();
-            $hasErrors = false;
-
-            if ($theme) {
-                if (!in_array($theme, ['light', 'dark'])) {
-                    $theme = 'dark';
-                }
-
-                $user->setTheme($theme);
-
-                $this->entityManager->persist($user);
-                $this->entityManager->flush();
-            }
-
             /**
              * @var UploadedFile|null
              */
             $uploadedImage = $form->get('image')->getData();
+            $hasErrors     = false;
 
             if ($uploadedImage) {
                 $filename = $this->fileService->upload($uploadedImage, 'profile_images');

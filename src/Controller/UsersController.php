@@ -3,78 +3,29 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Repository\ImageRepository;
-use App\Repository\UserRepository;
-use App\Service\FileService;
-use App\Service\HashService;
-use App\Service\UserService;
-use Doctrine\ORM\EntityManagerInterface;
-use Psr\Log\LoggerInterface;
+use App\Traits\HasEntityManager;
+use App\Traits\HasFileService;
+use App\Traits\HasHashService;
+use App\Traits\HasImageRepository;
+use App\Traits\HasLogger;
+use App\Traits\HasUserRepository;
+use App\Traits\HasUserService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class UsersController extends FrontendController
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    protected $entityManager;
-
-    /**
-     * @var FileService;
-     */
-    protected $fileService;
-
-    /**
-     * @var HashService;
-     */
-    protected $hashService;
-
-    /**
-     * @var ImageRepository;
-     */
-    protected $imageRepository;
-
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
-
-    /**
-     * @var UserRepository;
-     */
-    protected $userRepository;
-
-    /**
-     * @var UserService
-     */
-    protected $userService;
-
-    public function __construct(
-        EntityManagerInterface $entityManager,
-        FileService $fileService,
-        HashService $hashService,
-        ImageRepository $imageRepository,
-        LoggerInterface $logger,
-        UserRepository $userRepository,
-        UserService $userService
-    ) {
-        $this->entityManager   = $entityManager;
-        $this->fileService     = $fileService;
-        $this->hashService     = $hashService;
-        $this->imageRepository = $imageRepository;
-        $this->logger          = $logger;
-        $this->userRepository  = $userRepository;
-        $this->userService     = $userService;
-    }
+    use HasEntityManager;
+    use HasFileService;
+    use HasHashService;
+    use HasImageRepository;
+    use HasLogger;
+    use HasUserRepository;
+    use HasUserService;
 
     public function deleteUserAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
-
-        if (!$request->isMethod('POST')) {
-            return $this->methodNotAllowed();
-        }
 
         $id = $this->hashService->decode($request->get('id', 0));
 
@@ -115,10 +66,6 @@ class UsersController extends FrontendController
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
-        if (!$request->isMethod('POST')) {
-            return $this->methodNotAllowed();
-        }
-
         $id = $this->hashService->decode($request->get('id', 0));
 
         /**
@@ -155,10 +102,6 @@ class UsersController extends FrontendController
     public function updateRolesAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
-
-        if (!$request->isMethod('POST')) {
-            return $this->methodNotAllowed();
-        }
 
         $id    = $this->hashService->decode($request->get('id', 0));
         $roles = $request->get('roles', []);

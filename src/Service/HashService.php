@@ -9,11 +9,11 @@ class HashService
     /**
      * @var Hashids;
      */
-    protected $hasher;
+    protected $hashids;
 
     public function __construct(string $hashidsSalt, int $hashidsPadding)
     {
-        $this->hasher = new Hashids($hashidsSalt, $hashidsPadding);
+        $this->hashids = new Hashids($hashidsSalt, $hashidsPadding);
     }
 
     /**
@@ -21,12 +21,12 @@ class HashService
      */
     public function encode($value): string
     {
-        return $this->hasher->encode($value);
+        return $this->hashids->encode($value);
     }
 
     public function decode(string $hash): ?string
     {
-        $result = $this->hasher->decode($hash);
+        $result = $this->hashids->decode($hash);
 
         return empty($result) ? null : $result[0];
     }

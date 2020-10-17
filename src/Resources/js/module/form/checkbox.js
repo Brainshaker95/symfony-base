@@ -3,16 +3,54 @@ import $ from 'jquery';
 import keycode from '../../util/keycode';
 
 const uncheckChildren = ($target, isChecked) => {
-  if ($target.find('[data-conditional]').length && !isChecked) {
-    $target
-      .find('.checkbox')
-      .removeClass('checkbox--is-checked')
-      .find('.checkbox__input')
-      .prop('checked', false);
+  if (isChecked) {
+    return;
+  }
+
+  const $childConditionals = $target.children('[data-conditional]');
+
+  if ($childConditionals.length) {
+    $childConditionals.each((index, childConditional) => {
+      const $childInput = $(`[data-conditional-toggle^="${$(childConditional).data('conditional')}"]`);
+
+      $childInput
+        .closest('.checkbox')
+        .removeClass('checkbox--is-checked');
+
+      $childInput
+        .prop('checked', false)
+        .trigger('conditional-toggle', [false]);
+    });
   }
 };
 
-// TODO: Maybe generate markup in form theme instead of js for form elements?
+const handleConditionalToggle = ({ currentTarget }, isChecked) => {
+  const conditionalToggle = $(currentTarget).data('conditional-toggle');
+
+  if (conditionalToggle) {
+    const [id, type, cssClass] = conditionalToggle.split('-');
+    const $target = $(`[data-conditional="${id}"]`);
+
+    if (isChecked) {
+      if (type === 'class') {
+        $target.removeClass(cssClass);
+      } else if (type === 'slide') {
+        $target.stop().slideDown(300);
+      }
+
+      return;
+    }
+
+    if (type === 'class') {
+      $target.addClass(cssClass);
+    } else if (type === 'slide') {
+      $target.stop().slideUp(300);
+    }
+
+    uncheckChildren($target, isChecked);
+  }
+};
+
 const generateMarkup = ($input) => {
   const $parent = $input.parent();
   const $error = $parent.find('.form__error');
@@ -35,26 +73,15 @@ const generateMarkup = ($input) => {
     $parent.append($checkbox);
   }
 
-  const $label = $parent.find('.form__label--is-static');
+  const $label = $parent.find('.form__label');
 
   if ($label.hasClass('form__label--is-required')) {
     $label.html(`${$label.html()}*`);
   }
 
-  const conditionalToggle = $input.data('conditional-toggle');
-
-  if (conditionalToggle && isChecked) {
-    const [id, type, cssClass] = conditionalToggle.split('-');
-    const $target = $(`[data-conditional="${id}"]`);
-
-    if (type === 'class') {
-      $target.removeClass(cssClass);
-    } else if (type === 'slide') {
-      $target.stop().slideDown(300);
-    }
-
-    uncheckChildren($target, isChecked);
-  }
+  $input
+    .on('conditional-toggle', handleConditionalToggle)
+    .trigger('conditional-toggle', [isChecked]);
 
   $checkbox
     .append($label)
@@ -63,16 +90,6 @@ const generateMarkup = ($input) => {
 
 const attachHandlers = ($input) => {
   const $checkbox = $input.closest('.checkbox');
-  const conditionalToggle = $input.data('conditional-toggle');
-  let $target = [];
-  let cssClass;
-  let type;
-  let id;
-
-  if (conditionalToggle) {
-    [id, type, cssClass] = conditionalToggle.split('-');
-    $target = $(`[data-conditional="${id}"]`);
-  }
 
   $checkbox.on('click keydown', (event) => {
     if ($(event.target).prop('tagName') === 'A'
@@ -95,17 +112,9 @@ const attachHandlers = ($input) => {
       $checkbox.addClass('checkbox--is-checked');
     }
 
-    if ($target.length) {
-      if (type === 'class') {
-        $target.toggleClass(cssClass);
-      } else if (type === 'slide') {
-        $target.stop().slideToggle(300);
-      }
-
-      uncheckChildren($target, $input.prop('checked'));
-    }
-
-    $input.trigger('change');
+    $input
+      .trigger('conditional-toggle', [$input.prop('checked')])
+      .trigger('change');
   });
 };
 

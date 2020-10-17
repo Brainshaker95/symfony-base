@@ -19,8 +19,8 @@ export default (items, $wrapper, $item) => {
 
       if (isImage) {
         $reference.attr(key.replace('image__', ''), value);
-      } else if (key.indexOf('link__href') === 0) {
-        $reference.attr('href', value);
+      } else if (isLink) {
+        $reference.attr(key.replace('link__', ''), value);
       } else {
         $reference.text(value);
       }

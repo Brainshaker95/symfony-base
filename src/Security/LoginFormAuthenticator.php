@@ -3,6 +3,8 @@
 namespace App\Security;
 
 use App\Repository\UserRepository;
+use App\Traits\HasTranslator;
+use App\Traits\HasUserRepository;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,10 +21,11 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 use Symfony\Component\Security\Guard\PasswordAuthenticatedInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements PasswordAuthenticatedInterface
 {
+    use HasTranslator;
+    use HasUserRepository;
     use TargetPathTrait;
 
     public const LOGIN_ROUTE = 'app_login';
@@ -53,19 +56,9 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     protected $session;
 
     /**
-     * @var TranslatorInterface
-     */
-    protected $translator;
-
-    /**
      * @var UrlGeneratorInterface
      */
     protected $urlGenerator;
-
-    /**
-     * @var UserRepository;
-     */
-    protected $userRepository;
 
     /**
      * @param Session<mixed> $session
@@ -76,18 +69,14 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         UserPasswordEncoderInterface $passwordEncoder,
         Security $security,
         SessionInterface $session,
-        TranslatorInterface $translator,
-        UrlGeneratorInterface $urlGenerator,
-        UserRepository $userRepository
+        UrlGeneratorInterface $urlGenerator
     ) {
         $this->csrfTokenManager = $csrfTokenManager;
         $this->formFactory      = $formFactory;
         $this->passwordEncoder  = $passwordEncoder;
         $this->security         = $security;
         $this->session          = $session;
-        $this->translator       = $translator;
         $this->urlGenerator     = $urlGenerator;
-        $this->userRepository   = $userRepository;
     }
 
     public function supports(Request $request)

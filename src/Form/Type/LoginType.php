@@ -38,6 +38,9 @@ class LoginType extends AbstractType
             ])
             ->add('submit', Type\SubmitType::class, [
                 'label' => 'label.login',
+                'attr'  => [
+                    'class' => 'button button--info',
+                ],
             ])
         ;
     }

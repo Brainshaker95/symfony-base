@@ -2,21 +2,13 @@
 
 namespace App\Service;
 
+use App\Traits\HasFilterService;
 use Exception;
-use Liip\ImagineBundle\Service\FilterService;
 use Symfony\Component\Yaml\Yaml;
 
 class AssetService
 {
-    /**
-     * @var FilterService
-     */
-    protected $filterService;
-
-    public function __construct(FilterService $filterService)
-    {
-        $this->filterService = $filterService;
-    }
+    use HasFilterService;
 
     /**
      * @throws Exception

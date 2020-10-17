@@ -2,21 +2,13 @@
 
 namespace App\Twig;
 
-use App\Service\AssetService;
+use App\Traits\HasAssetService;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
 class AssetExtension extends AbstractExtension
 {
-    /**
-     * @var AssetService
-     */
-    protected $assetService;
-
-    public function __construct(AssetService $assetService)
-    {
-        $this->assetService = $assetService;
-    }
+    use HasAssetService;
 
     /**
      * @return array<TwigFilter>

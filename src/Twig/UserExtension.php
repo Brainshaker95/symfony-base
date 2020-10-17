@@ -3,22 +3,14 @@
 namespace App\Twig;
 
 use App\Entity\User;
-use App\Service\UserService;
+use App\Traits\HasUserService;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 class UserExtension extends AbstractExtension
 {
-    /**
-     * @var UserService
-     */
-    protected $userService;
-
-    public function __construct(UserService $userService)
-    {
-        $this->userService = $userService;
-    }
+    use HasUserService;
 
     /**
      * @return array<TwigFilter>

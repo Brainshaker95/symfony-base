@@ -2,15 +2,18 @@
 
 namespace App\Form\Type;
 
+use App\Entity\User;
+use App\Traits\HasTranslator;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserType extends AbstractType
 {
+    use HasTranslator;
+
     /**
      * @var int
      */
@@ -26,22 +29,6 @@ class UserType extends AbstractType
     ];
 
     /**
-     * @var RouterInterface
-     */
-    protected $router;
-
-    /**
-     * @var TranslatorInterface
-     */
-    protected $translator;
-
-    public function __construct(RouterInterface $router, TranslatorInterface $translator)
-    {
-        $this->router     = $router;
-        $this->translator = $translator;
-    }
-
-    /**
      * @param FormBuilderInterface<string> $builder
      * @param array<string> $options
      */
@@ -55,6 +42,7 @@ class UserType extends AbstractType
         $builder
             ->add('image', Type\FileType::class, [
                 'required' => false,
+                'mapped'   => false,
                 'label'    => 'label.profile_image',
                 'attr'     => [
                     'data-placeholder' => $this->translator->trans('placeholder.upload_image'),
@@ -65,8 +53,8 @@ class UserType extends AbstractType
                     new Constraints\File([
                         'maxSize'          => $this->maxSize . 'M',
                         'mimeTypes'        => $this->mimeTypes,
-                        'maxSizeMessage'   => 'app.error.form.image.max_size.exceeded',
-                        'mimeTypesMessage' => 'app.error.form.image.mime_type.invalid',
+                        'maxSizeMessage'   => 'app.error.form.max_size.exceeded',
+                        'mimeTypesMessage' => 'app.error.form.mime_type.invalid',
                     ]),
                 ],
             ])
@@ -76,7 +64,7 @@ class UserType extends AbstractType
                 'label'       => 'label.theme',
                 'attr'        => [
                     'class' => 'select--no-clear',
-                    'value' => $data['theme'],
+                    // 'value' => $data['theme'],
                 ],
                 'choices' => [
                     'theme.dark'  => 'dark',
@@ -84,22 +72,48 @@ class UserType extends AbstractType
                 ],
             ])
             ->add('conditional_1', Type\CheckboxType::class, [
-                'required'    => false,
+                'required' => false,
+                'mapped'   => false,
             ])
             ->add('conditional_2', Type\CheckboxType::class, [
-                'required'    => false,
+                'required' => false,
+                'mapped'   => false,
             ])
-            // ->add('text', Type\TextType::class)
+            ->add('conditional_3', Type\CheckboxType::class, [
+                'required' => false,
+                'mapped'   => false,
+            ])
+            ->add('conditional_4', Type\CheckboxType::class, [
+                'required' => false,
+                'mapped'   => false,
+            ])
+            // ->add('text', Type\TextType::class, [
+            //     'constraints' => new Constraints\NotBlank([
+            //         'message' => 'app.error.form.text.empty',
+            //     ]),
+            // ])
+            // ->add('email', Type\EmailType::class, [
+            //     'constraints' => [
+            //         new Constraints\NotBlank([
+            //             'message' => 'app.error.form.email.empty',
+            //         ]),
+            //         new Constraints\Email([
+            //             'message' => 'app.error.form.email.invalid',
+            //         ]),
+            //     ],
+            // ])
             // ->add('date', Type\DateType::class)
             // ->add('time', Type\TimeType::class)
             // ->add('number', Type\NumberType::class)
             // ->add('datetime', Type\DateTimeType::class)
             // ->add('textarea', Type\TextareaType::class, [
-            //     'required' => true,
             //     'attr' => [
             //         'maxlength' => 50,
             //     ],
             //     'constraints' => [
+            //         new Constraints\NotBlank([
+            //             'message' => 'app.error.form.text.empty',
+            //         ]),
             //         new Constraints\Length([
             //             'max'        => 50,
             //             'minMessage' => 'app.error.form.textarea.max',
@@ -107,7 +121,6 @@ class UserType extends AbstractType
             //     ],
             // ])
             // ->add('select1', Type\ChoiceType::class, [
-            //     'required' => true,
             //     'multiple' => true,
             //     'choices'  => [
             //         '1' => '1',
@@ -143,14 +156,18 @@ class UserType extends AbstractType
             //     'choice_attr' => function ($value) {
             //         $disabled = false;
 
-            //         if ($value === 'friend') {
+            //         if ($value === '3') {
             //             $disabled = true;
             //         }
 
             //         return $disabled ? ['disabled' => 'disabled'] : [];
             //     },
             // ])
-            // ->add('checkbox', Type\CheckboxType::class)
+            // ->add('checkbox', Type\CheckboxType::class, [
+            //     'constraints' => new Constraints\IsTrue([
+            //         'message' => 'app.error.form.checkbox.empty',
+            //     ]),
+            // ])
             // ->add('radio', Type\ChoiceType::class, [
             //     'attr' => [
             //         'class' => 'radio--show-label',
@@ -169,6 +186,13 @@ class UserType extends AbstractType
                 ],
             ])
         ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => User::class,
+        ]);
     }
 
     public function getBlockPrefix(): string

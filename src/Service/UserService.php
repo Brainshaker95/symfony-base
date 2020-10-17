@@ -3,25 +3,14 @@
 namespace App\Service;
 
 use App\Entity\User;
+use App\Traits\HasFileService;
+use App\Traits\HasHashService;
 use Symfony\Component\Finder\Finder;
 
 class UserService
 {
-    /**
-     * @var FileService
-     */
-    protected $fileService;
-
-    /**
-     * @var HashService
-     */
-    protected $hashService;
-
-    public function __construct(FileService $fileService, HashService $hashService)
-    {
-        $this->fileService = $fileService;
-        $this->hashService = $hashService;
-    }
+    use HasFileService;
+    use HasHashService;
 
     public function canModify(User $curentUser, User $userToCheck): bool
     {

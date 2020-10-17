@@ -41,13 +41,13 @@
             <div class="col-12">
               {{ form_row(profile_form.conditional_1, {
                 attr: {
-                  'data-conditional-toggle': conditional_1_id ~ '-slide',
+                  'data-conditional-toggle': conditional_1_id ~ '-class-disabled',
                 },
               }) }}
             </div>
           </div>
 
-          <div data-conditional="{{- conditional_1_id -}}">
+          <div data-conditional="{{- conditional_1_id -}}" class="disabled">
             <h4 class="line-after mt-4">
               {{- 'page.profile.user_settings'|trans -}}
             </h4>
@@ -88,6 +88,62 @@
                   b
                 </div>
               </div>
+            </div>
+
+             {%- set conditional_3_id = uuid() -%}
+
+            <div class="grid no-gutter-y mt-4">
+              <div class="col-12">
+                {{ form_row(profile_form.conditional_3, {
+                  attr: {
+                    'data-conditional-toggle': conditional_3_id ~ '-slide',
+                  },
+                }) }}
+              </div>
+            </div>
+
+            <div data-conditional="{{- conditional_3_id -}}">
+              <h4 class="line-after mt-4">
+                {{- 'page.profile.user_settings'|trans -}}
+              </h4>
+
+              <div class="grid no-gutter-y">
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                  a
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                  b
+                </div>
+              </div>
+
+               {%- set conditional_4_id = uuid() -%}
+
+            <div class="grid no-gutter-y mt-4">
+              <div class="col-12">
+                {{ form_row(profile_form.conditional_4, {
+                  attr: {
+                    'data-conditional-toggle': conditional_4_id ~ '-class-disabled',
+                  },
+                }) }}
+              </div>
+            </div>
+
+            <div data-conditional="{{- conditional_4_id -}}" class="disabled">
+              <h4 class="line-after mt-4">
+                {{- 'page.profile.user_settings'|trans -}}
+              </h4>
+
+              <div class="grid no-gutter-y">
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                  a
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                  b
+                </div>
+              </div>
+            </div>
             </div>
           </div>
         </div>

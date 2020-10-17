@@ -1,8 +1,6 @@
-.theme--dark button {
-  @include focus-shadow;
-}
-
 .theme--dark .button {
+  @include focus-shadow;
+
   &:hover {
     background-color: $lightgrey;
     color: $darkgrey;
