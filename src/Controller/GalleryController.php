@@ -55,7 +55,7 @@ class GalleryController extends FrontendController
         $page      = (int) $request->get('page', 1);
 
         if ($page < 1) {
-            $page = 1;
+            return $this->renderNotFound();
         }
 
         $form->handleRequest($request);
@@ -71,14 +71,13 @@ class GalleryController extends FrontendController
         $paginator  = $this->imageRepository->getGalleryPaginator($page, $limit);
         $totalPages = (int) ceil($paginator->count() / $limit);
 
-        if ($page > $totalPages) {
-            $page      = $totalPages;
-            $paginator = $this->imageRepository->getGalleryPaginator($page, $limit);
-        }
-
         $this->userService->clearUserFilesFromTmp($user);
 
-        return $this->render('page/gallery/gallery.html.twig', [
+        if ($page > $totalPages) {
+            return $this->renderNotFound();
+        }
+
+        return $this->render('page/gallery.html.twig', [
             'gallery_form' => $form->createView(),
             'has_errors'   => $hasErrors,
             'paginator'    => $paginator,

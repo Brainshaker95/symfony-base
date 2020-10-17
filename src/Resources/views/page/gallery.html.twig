@@ -15,10 +15,13 @@
   {%- if paginator|length -%}
     <div class="grid gallery-grid mt-2">
       {%- for image in paginator -%}
-        {%- include 'page/gallery/_gallery-item.html.twig' with {
-          image: image,
-          lightbox_id: lightbox_id,
-        } -%}
+        <div class="col-12 col-xs-6 col-sm-4 col-md-3 col-xl-1-5th">
+          {%- include 'shared/image.html.twig' with {
+            image: image,
+            lightbox_id: lightbox_id,
+            thumbnail: 'gallery_image',
+          } only -%}
+        </div>
       {%- endfor -%}
     </div>
 
@@ -46,9 +49,11 @@
   } -%}
 
   <template class="gallery-grid-template">
-    {%- include 'page/gallery/_gallery-item.html.twig' with {
-      is_template: true,
-      lightbox_id: lightbox_id,
-    } -%}
+    <div class="col-12 col-xs-6 col-sm-4 col-md-3 col-xl-1-5th">
+      {%- include 'shared/image.html.twig' with {
+        is_template: true,
+        lightbox_id: lightbox_id,
+      } only -%}
+    </div>
   </template>
 {%- endblock -%}
