@@ -1,7 +1,20 @@
 {%- extends 'form_div_layout.html.twig' -%}
 
 {%- block form_start -%}
-  <form method="post"{%- if action -%} action="{{- action -}}"{%- endif -%} class="form"{%- for attrname, attrvalue in attr -%} {{- attrname -}}="{{- attrvalue -}}"{%- endfor -%}{%- if multipart -%} enctype="multipart/form-data"{%- endif -%} novalidate>
+  {%- do form.setMethodRendered -%}
+  {%- set method = method|upper -%}
+
+  {%- if method in ['GET', 'POST'] -%}
+    {%- set form_method = method -%}
+  {%- else -%}
+    {%- set form_method = 'POST' -%}
+  {%- endif -%}
+
+  <form{%- if name != '' %} name="{{- name -}}"{%- endif %} method="{{- form_method|lower -}}"{%- if action != '' -%} action="{{- action -}}"{%- endif %} class="form"{{ block('attributes') }}{%- if multipart %} enctype="multipart/form-data"{%- endif %} novalidate>
+
+  {%- if form_method != method -%}
+    <input type="hidden" name="_method" value="{{- method -}}" />
+  {%- endif -%}
 {%- endblock form_start -%}
 
 {%- block form_row -%}
@@ -86,8 +99,31 @@
   {%- endif -%}
 {%- endblock form_label -%}
 
+{%- block form_widget_compound -%}
+  {%- if form is rootform -%}
+    {{- form_errors(form, {
+      render_as_flash: true,
+    }) -}}
+  {%- endif -%}
+
+  <div {{ block('widget_container_attributes') }}>
+    {{- block('form_rows') -}}
+    {{- form_rest(form) -}}
+  </div>
+{%- endblock form_widget_compound -%}
+
 {%- block form_errors -%}
-  {%- if errors|length > 0 -%}
+  {%- if render_as_flash is defined and render_as_flash -%}
+    {% if errors|length %}
+      <section class="flash-messages">
+        {%- for error in errors -%}
+          <div class="alert alert--error">
+            {{- error.message -}}
+          </div>
+        {%- endfor -%}
+      </section>
+    {% endif %}
+  {%- elseif errors|length -%}
     {%- for error in errors -%}
       <div class="form__error">
         {{- error.message -}}

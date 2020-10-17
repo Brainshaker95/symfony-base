@@ -50,6 +50,8 @@ class LoginType extends AbstractType
         $resolver->setDefaults([
             'csrf_token_id' => 'authenticate',
             'username'      => '',
+            'timed_spam'    => true,
+            'honeypot'      => true,
         ]);
     }
 

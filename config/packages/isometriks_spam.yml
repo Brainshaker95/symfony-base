@@ -1,0 +1,8 @@
+isometriks_spam:
+  timed:
+    min: 7
+    max: 3600
+    message: app.error.form.timed_spam
+  honeypot:
+    field: email_address
+    message: app.error.form.honeypot

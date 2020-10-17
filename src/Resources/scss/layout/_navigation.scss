@@ -203,8 +203,12 @@
         padding: 0 0.5em;
 
         &::before {
-          bottom: -0.1em;
-          height: 0.1em;
+          bottom: -0.2em;
+          height: 0.2em;
+        }
+
+        &--has-subpages::before {
+          content: none;
         }
       }
     }

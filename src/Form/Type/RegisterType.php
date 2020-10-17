@@ -74,6 +74,8 @@ class RegisterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'timed_spam' => true,
+            'honeypot'   => true,
         ]);
     }
 
