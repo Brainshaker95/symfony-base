@@ -52,7 +52,7 @@
   }
 
   .form__label--is-static {
-    @include checkbox-radio-label;
+    @extend %checkbox-radio-label;
 
     &::before,
     &::after {

@@ -100,4 +100,10 @@
       }
     }
   }
+
+  @include ie {
+    .date__input {
+      color: $white !important;
+    }
+  }
 }

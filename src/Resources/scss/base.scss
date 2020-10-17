@@ -73,3 +73,18 @@ template {
     pointer-events: all;
   }
 }
+
+@include ie {
+  .form__row--has-value,
+  .file {
+    .form__label {
+      margin-top: -1.75em !important;
+      padding-left: 0 !important;
+      font-size: 0.75em !important;
+    }
+  }
+
+  .date__input {
+    color: $darkgrey !important;
+  }
+}

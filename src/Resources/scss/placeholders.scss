@@ -26,3 +26,20 @@
     }
   }
 }
+
+%checkbox-radio-label {
+  position: relative;
+  padding: 0;
+  top: -0.1em;
+  left: 1.5em;
+  width: calc(100% - 1.5em);
+  color: $darkgrey;
+  transform: none;
+  transition: none;
+  pointer-events: all;
+  cursor: pointer;
+
+  .theme--dark & {
+    color: $white;
+  }
+}
