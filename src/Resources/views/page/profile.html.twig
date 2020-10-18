@@ -1,19 +1,156 @@
-{% extends 'base.html.twig' %}
+{%- extends 'shared/noindexed.html.twig' -%}
 
-{% block content %}
-  Profile<br>
+{%- block key -%}profile{%- endblock -%}
 
-  {% if is_granted('ROLE_SUPER_ADMIN') %}
-    Super Admin is granted<br>
-  {% endif %}
+{%- block content -%}
+  {{- form_start(profile_form) -}}
+    <div class="grid">
+      {%- set username = user.getUsername -%}
 
-  {% if is_granted('ROLE_ADMIN') %}
-    Admin is granted<br>
-  {% endif %}
+        <div class="col-12 col-sm-4 col-md-3 col-xl-2">
+          {%- include 'shared/image.html.twig' with {
+            image: user.getImage ?: asset('/build/images/placeholder-profile-image.jpg'),
+            thumbnail: 'profile_image',
+            alt: username,
+            title: username,
+          } -%}
 
-  {% if is_granted('ROLE_USER') %}
-    User is granted<br>
+          <div class="profile__username">
+            {{- username -}}
+          </div>
+        </div>
 
-    {{ dump(app.getUser) }}
-  {% endif %}
-{% endblock %}
+        <div class="col-12 col-sm-8 col-md-9 col-xl-10">
+          <h4 class="line-after">
+            {{- 'page.profile.user_settings'|trans -}}
+          </h4>
+
+          <div class="grid no-gutter-y">
+            <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+              {{- form_row(profile_form.image) -}}
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+              {{- form_row(profile_form.theme) -}}
+            </div>
+          </div>
+
+          {%- set conditional_1_id = uuid() -%}
+
+          <div class="grid no-gutter-y mt-4">
+            <div class="col-12">
+              {{ form_row(profile_form.conditional_1, {
+                attr: {
+                  'data-conditional-toggle': conditional_1_id ~ '-class-disabled',
+                },
+              }) }}
+            </div>
+          </div>
+
+          <div data-conditional="{{- conditional_1_id -}}" class="disabled">
+            <h4 class="line-after mt-4">
+              {{- 'page.profile.user_settings'|trans -}}
+            </h4>
+
+            <div class="grid no-gutter-y">
+              <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                a
+              </div>
+
+              <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                b
+              </div>
+            </div>
+
+            {%- set conditional_2_id = uuid() -%}
+
+            <div class="grid no-gutter-y mt-4">
+              <div class="col-12">
+                {{ form_row(profile_form.conditional_2, {
+                  attr: {
+                    'data-conditional-toggle': conditional_2_id ~ '-slide',
+                  },
+                }) }}
+              </div>
+            </div>
+
+            <div data-conditional="{{- conditional_2_id -}}">
+              <h4 class="line-after mt-4">
+                {{- 'page.profile.user_settings'|trans -}}
+              </h4>
+
+              <div class="grid no-gutter-y">
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                  a
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                  b
+                </div>
+              </div>
+            </div>
+
+             {%- set conditional_3_id = uuid() -%}
+
+            <div class="grid no-gutter-y mt-4">
+              <div class="col-12">
+                {{ form_row(profile_form.conditional_3, {
+                  attr: {
+                    'data-conditional-toggle': conditional_3_id ~ '-slide',
+                  },
+                }) }}
+              </div>
+            </div>
+
+            <div data-conditional="{{- conditional_3_id -}}">
+              <h4 class="line-after mt-4">
+                {{- 'page.profile.user_settings'|trans -}}
+              </h4>
+
+              <div class="grid no-gutter-y">
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                  a
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                  b
+                </div>
+              </div>
+
+               {%- set conditional_4_id = uuid() -%}
+
+            <div class="grid no-gutter-y mt-4">
+              <div class="col-12">
+                {{ form_row(profile_form.conditional_4, {
+                  attr: {
+                    'data-conditional-toggle': conditional_4_id ~ '-class-disabled',
+                  },
+                }) }}
+              </div>
+            </div>
+
+            <div data-conditional="{{- conditional_4_id -}}" class="disabled">
+              <h4 class="line-after mt-4">
+                {{- 'page.profile.user_settings'|trans -}}
+              </h4>
+
+              <div class="grid no-gutter-y">
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                  a
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                  b
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          {{- form_row(profile_form.submit) -}}
+        </div>
+    </div>
+  {{- form_end(profile_form) -}}
+{%- endblock -%}

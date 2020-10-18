@@ -1,0 +1,15 @@
+{%- extends 'base.html.twig' -%}
+
+{%- block title -%}{{- page_title('title.login') -}}{%- endblock -%}
+
+{%- block content -%}
+  <div class="grid">
+	  <div class="col-12 col-md-6">
+      <h1>
+        {{- 'page.login.headline'|trans -}}
+      </h1>
+
+      {{- form(login_form) -}}
+    </div>
+  </div>
+{%- endblock -%}

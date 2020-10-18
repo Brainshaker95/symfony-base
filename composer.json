@@ -1,9 +1,10 @@
 {
-  "name": "symfony-base",
-  "type": "project",
+  "name": "brainshaker/symfony-base",
+  "version": "1.0.0",
+  "description": "Skeleton project for easy development of symfony applications",
   "license": "MIT",
   "homepage": "https://github.com/Brainshaker95/symfony-base",
-  "description": "Symfony Base",
+  "type": "project",
   "authors": [
     {
       "name": "Patrick Rupp"
@@ -13,6 +14,9 @@
     "php": "^7.2.5",
     "ext-ctype": "*",
     "ext-iconv": "*",
+    "hashids/hashids": "^4.0",
+    "isometriks/spam-bundle": "^1.0",
+    "liip/imagine-bundle": "^2.3",
     "sensio/framework-extra-bundle": "^5.1",
     "symfony/apache-pack": "^1.0",
     "symfony/asset": "5.0.*",

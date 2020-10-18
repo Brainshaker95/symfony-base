@@ -1,0 +1,27 @@
+@mixin breakpoint($breakpoint) {
+  @media (min-width: map-get($breakpoints, $breakpoint)) {
+    @content;
+  }
+}
+
+@mixin breakpointify($name) {
+  .#{$name} {
+    @each $breakpoint, $width in $breakpoints {
+      @include breakpoint($breakpoint) {
+        &-#{$breakpoint} {
+          @content;
+        }
+      }
+    }
+  }
+}
+
+@mixin hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+}

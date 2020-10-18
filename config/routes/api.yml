@@ -1,0 +1,26 @@
+app_api_delete_profile_image:
+  path: /api/delete_profile_image
+  controller: App\Controller\UsersController::deleteProfileImageAction
+  methods: POST
+
+app_api_delete_user:
+  path: /api/delete_user
+  controller: App\Controller\UsersController::deleteUserAction
+  methods: POST
+
+app_api_gallery_paging:
+  path: /api/gallery_paging
+  controller: App\Controller\GalleryController::pagingAction
+  methods: POST
+
+app_api_update_roles:
+  path: /api/update_roles
+  controller: App\Controller\UsersController::updateRolesAction
+  methods: POST
+
+app_api_upload_images:
+  path: /api/upload_images
+  controller: App\Controller\GalleryController::uploadImagesAction
+  methods:
+    - POST
+    - DELETE

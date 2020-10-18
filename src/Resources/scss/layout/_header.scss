@@ -1,3 +1,32 @@
 .header {
-  //
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: $header-height;
+  background-color: $header-background-color;
+  z-index: 5;
+
+  + * {
+    padding-top: $header-height;
+  }
+
+  &__top {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.5em;
+    font-size: 0.8em;
+  }
+
+  &__bottom {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__brand {
+    display: block;
+  }
+
+  &__logo {
+    max-width: 220px;
+  }
 }

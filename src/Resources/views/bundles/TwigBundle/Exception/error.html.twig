@@ -1,5 +1,12 @@
-{% extends 'base.html.twig' %}
+{%- extends 'shared/noindexed.html.twig' -%}
 
-{% block content %}
-  Oops
-{% endblock %}
+{%- block key -%}error_general{%- endblock -%}
+
+{%- block content -%}
+  {%- include 'shared/error.html.twig' with {
+    title: 'page.error.general.title'|trans({
+      '{{ statusCode }}': status_code,
+    }, 'messages', current_locale),
+    text: 'page.error.general.text'|trans([], 'messages', current_locale),
+  } -%}
+{%- endblock -%}

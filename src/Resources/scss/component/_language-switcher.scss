@@ -1,0 +1,36 @@
+.language-switcher {
+  &__button {
+    color: $white;
+    font-size: 1em !important;
+    padding: 0 1.25em 0 0.5em !important;
+    transition: color 300ms ease;
+
+    &::after {
+      content: '' !important;
+      top: 0;
+      right: 0;
+      font-size: 0.8em;
+    }
+
+    &:hover {
+      color: $white;
+    }
+
+    &:focus {
+      color: $focus-color !important;
+      box-shadow: none !important;
+
+      &.navigation__link::after {
+        border-color: $focus-color;
+      }
+    }
+
+    &.navigation__link--is-expanded::after {
+      top: 0.3em;
+    }
+  }
+
+  .subnavigation__link {
+    padding: 0.5em;
+  }
+}

@@ -23,7 +23,7 @@ class User implements UserInterface
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @ORM\Column(type="string", unique=true)
      */
     private $username;
 
@@ -39,7 +39,19 @@ class User implements UserInterface
      */
     private $password;
 
-    public function getId(): ?int
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    private $theme;
+
+    /**
+     * @var Image|null
+     * @ORM\OneToOne(targetEntity=Image::class, cascade={"persist", "remove"})
+     */
+    private $image;
+
+    public function getId(): int
     {
         return $this->id;
     }
@@ -58,10 +70,7 @@ class User implements UserInterface
 
     public function getRoles(): array
     {
-        $roles   = $this->roles;
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
+        return array_unique($this->roles);
     }
 
     /**
@@ -86,6 +95,30 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getTheme(): string
+    {
+        return (string) $this->theme;
+    }
+
+    public function setTheme(string $theme): self
+    {
+        $this->theme = $theme;
+
+        return $this;
+    }
+
+    public function getImage(): ?Image
+    {
+        return $this->image;
+    }
+
+    public function setImage(?Image $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
     public function getSalt()
     {
         return null;
@@ -99,7 +132,7 @@ class User implements UserInterface
     {
         $metadata->addConstraint(new UniqueEntity([
             'fields'  => 'username',
-            'message' => 'error.form.register.username.unique',
+            'message' => 'app.error.form.username.unique',
         ]));
     }
 }

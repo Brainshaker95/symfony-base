@@ -1,0 +1,117 @@
+.theme--dark .button {
+  @include focus-shadow;
+
+  &:hover {
+    background-color: $lightgrey;
+    color: $darkgrey;
+  }
+
+  &--success {
+    background-color: $darkgrey;
+    border: 1px solid $success-dark;
+    color: $success-dark;
+
+    &:hover {
+      background-color: $success-dark;
+      color: $white;
+    }
+
+    &.loading::after {
+      border: 5px solid $success-dark;
+      border-color: $success-dark transparent;
+    }
+  }
+
+  &--info {
+    background-color: $darkgrey;
+    border: 1px solid $info-dark;
+    color: $info-dark;
+
+    &:hover {
+      background-color: $info-dark;
+      color: $white;
+    }
+
+    &.loading::after {
+      border: 5px solid $info-dark;
+      border-color: $info-dark transparent;
+    }
+  }
+
+  &--warning {
+    background-color: $darkgrey;
+    border: 1px solid $warning-dark;
+    color: $warning-dark;
+
+    &:hover {
+      background-color: $warning-dark;
+      color: $white;
+    }
+
+    &.loading::after {
+      border: 5px solid $warning-dark;
+      border-color: $warning-dark transparent;
+    }
+  }
+
+  &--error {
+    background-color: $darkgrey;
+    border: 1px solid $error-dark;
+    color: $error-dark;
+
+    &:hover {
+      background-color: $error-dark;
+      color: $white;
+    }
+
+    &.loading::after {
+      border: 5px solid $error-dark;
+      border-color: $error-dark transparent;
+    }
+  }
+
+  &--normalized {
+    border: 0;
+
+    &:hover {
+      background-color: transparent;
+      color: $white;
+    }
+
+    &:focus {
+      border: 0;
+    }
+  }
+
+  &--close {
+    &::before,
+    &::after {
+      background-color: $white;
+    }
+
+    &:hover {
+      &::before,
+      &::after {
+        background-color: $darkgrey;
+      }
+    }
+  }
+
+  &--clear {
+    border: 0;
+    background-color: transparent;
+
+    &:focus {
+      box-shadow: none;
+    }
+
+    &:hover {
+      background-color: transparent;
+
+      &::before,
+      &::after {
+        background-color: $white;
+      }
+    }
+  }
+}

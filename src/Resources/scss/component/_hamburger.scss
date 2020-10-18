@@ -1,0 +1,61 @@
+.hamburger {
+  display: block;
+  position: relative;
+  top: 1em;
+  width: 1.4em;
+  height: 1.4em;
+
+  @include breakpoint($main-navigation-breakpoint) {
+    display: none;
+  }
+
+  &__line {
+    position: absolute;
+    left: 50%;
+    width: 100%;
+    height: 0.2em;
+    background-color: $white;
+    border-radius: 0.25em;
+    transform: translate(-50%, -50%);
+    transition:
+      top 300ms ease,
+      background-color 300ms ease,
+      transform 300ms ease;
+
+    &--1 {
+      top: 0.2em;
+    }
+
+    &--2 {
+      top: 50%;
+    }
+
+    &--3 {
+      top: calc(100% - 0.2em);
+    }
+  }
+
+  &--is-expanded .hamburger__line {
+    &--1 {
+      top: 0.75em;
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    &--2 {
+      transform: translate(-50%, -50%) scale(0);
+    }
+
+    &--3 {
+      top: 0.75em;
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+  }
+
+  &:focus {
+    box-shadow: none !important;
+
+    .hamburger__line {
+      @include focus-background;
+    }
+  }
+}

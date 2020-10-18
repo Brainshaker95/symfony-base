@@ -1,0 +1,74 @@
+@mixin chevron {
+  &::after {
+    position: absolute;
+    content: '';
+    width: 1em;
+    height: 1em;
+    transition: border-color 300ms ease;
+    border: {
+      style: solid;
+      width: 0.2em 0.2em 0 0;
+      radius: 0.1em;
+      color: $darkgrey;
+    };
+
+    .theme--dark & {
+      border-color: $white;
+    }
+  }
+}
+
+@mixin chevron-up {
+  @include chevron;
+
+  &::after {
+    transform: rotate(-45deg);
+  }
+}
+
+@mixin chevron-down {
+  @include chevron;
+
+  &::after {
+    transform: rotate(135deg);
+  }
+}
+
+@mixin chevron-left {
+  @include chevron;
+
+  &::after {
+    left: 0.5em;
+    transform: rotate(-135deg);
+  }
+}
+
+@mixin chevron-right {
+  @include chevron;
+
+  &::after {
+    right: 0.5em;
+    transform: rotate(45deg);
+  }
+}
+
+@mixin chevron-down-rotating-default {
+  @include chevron-down;
+
+  position: relative;
+
+  &::after {
+    pointer-events: none;
+    transform: rotate(135deg) scale(0.7);
+    transition:
+      top 300ms ease,
+      border-color 300ms ease,
+      transform 300ms ease;
+  }
+}
+
+@mixin chevron-down-rotating-expanded {
+  &::after {
+    transform: rotate(315deg) scale(0.7);
+  }
+}

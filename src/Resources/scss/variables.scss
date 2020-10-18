@@ -1,20 +1,17 @@
-@import 'variables/base';
 @import 'variables/colors';
+@import 'variables/base';
 @import 'variables/grid';
 
-/* stylelint-disable */
+/* stylelint-disable selector-pseudo-class-no-unknown, property-no-unknown, no-extra-semicolons */
 :export {
   breakpoints: {
-    xs: map-get($grid-breakpoints, xs);
-    sm: map-get($grid-breakpoints, sm);
-    md: map-get($grid-breakpoints, md);
-    lg: map-get($grid-breakpoints, lg);
-    xl: map-get($grid-breakpoints, xl);
+    xs: map-get($breakpoints, xs);
+    sm: map-get($breakpoints, sm);
+    md: map-get($breakpoints, md);
+    lg: map-get($breakpoints, lg);
+    xl: map-get($breakpoints, xl);
   };
-  gridColumns: $grid-columns;
-  minFontSize: $min-font-size;
-  maxFontSize: $max-font-size;
-  minViewportWidth: $min-viewport-width;
-  maxViewportWidth: $max-viewport-width;
+  notificationAnimationTime: $notification-anim-time;
+  mainNavigationBreakpoint: map-get($breakpoints, $main-navigation-breakpoint);
 };
-/* stylelint-enable */
+/* stylelint-enable selector-pseudo-class-no-unknown, property-no-unknown, no-extra-semicolons */

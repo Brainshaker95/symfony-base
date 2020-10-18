@@ -1,0 +1,59 @@
+{%- extends 'shared/noindexed.html.twig' -%}
+
+{%- block key -%}gallery{%- endblock -%}
+{%- block has_page_script -%}true{%- endblock -%}
+
+{%- set lightbox_id = uuid() -%}
+
+{%- block content -%}
+  <div class="flex justify-end">
+    <button class="button button--info mb-2 upload-images">
+      {{- 'page.gallery.upload_images'|trans -}}
+    </button>
+  </div>
+
+  {%- if paginator|length -%}
+    <div class="grid gallery-grid mt-2">
+      {%- for image in paginator -%}
+        <div class="col-12 col-xs-6 col-sm-4 col-md-3 col-xl-1-5th">
+          {%- include 'shared/image.html.twig' with {
+            image: image,
+            lightbox_id: lightbox_id,
+            thumbnail: 'gallery_image',
+          } only -%}
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <i class="loading hide"></i>
+
+    {%- include 'shared/pagination.html.twig' with {
+      tag_type: 'button',
+      class: 'gallery-pagination',
+      path: path('app_api_gallery_paging'),
+      current_page: current_page,
+      total_pages: total_pages,
+    } -%}
+  {%- else -%}
+    <div class="alert alert--warning mt-2">
+      {{ 'page.gallery.no_images'|trans }}
+    </div>
+  {%- endif -%}
+
+  {%- include 'shared/modal.html.twig' with {
+    class: 'upload-images-modal' ~ (has_errors ? ' modal--is-visible' : ''),
+    overlay_class: has_errors ? 'modal__overlay--is-visible' : '',
+    header_text: 'page.gallery.upload_images'|trans,
+    body_text: form(gallery_form),
+    has_no_buttons: true,
+  } -%}
+
+  <template class="gallery-grid-template">
+    <div class="col-12 col-xs-6 col-sm-4 col-md-3 col-xl-1-5th">
+      {%- include 'shared/image.html.twig' with {
+        is_template: true,
+        lightbox_id: lightbox_id,
+      } only -%}
+    </div>
+  </template>
+{%- endblock -%}

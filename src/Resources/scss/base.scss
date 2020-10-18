@@ -3,28 +3,88 @@
 }
 
 body {
-  @include responsive-font-size(
-    $min-viewport-width,
-    $max-viewport-width,
-    $min-font-size,
-    $max-font-size
-  );
+  @include responsive-font-size($min-font-size, $max-font-size);
 
+  position: relative;
   margin: 0;
-  color: $font-color;
+  color: $darkgrey;
   font-family: $font-family-base;
+
+  &.theme--dark {
+    color: $white;
+    background-color: $darkgrey;
+  }
 }
 
-.no-scroll {
-  overflow-y: hidden;
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
 }
 
 a {
-  @include focus-outline-primary;
+  @include focus-outline;
 
+  color: $primary;
   text-decoration: none;
 
   &:hover {
     text-decoration: underline;
+  }
+}
+
+template {
+  display: none;
+}
+
+#main {
+  display: block;
+  min-height: 100vh;
+  padding-bottom: $footer-height-mobile;
+
+  @include breakpoint(sm) {
+    padding-bottom: $footer-height;
+  }
+}
+
+.responsive-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.skip-to-page-content {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  background-color: $darkgrey;
+  height: calc(#{$header-height} - 1em);
+  top: $grid-gutter;
+  left: $grid-gutter;
+  padding: 1em;
+  opacity: 0;
+  color: $white;
+  pointer-events: none;
+  transition: opacity 300ms ease;
+  z-index: 8;
+
+  &:focus {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
+@include ie {
+  .form__row--has-value,
+  .file {
+    .form__label {
+      margin-top: -1.75em !important;
+      padding-left: 0 !important;
+      font-size: 0.75em !important;
+    }
+  }
+
+  .date__input {
+    color: $darkgrey !important;
   }
 }

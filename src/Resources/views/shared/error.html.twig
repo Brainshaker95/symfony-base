@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="grid">
+    <div class="col-2 col-xs-4 col-md-3 col-lg-2">
+      {%- include 'shared/image.html.twig' with {
+        image: asset('/build/images/bathrobe-guy.png'),
+        alt: 'page.error.image.alt'|trans([], 'messages', current_locale),
+        title: '',
+        lazyload: false,
+      } -%}
+    </div>
+
+    <div class="col-10 col-xs-8 col-md-9 col-lg-10">
+      <h1>
+        {{- title -}}
+      </h1>
+
+      <p>
+        {{- text -}}
+      </p>
+
+      <div class="flex mt-8">
+        <a href="/" class="button">
+          {{- 'back_to_home_page'|trans([], 'messages', current_locale) -}}
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

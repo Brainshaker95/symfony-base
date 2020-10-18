@@ -1,0 +1,89 @@
+@import '~jquery-ui/themes/base/datepicker.css';
+
+.date {
+  &__input {
+    color: $white;
+    transition: color 300ms ease;
+
+    &::-webkit-calendar-picker-indicator {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .form__row--has-value &,
+    .form__row:focus-within & {
+      color: $darkgrey;
+    }
+  }
+
+  .form__label--is-static {
+    @extend %label-target;
+  }
+}
+
+.ui-datepicker {
+  background-color: $white;
+  border: 1px solid $darkgrey;
+
+  .theme--dark & {
+    background-color: $darkgrey;
+    border: 1px solid $white;
+  }
+
+  &-calendar a {
+    color: $darkgrey;
+    border-radius: 0.25em;
+    transition:
+      background-color 300ms ease,
+      color 300ms ease;
+
+    .theme--dark & {
+      color: $white;
+    }
+
+    &:hover {
+      color: $white;
+      background-color: $darkgrey;
+
+      .theme--dark & {
+        color: $darkgrey;
+        background-color: $white;
+      }
+    }
+  }
+
+  .ui-corner-all {
+    cursor: pointer;
+  }
+
+  .ui-datepicker-prev,
+  .ui-datepicker-next {
+    &::after {
+      top: 0.5em;
+    }
+
+    &:hover::after {
+      border-color: darken($grey, 20%);
+    }
+
+    &-hover {
+      top: 2px;
+    }
+  }
+
+  .ui-datepicker-prev {
+    @include chevron-left;
+
+    &-hover {
+      left: 2px;
+    }
+  }
+
+  .ui-datepicker-next {
+    @include chevron-right;
+
+    &-hover {
+      right: 2px;
+    }
+  }
+}

@@ -22,5 +22,13 @@ npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
+###> liip/imagine-bundle ###
+/public/media/cache/
+###< liip/imagine-bundle ###
+
+###> brainshaker/symfony-base ###
 /.env
 /node_modules/
+/public/uploads/
+/config/parameters.yml
+###< brainshaker/symfony-base ###

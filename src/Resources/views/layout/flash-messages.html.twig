@@ -1,0 +1,19 @@
+{%- set flashes = app.getFlashes -%}
+
+{%- if flashes -%}
+  {%- set params  = flashes._params is defined ? flashes._params|first|unserialize : {} -%}
+
+  <section class="flash-messages">
+    <div class="container">
+      {%- for type, messages in flashes -%}
+        {%- if type != '_params' -%}
+          {%- for message in messages -%}
+            <div class="alert alert--{{- type -}}">
+              {{- message|trans(params) -}}
+            </div>
+          {%- endfor -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </section>
+{%- endif -%}

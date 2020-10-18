@@ -1,0 +1,45 @@
+%label-target {
+  margin-top: -1.75em;
+  padding-left: 0;
+  font-size: 0.75em;
+}
+
+%loading {
+  width: auto !important;
+  pointer-events: none !important;
+
+  &::after {
+    content: '';
+    display: block;
+    width: 1.5em;
+    height: 1.5em;
+    margin: 0 auto;
+    padding: 0;
+    border-radius: 50%;
+    border: 5px solid $darkgrey;
+    border-color: $darkgrey transparent;
+    animation: loader 1.2s linear infinite;
+
+    .theme--dark & {
+      border: 5px solid $white;
+      border-color: $white transparent;
+    }
+  }
+}
+
+%checkbox-radio-label {
+  position: relative;
+  padding: 0;
+  top: -0.1em;
+  left: 1.5em;
+  width: calc(100% - 1.5em);
+  color: $darkgrey;
+  transform: none;
+  transition: none;
+  pointer-events: all;
+  cursor: pointer;
+
+  .theme--dark & {
+    color: $white;
+  }
+}

@@ -1,0 +1,48 @@
+$accordion-padding: 0.5em;
+
+.accordion {
+  &__item {
+    @include focus-shadow;
+
+    position: relative;
+    margin-top: 0.5em;
+    border: 1px solid $darkgrey;
+    border-radius: 0.25em;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    .theme--dark & {
+      @include focus-border;
+
+      border: 1px solid $white;
+    }
+  }
+
+  &__title {
+    @include chevron-down-rotating-default;
+
+    width: 100%;
+    padding: $accordion-padding;
+    cursor: pointer;
+
+    &::after {
+      right: $accordion-padding;
+      top: 0.4em;
+    }
+
+    &--is-expanded {
+      @include chevron-down-rotating-expanded;
+
+      &::after {
+        top: 0.7em;
+      }
+    }
+  }
+
+  &__content {
+    display: none;
+    padding: $accordion-padding;
+  }
+}

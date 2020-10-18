@@ -2,26 +2,31 @@
 
 namespace App\Controller;
 
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class DefaultController extends AbstractController
+class DefaultController extends FrontendController
 {
+    public function redirectToIndexAction(Request $request): RedirectResponse
+    {
+        return $this->redirectToRoute('app_index', [
+            '_locale' => $request->getLocale(),
+        ], 301);
+    }
+
     public function indexAction(): Response
     {
         return $this->render('page/index.html.twig');
     }
 
-    public function profileAction(): Response
+    public function imprintAction(): Response
     {
-        $user = $this->getUser();
+        return $this->render('page/imprint.html.twig');
+    }
 
-        if (!$user) {
-            return $this->redirectToRoute('app_login');
-        }
-
-        return $this->render('page/profile.html.twig', [
-            'user' => $user,
-        ]);
+    public function privacyAction(): Response
+    {
+        return $this->render('page/privacy.html.twig');
     }
 }

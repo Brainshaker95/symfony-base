@@ -1,0 +1,131 @@
+.no-scroll {
+  overflow-y: hidden !important;
+}
+
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.relative {
+  position: relative;
+}
+
+.flex {
+  display: flex !important;
+}
+
+.justify-end {
+  justify-content: flex-end !important;
+}
+
+.disabled {
+  opacity: 0.5 !important;
+  pointer-events: none !important;
+  user-select: none !important;
+  cursor: default !important;
+
+  * {
+    pointer-events: none !important;
+    user-select: none !important;
+    cursor: default !important;
+  }
+}
+
+.line-after {
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    @include center-v;
+
+    content: '';
+    width: 100%;
+    height: 1px;
+    margin-left: 0.5em;
+    background-color: $white;
+  }
+}
+
+.mt-1 {
+  margin-top: 0.25em !important;
+}
+
+.mt-2 {
+  margin-top: 0.5em !important;
+}
+
+.mt-3 {
+  margin-top: 0.75em !important;
+}
+
+.mt-4 {
+  margin-top: 1em !important;
+}
+
+.mt-5 {
+  margin-top: 1.25em !important;
+}
+
+.mt-6 {
+  margin-top: 1.5em !important;
+}
+
+.mt-7 {
+  margin-top: 1.75em !important;
+}
+
+.mt-8 {
+  margin-top: 2em !important;
+}
+
+.mb-1 {
+  margin-bottom: 0.25em !important;
+}
+
+.mb-2 {
+  margin-bottom: 0.5em !important;
+}
+
+.mb-3 {
+  margin-bottom: 0.75em !important;
+}
+
+.mb-4 {
+  margin-bottom: 1em !important;
+}
+
+.show {
+  display: block;
+
+  &-i {
+    display: block !important;
+  }
+}
+
+@include breakpointify(show) {
+  display: block !important;
+}
+
+.hide {
+  display: none;
+
+  &-i {
+    display: none !important;
+  }
+}
+
+@include breakpointify(hide) {
+  display: none !important;
+}
+
+.loading {
+  @extend %loading;
+}

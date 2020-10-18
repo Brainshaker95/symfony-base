@@ -1,14 +1,37 @@
-@import 'variables';
-@import 'mixins';
+@import '~@fancyapps/fancybox/dist/jquery.fancybox.css';
 
+@import 'declarations';
+
+@import 'animations';
 @import 'base';
+@import 'states';
+@import 'typography';
 
-@import 'components/button';
-@import 'components/container';
-@import 'components/grid';
-@import 'components/input';
-
+@import 'layout/footer';
+@import 'layout/form';
 @import 'layout/header';
 @import 'layout/navigation';
+@import 'layout/section';
 
-// TODO: prefers-color-scheme
+@import 'component/accordion';
+@import 'component/alert';
+@import 'component/arrow-button';
+@import 'component/button';
+@import 'component/container';
+@import 'component/file-icon';
+@import 'component/form/checkbox';
+@import 'component/form/date';
+@import 'component/form/file';
+@import 'component/form/radio';
+@import 'component/form/select';
+@import 'component/form/textarea';
+@import 'component/grid';
+@import 'component/hamburger';
+@import 'component/language-switcher';
+@import 'component/lightbox';
+@import 'component/modal';
+@import 'component/notification';
+@import 'component/pagination';
+@import 'component/progress';
+
+@import 'theme/dark';

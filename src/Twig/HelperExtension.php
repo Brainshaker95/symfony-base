@@ -2,21 +2,38 @@
 
 namespace App\Twig;
 
-use App\Service\TranslatorService;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use App\Traits\HasHashService;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 class HelperExtension extends AbstractExtension
 {
-    /**
-     * @var TranslatorInterface
-     */
-    protected $translator;
+    use HasHashService;
 
-    public function __construct(TranslatorInterface $translator)
+    /**
+     * @var string
+     */
+    private $environment;
+
+    public function __construct(KernelInterface $kernel)
     {
-        $this->translator = $translator;
+        $this->environment = $kernel->getEnvironment();
+    }
+
+    /**
+     * @return array<TwigFilter>
+     */
+    public function getFilters()
+    {
+        return [
+            new TwigFilter('encode', [$this, 'encode']),
+            new TwigFilter('decode', [$this, 'decode']),
+            new TwigFilter('instanceof', [$this, 'instanceof']),
+            new TwigFilter('strip_spaces', [$this, 'stripSpaces'], ['is_safe' => ['html']]),
+            new TwigFilter('unserialize', [$this, 'unserialize']),
+        ];
     }
 
     /**
@@ -25,15 +42,50 @@ class HelperExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('page_title', [$this, 'getPageTitle']),
+            new TwigFunction('uuid', 'uniqid'),
         ];
     }
 
-    public function getPageTitle(string $key): string
+    public function encode(string $string): string
     {
+        return $this->hashService->encode($string);
+    }
 
-        return $this->translator->trans($key)
-            . $this->translator->trans('title.separator')
-            . $this->translator->trans('title.index');
+    public function decode(string $hash): ?string
+    {
+        return $this->hashService->decode($hash);
+    }
+
+    /**
+     * @param mixed $variable
+     */
+    public function instanceof($variable, string $class): bool
+    {
+        return $variable instanceof $class;
+    }
+
+    public function stripSpaces(string $html): string
+    {
+        if ($this->environment === 'dev') {
+            return $html;
+        }
+
+        $html = preg_replace('/\s\s/', '', $html);
+
+        if (!$html) {
+            $html = '';
+        }
+
+        return $html;
+    }
+
+    /**
+     * @param array<mixed> $options
+     *
+     * @return array<mixed>
+     */
+    public function unserialize(string $variable, array $options = []): array
+    {
+        return unserialize($variable, $options);
     }
 }

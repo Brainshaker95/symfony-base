@@ -2,13 +2,23 @@ $white: #ffffff;
 $black: #000000;
 
 $lightgrey: #e4e4d4;
+$grey: #bebebe;
+$darkgrey: #272727;
 
-$red: #8b0000;
+$red: #da0000;
+$green: #00b436;
+$blue: #4169e1;
 
-$primary: #008a29;
-$primary-hover: #00b436;
+$primary: $blue;
 
-$secondary: #4c008a;
-$secondary-hover: #6600b9;
+$focus-color: $green;
 
-$font-color: $black;
+$success:  #3eaf28;
+$info: #219eb4;
+$warning: #c86a17;
+$error: #dd1731;
+
+$success-dark:  #3b6533;
+$info-dark: #286874;
+$warning-dark: #785333;
+$error-dark: #973b48;

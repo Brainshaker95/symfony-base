@@ -1,0 +1,29 @@
+.arrow-button {
+  display: block;
+  position: relative;
+  width: 1.5em;
+  height: 2em;
+
+  &--prev,
+  &--next {
+    &::after {
+      top: 0.5em;
+    }
+
+    &:hover::after {
+      border-color: darken($grey, 20%);
+
+      .theme--dark & {
+        border-color: darken($grey, 20%);
+      }
+    }
+  }
+
+  &--prev {
+    @include chevron-left;
+  }
+
+  &--next {
+    @include chevron-right;
+  }
+}

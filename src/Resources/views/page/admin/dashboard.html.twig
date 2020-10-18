@@ -1,0 +1,13 @@
+{%- extends 'shared/noindexed.html.twig' -%}
+
+{%- block key -%}admin{%- endblock -%}
+
+{%- block content -%}
+  {%- include 'layout/navigation.html.twig' with {
+    key: 'admin',
+  } -%}
+
+  <h1>
+    {{- 'page.dashboard.headline'|trans -}}
+  </h1>
+{%- endblock -%}

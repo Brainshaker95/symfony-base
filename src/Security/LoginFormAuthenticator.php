@@ -2,77 +2,38 @@
 
 namespace App\Security;
 
-use App\Form\LoginType;
-use App\Repository\UserRepository;
-use Symfony\Component\Form\FormFactoryInterface;
+use App\Traits\HasCsrfTokenManager;
+use App\Traits\HasFormFactory;
+use App\Traits\HasPasswordEncoder;
+use App\Traits\HasRouter;
+use App\Traits\HasSecurity;
+use App\Traits\HasSession;
+use App\Traits\HasTranslator;
+use App\Traits\HasUserRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
-use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Csrf\CsrfToken;
-use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 use Symfony\Component\Security\Guard\PasswordAuthenticatedInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements PasswordAuthenticatedInterface
 {
+    use HasCsrfTokenManager;
+    use HasFormFactory;
+    use HasPasswordEncoder;
+    use HasRouter;
+    use HasSecurity;
+    use HasSession;
+    use HasTranslator;
+    use HasUserRepository;
     use TargetPathTrait;
 
     public const LOGIN_ROUTE = 'app_login';
-
-    /**
-     * @var CsrfTokenManagerInterface
-     */
-    protected $csrfTokenManager;
-
-    /**
-     * @var FormFactoryInterface
-     */
-    protected $formFactory;
-
-    /**
-     * @var UserPasswordEncoderInterface
-     */
-    protected $passwordEncoder;
-
-    /**
-     * @var TranslatorInterface
-     */
-    protected $translator;
-
-    /**
-     * @var UrlGeneratorInterface
-     */
-    protected $urlGenerator;
-
-    /**
-     * @var UserRepository;
-     */
-    protected $userRepository;
-
-    public function __construct(
-        CsrfTokenManagerInterface $csrfTokenManager,
-        FormFactoryInterface $formFactory,
-        UserPasswordEncoderInterface $passwordEncoder,
-        TranslatorInterface $translator,
-        UrlGeneratorInterface $urlGenerator,
-        UserRepository $userRepository
-    ) {
-        $this->csrfTokenManager = $csrfTokenManager;
-        $this->formFactory      = $formFactory;
-        $this->passwordEncoder  = $passwordEncoder;
-        $this->translator       = $translator;
-        $this->urlGenerator     = $urlGenerator;
-        $this->userRepository   = $userRepository;
-    }
 
     public function supports(Request $request)
     {
@@ -98,21 +59,39 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        $token = new CsrfToken('authenticate', $credentials['token']);
+        $username = $credentials['username'];
+        $token    = new CsrfToken('authenticate', $credentials['token']);
+        $flashBag = $this->session->getFlashBag();
+
+        if (!$username) {
+            $flashBag->add('error', 'error.form.login.user.empty');
+
+            return null;
+        }
+
+        $this->session->set('last_username', $username);
 
         if (!$this->csrfTokenManager->isTokenValid($token)) {
-            throw new InvalidCsrfTokenException();
+            $flashBag->add('error', 'error.form.login.token.invalid');
+
+            return null;
+        }
+
+        if (!$credentials['password']) {
+            $flashBag->add('error', 'error.form.login.password.empty');
+
+            return null;
         }
 
         /**
          * @var UserInterface|null;
          */
-        $user = $this->userRepository->findOneBy(['username' => $credentials['username']]);
+        $user = $this->userRepository->findOneBy(['username' => $username]);
 
         if (!$user) {
-            throw new CustomUserMessageAuthenticationException(
-                $this->translator->trans('error.form.login.no_user'),
-            );
+            $flashBag->add('error', 'error.form.login.user.not_found');
+
+            return null;
         }
 
         return $user;
@@ -120,7 +99,15 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+        if ($this->passwordEncoder->isPasswordValid($user, $credentials['password'])) {
+            return true;
+        }
+
+        $flashBag = $this->session->getFlashBag();
+
+        $flashBag->add('error', 'error.form.login.credentials.invalid');
+
+        return false;
     }
 
     public function getPassword($credentials): ?string
@@ -130,15 +117,25 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
     {
+        $user = $this->security->getUser();
+
+        if (!$this->security->isGranted('ROLE_USER', $user)) {
+            $flashBag = $this->session->getFlashBag();
+
+            $flashBag->add('info', 'info.user_not_activated');
+
+            return new RedirectResponse($this->router->generate('app_index'));
+        }
+
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
 
-        return new RedirectResponse($this->urlGenerator->generate('app_index'));
+        return new RedirectResponse($this->router->generate('app_profile'));
     }
 
     protected function getLoginUrl()
     {
-        return $this->urlGenerator->generate(self::LOGIN_ROUTE);
+        return $this->router->generate(self::LOGIN_ROUTE);
     }
 }

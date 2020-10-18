@@ -1,0 +1,149 @@
+.file {
+  @include focus-shadow;
+
+  position: relative;
+  padding: 0;
+  border: 1px solid $grey;
+  user-select: none;
+  cursor: pointer;
+
+  .form__label--is-static {
+    @extend %label-target;
+  }
+
+  &__input {
+    display: none;
+  }
+
+  &__path {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 0.25em 0.5em;
+    color: rgba($darkgrey, 0.6);
+    pointer-events: none;
+    transition: color 300ms ease;
+
+    .theme--dark & {
+      color: rgba($white, 0.6);
+    }
+
+    &--has-value {
+      color: $darkgrey;
+
+      .theme--dark & {
+        color: $white;
+      }
+    }
+  }
+
+  &--is-disabled {
+    @extend .button[disabled];
+
+    &.button {
+      border: 1px solid darken($grey, 40%);
+    }
+
+    .file__path {
+      color: darken($grey, 20%);
+    }
+  }
+
+  &[title] .file__path {
+    padding: 0.25em 2em 0.25em 0.5em;
+  }
+
+  &__list {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    top: 2.5em;
+    width: 100%;
+
+    &-item {
+      position: relative;
+      margin: 1em 0 0;
+    }
+
+    &-name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      margin: 0 1.75em;
+      line-height: 1.25em;
+    }
+
+    .file-icon {
+      position: absolute;
+    }
+
+    .button--clear {
+      top: 0.65em;
+      right: 0;
+    }
+  }
+
+  &:hover {
+    .file__path {
+      color: $white;
+    }
+
+    .button--clear {
+      &::before,
+      &::after {
+        background-color: $white;
+      }
+    }
+  }
+
+  .button--clear:hover {
+    &::before,
+    &::after {
+      background-color: $white;
+    }
+  }
+
+  &--is-drag-and-drop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 300px;
+    padding: 3.5em 1em;
+    border: 1px solid $darkgrey;
+    border-radius: 0.25em;
+    cursor: default;
+
+    .theme--dark & {
+      border: 1px solid $white;
+    }
+
+    &:hover .button--clear {
+      &::before,
+      &::after {
+        background-color: $darkgrey;
+      }
+    }
+
+    .button--clear:hover {
+      &::before,
+      &::after {
+        background-color: $darkgrey;
+      }
+    }
+  }
+
+  &--is-highlighted {
+    border: 1px solid $focus-color;
+  }
+
+  &__image {
+    max-width: 20%;
+    margin-top: 0.5em;
+    margin-left: 1.75em;
+
+    @include breakpoint(sm) {
+      max-width: 10%;
+    }
+  }
+}

@@ -1,0 +1,44 @@
+@mixin edge() {
+  @supports (-ms-accelerator:true) {
+    & {
+      @content;
+    }
+  }
+}
+
+@mixin ie() {
+  @media all and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    @content;
+  }
+}
+
+@mixin ff() {
+  & #{',  x:-moz-any-link'}{
+    @content;
+  }
+}
+
+
+@mixin chrome() {
+  @media all and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: .001dpcm) {
+    & {
+      @content;
+    }
+  }
+}
+
+@mixin safari() {
+  @supports (overflow: -webkit-marquee) and (justify-content: inherit) {
+    & {
+      @content;
+    }
+  }
+}
+
+@mixin ios() {
+  @supports (-webkit-text-size-adjust: none) and (not (-ms-accelerator: true)) and (not (-moz-appearance: none)) {
+    & {
+      @content;
+    }
+  }
+}

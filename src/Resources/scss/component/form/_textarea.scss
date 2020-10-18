@@ -1,0 +1,25 @@
+.textarea {
+  &__input {
+    @include hide-scrollbar;
+
+    height: 1.75em;
+    max-height: none !important;
+    resize: none;
+  }
+
+  &__counter {
+    @include center-v;
+
+    top: 0.9em;
+    right: 0;
+    margin-top: -1.75em;
+    color: rgba($darkgrey, 0.6);
+    font-size: 0.75em;
+    pointer-events: none;
+    user-select: none;
+
+    .theme--dark & {
+      color: rgba($white, 0.6);
+    }
+  }
+}

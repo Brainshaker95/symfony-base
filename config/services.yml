@@ -1,9 +1,11 @@
-parameters:
+imports:
+  - { resource: parameters.yml }
 
 services:
   _defaults:
     autowire: true
     autoconfigure: true
+    public: false
 
   App\:
     resource: '../src/*'
@@ -12,3 +14,28 @@ services:
   App\Controller\:
     resource: '../src/Controller'
     tags: ['controller.service_arguments']
+    public: true
+
+  App\Controller\GalleryController:
+    class: App\Controller\GalleryController
+    calls:
+      - ['setUploadDirectory', ['%upload_directory%']]
+
+  App\Controller\ProfileController:
+    class: App\Controller\ProfileController
+    calls:
+      - ['setUploadDirectory', ['%upload_directory%']]
+
+  App\Service\FileService:
+    class: App\Service\FileService
+    calls:
+      - ['setUploadDirectory', ['%upload_directory%']]
+
+  App\Service\HashService:
+    class: App\Service\HashService
+    arguments:
+      - '%hashids_salt%'
+      - '%hashids_padding%'
+
+  Liip\ImagineBundle\Service\FilterService:
+    alias: liip_imagine.service.filter

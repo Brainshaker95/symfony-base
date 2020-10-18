@@ -1,0 +1,40 @@
+app:
+  path: /
+  controller: App\Controller\DefaultController::redirectToIndexAction
+
+app_gallery:
+  path: /{_locale}/gallery
+  controller: App\Controller\GalleryController::galleryAction
+  options:
+    navigation: main
+    order: 2
+    role: ROLE_USER
+
+app_imprint:
+  path: /{_locale}/imprint
+  controller: App\Controller\DefaultController::imprintAction
+  options:
+    navigation: footer
+    order: 0
+
+app_index:
+  path: /{_locale}
+  controller: App\Controller\DefaultController::indexAction
+  options:
+    navigation: main
+    order: 0
+
+app_privacy:
+  path: /{_locale}/privacy
+  controller: App\Controller\DefaultController::privacyAction
+  options:
+    navigation: footer
+    order: 1
+
+app_profile:
+  path: /{_locale}/profile
+  controller: App\Controller\ProfileController::profileAction
+  options:
+    navigation: main
+    order: 1
+    role: ROLE_USER

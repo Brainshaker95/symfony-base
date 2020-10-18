@@ -1,0 +1,124 @@
+{%- set tag_type = tag_type|default('a') -%}
+{%- set path = path|default -%}
+{%- set class = class|default -%}
+{%- set padding = padding is defined ? padding : 2 -%}
+
+{%- set prev_page = current_page - 1 >= 1 ? current_page - 1 : 1 -%}
+{%- set next_page = current_page + 1 <= total_pages ? current_page + 1 : total_pages -%}
+
+{%- set is_in_first_block = current_page - padding <= 0 -%}
+{%- set is_in_last_block = current_page + padding >= total_pages -%}
+{%- set visible_page_count = 2 * padding + 1 -%}
+{%- set lower_bound = 1 -%}
+{%- set upper_bound = visible_page_count -%}
+
+{%- if not is_in_first_block -%}
+  {%- if not is_in_last_block -%}
+    {%- set lower_bound = current_page - padding -%}
+    {%- set upper_bound = current_page + padding -%}
+  {%- else -%}
+    {%- set lower_bound = total_pages - visible_page_count + 1 -%}
+    {%- set upper_bound = total_pages -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- if tag_type == 'a' -%}
+  <nav>
+    <ul class="pagination normalized-list{{- class ? (' ' ~ class) : '' -}}">
+      <li>
+        {%- apply strip_spaces -%}
+          <a
+            href="{{- path -}}?page={{- prev_page -}}"
+            class="arrow-button arrow-button--prev"
+            title="{{- 'pagination.go_to_prev_page'|trans -}}"
+            aria-label="{{- 'pagination.go_to_prev_page'|trans -}}"
+          ></a>
+        {%- endapply -%}
+      </li>
+
+      {%- for i in 1..total_pages -%}
+        {%- set is_hidden = total_pages > visible_page_count and (i < lower_bound or i > upper_bound) -%}
+
+        <li{%- if is_hidden %} aria-hidden="true"{%- endif -%}>
+          {%- apply strip_spaces -%}
+            <a
+              href="{{- path -}}?page={{- i -}}"
+              class="pagination__page{{- i == current_page ? ' pagination__page--is-active disabled' : '' -}}{{- is_hidden ? ' hide-i' : '' -}}"
+              title="{{- 'pagination.go_to_page'|trans ~ ' ' ~ i -}}"
+              aria-label="{{- 'pagination.go_to_page'|trans ~ ' ' ~ i -}}"
+              {{- i == current_page ? ' tabindex="-1"' : '' -}}
+            >
+              {{- i -}}
+            </a>
+          {%- endapply -%}
+        </li>
+      {%- endfor -%}
+
+      <li>
+        {%- apply strip_spaces -%}
+          <a
+            href="{{- path -}}?page={{- next_page -}}"
+            class="arrow-button arrow-button--next"
+            title="{{- 'pagination.go_to_next_page'|trans -}}"
+            aria-label="{{- 'pagination.go_to_next_page'|trans -}}"
+          ></a>
+        {%- endapply -%}
+      </li>
+    </ul>
+  </nav>
+{%- elseif tag_type == 'button' -%}
+  <nav>
+    {%- apply strip_spaces -%}
+      <ul
+        class="pagination normalized-list{{- class ? (' ' ~ class) : '' -}}"
+        data-path="{{- path -}}"
+        data-total-pages="{{- total_pages -}}"
+        data-current-page="{{- current_page -}}"
+        data-padding="{{- padding -}}"
+      >
+    {%- endapply -%}
+      <li>
+        {%- apply strip_spaces -%}
+          <button
+            type="button"
+            data-page="{{- prev_page -}}"
+            class="button button--normalized arrow-button arrow-button--prev"
+            title="{{- 'pagination.go_to_prev_page'|trans -}}"
+            aria-label="{{- 'pagination.go_to_prev_page'|trans -}}"
+          ></button>
+        {%- endapply -%}
+      </li>
+
+      {%- for i in 1..total_pages -%}
+        {%- set is_hidden = total_pages > visible_page_count and (i < lower_bound or i > upper_bound) -%}
+
+        <li{%- if is_hidden %} aria-hidden="true"{%- endif -%}>
+          {%- apply strip_spaces -%}
+            <button
+              type="button"
+              data-page="{{- i -}}"
+              class="button button--normalized pagination__page{{- i == current_page ? ' pagination__page--is-active disabled' : '' -}}{{- is_hidden ? ' hide-i' : '' -}}"
+              title="{{- 'pagination.go_to_page'|trans ~ ' ' ~ i -}}"
+              aria-label="{{- 'pagination.go_to_page'|trans ~ ' ' ~ i -}}"
+              {{- i == current_page ? ' tabindex="-1"' : '' -}}
+            >
+              {{- i -}}
+            </button>
+          {%- endapply -%}
+        </li>
+      {%- endfor -%}
+
+      <li>
+        {%- apply strip_spaces -%}
+          <button
+            type="button"
+            data-page="{{- next_page -}}"
+            class="button button--normalized arrow-button arrow-button--next"
+            title="{{- 'pagination.go_to_next_page'|trans -}}"
+            aria-label="{{- 'pagination.go_to_next_page'|trans -}}"
+          ></button>
+        {%- endapply -%}
+      </li>
+    </ul>
+  </nav>
+{%- endif -%}

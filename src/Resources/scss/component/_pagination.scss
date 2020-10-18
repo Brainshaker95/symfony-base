@@ -1,0 +1,47 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 1em 0;
+
+  &__page {
+    display: block;
+    width: 1.5em;
+    height: 2em;
+    padding: 0;
+    border-radius: 0.25em;
+    color: $darkgrey;
+    text-align: center;
+    line-height: 2em;
+    user-select: none;
+    transition: none;
+
+    .theme--dark & {
+      color: $white;
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &--is-active {
+      background-color: $darkgrey;
+      opacity: 1 !important;
+      color: $white;
+
+      .theme--dark & {
+        background-color: $white;
+        color: $darkgrey;
+      }
+    }
+  }
+
+  .arrow-button {
+    &--prev {
+      margin-right: 0.5em;
+    }
+
+    &--next {
+      margin-left: 0.5em;
+    }
+  }
+}

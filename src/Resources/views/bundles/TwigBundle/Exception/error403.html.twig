@@ -1,5 +1,10 @@
-{% extends 'base.html.twig' %}
+{%- extends 'shared/noindexed.html.twig' -%}
 
-{% block content %}
-  403
-{% endblock %}
+{%- block key -%}forbidden{%- endblock -%}
+
+{%- block content -%}
+  {%- include 'shared/error.html.twig' with {
+    title: 'page.error.forbidden.title'|trans([], 'messages', current_locale),
+    text: 'page.error.forbidden.text'|trans([], 'messages', current_locale),
+  } -%}
+{%- endblock -%}

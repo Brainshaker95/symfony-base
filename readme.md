@@ -5,6 +5,7 @@
 - [Prerequisites](#prerequisites)
 - [Installing](#installing)
 - [Commands](#commands)
+- [Documentation](./docs/0_index.md)
 
 ___
 
@@ -14,19 +15,35 @@ ___
   * [Yarn](https://yarnpkg.com/)
   * [Composer](https://getcomposer.org/)
 
+  ### Optional Tools
+
+  * [Make](http://gnuwin32.sourceforge.net/packages/make.htm)
+
 ___
 
 ## Installing
 
+### Automatically
+
 ```shell
-  make install
+  (yarn|make) startup
 ```
-or without make
+
+### Manually
 
 ```shell
   yarn && composer install
+
+  # or with make
+
+  make install
 ```
 
+Set up environment and parameters and configure to your needs
+
+```shell
+  cp .env.example .env && cp ./config/parameters.yml.example ./config/parameters.yml
+```
 ___
 
 ## Commands
@@ -40,6 +57,9 @@ ___
 
   # watch assets
   yarn watch
+
+  # initialize project
+  yarn startup
 ```
 
 &nbsp;
@@ -47,19 +67,33 @@ ___
 With make
 
 ```makefile
-  cache-clear: // clear symfony cache
+  help: ## show this help
+  
+  cache-clear: ## clear symfony cache
 
-  install: // install dependencies
+  clear-thumbs: ## clear liip imagine cache
 
-  migrate: // migrate database
+  entity: ## create doctrine enitity
 
-  migrate-first: // revert database
+  install: ## install dependencies
 
-  phpstan: // execute php analysis
+  migrate: ## migrate database
 
-  webpack: // build assets dev
+  migrate-first: ## revert database
 
-  webpack-p: // build assets prod
+  next: ## migrate database to next version
+  
+  migrate-prev: ## migrate database to previous version
 
-  webpack-watch: // watch assets
+  migration: ## create migration
+
+  phpstan: ## execute php analysis
+
+  startup: ## initialize project
+
+  webpack: ## build assets dev
+
+  webpack-p: ## build assets prod
+
+  webpack-watch: ## watch assets
 ```

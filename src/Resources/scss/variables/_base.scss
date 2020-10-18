@@ -6,3 +6,25 @@ $max-viewport-width: 1024px;
 
 $min-font-size: $font-size-base;
 $max-font-size: 24px;
+
+$header-height: 4.475em;
+$header-background-color: $primary;
+
+$footer-height: 2.5em;
+$footer-height-mobile: 5.75em;
+
+$main-navigation-breakpoint: sm;
+
+$notification-anim-time: 300ms;
+
+$breakpoints: (
+  xs: 420px,
+  sm: 640px,
+  md: 992px,
+  lg: 1200px,
+  xl: 1440px,
+);
+
+$container-sizes: (
+  xl: 1440px,
+);

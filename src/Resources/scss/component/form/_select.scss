@@ -1,0 +1,150 @@
+.select {
+  @include chevron-down-rotating-default;
+
+  padding: 0;
+  border: 0 !important;
+  user-select: none;
+
+  &::after {
+    top: 0.2em;
+    right: 0.75em;
+  }
+
+  &--is-disabled {
+    border: 1px solid darken($grey, 40%);
+    color: darken($grey, 20%);
+    pointer-events: none;
+
+    &::after {
+      border-color: darken($grey, 20%);
+    }
+
+    .button--clear {
+      &::before,
+      &::after {
+        background-color: darken($grey, 20%);
+      }
+    }
+  }
+
+  &__selection,
+  &__option {
+    padding: 0.25em 0.5em;
+    cursor: pointer;
+  }
+
+  &__selection {
+    @include focus-shadow;
+
+    padding-right: 2.25em;
+    border: 1px solid $grey;
+    border-radius: 0.25em;
+    color: $white;
+    white-space: nowrap;
+    transition: border-radius 300ms ease;
+
+    .theme--dark & {
+      color: $darkgrey;
+    }
+
+    &--is-visible {
+      padding-right: 3.25em;
+      color: rgba($darkgrey, 0.6);
+      transition: color 100ms ease;
+
+      .theme--dark & {
+        color: rgba($white, 0.6);
+      }
+
+      .form__row--has-value & {
+        color: $darkgrey;
+
+        .theme--dark & {
+          color: $white;
+        }
+      }
+    }
+  }
+
+  &--is-expanded {
+    @include chevron-down-rotating-expanded;
+
+    &::after {
+      top: 0.5em;
+    }
+
+    .select__selection {
+      border: {
+        top-left-radius: 0.25em;
+        top-right-radius: 0.25em;
+        bottom-left-radius: 0;
+        bottom-right-radius: 0;
+      };
+    }
+  }
+
+  &__options {
+    display: none;
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    background-color: $white;
+    border: 1px solid $grey;
+    z-index: 1;
+    border: {
+      top-left-radius: 0;
+      top-right-radius: 0;
+      bottom-left-radius: 0.25em;
+      bottom-right-radius: 0.25em;
+    };
+
+    .theme--dark & {
+      background-color: $darkgrey;
+    }
+  }
+
+  &__option {
+    @include focus-outline;
+
+    transition:
+      background-color 150ms ease,
+      color 150ms ease;
+
+    &:hover {
+      background-color: $darkgrey;
+      color: $white;
+
+      .theme--dark & {
+        background-color: $white;
+        color: $darkgrey;
+      }
+    }
+
+    &--is-selected {
+      background-color: rgba($black, 0.5);
+      color: $white;
+
+      .theme--dark & {
+        background-color: $grey;
+        color: $darkgrey;
+      }
+    }
+
+    &--is-disabled {
+      color: rgba($darkgrey, 0.35);
+      pointer-events: none;
+
+      .theme--dark & {
+        color: rgba($white, 0.35);
+      }
+    }
+  }
+
+  &__input {
+    display: none;
+  }
+
+  .button--clear {
+    right: 2.25em;
+  }
+}

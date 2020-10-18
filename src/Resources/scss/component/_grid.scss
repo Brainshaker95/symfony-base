@@ -1,0 +1,53 @@
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -#{$grid-gutter};
+
+  > [class^='col'] {
+    padding: $grid-gutter;
+  }
+
+  &.no-gutter {
+    > [class^='col'] {
+      padding: 0;
+    }
+
+    &-x > [class^='col'] {
+      padding: $grid-gutter 0;
+    }
+
+    &-y > [class^='col'] {
+      padding: 0 $grid-gutter;
+    }
+  }
+}
+
+@for $i from 1 through $grid-columns {
+  .col-#{$i} {
+    flex-basis: 100% / $grid-columns * $i;
+    max-width: 100% / $grid-columns * $i;
+  }
+}
+
+@each $breakpoint, $width in $breakpoints {
+  @include breakpoint($breakpoint) {
+    @for $i from 1 through $grid-columns {
+      .col-#{$breakpoint}-#{$i} {
+        flex-basis: 100% / $grid-columns * $i;
+        max-width: 100% / $grid-columns * $i;
+      }
+    }
+  }
+}
+
+.col-1-5th {
+  flex-basis: 20%;
+  max-width: 20%;
+}
+
+.col-xl-1-5th {
+  @include breakpoint(xl) {
+    flex-basis: 20%;
+    max-width: 20%;
+  }
+}

@@ -1,0 +1,4 @@
+parameters:
+  hashids_salt: TODO_AddHashSalt
+  hashids_padding: 8
+  upload_directory: '%kernel.project_dir%/public/uploads'

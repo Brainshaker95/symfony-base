@@ -2,22 +2,47 @@
 
 namespace App\Service;
 
-use Symfony\Contracts\Translation\TranslatorInterface;
+use App\Traits\HasTranslator;
+use Symfony\Component\Translation\DataCollectorTranslator;
 
 class TranslatorService
 {
-    /**
-     * @var TranslatorInterface
-     */
-    protected $translator;
+    use HasTranslator;
 
-    public function __construct(TranslatorInterface $translator)
+    public const LOCALES = [
+        'en',
+        'de',
+    ];
+
+    /**
+     * @return array<string>
+     */
+    public function getTranslations(string $key = null)
     {
-        $this->translator = $translator;
+        if (!$this->translator instanceof DataCollectorTranslator) {
+            return [];
+        }
+
+        $catalogue = $this->translator->getCatalogue();
+
+        return $key ? $catalogue->all($key) : $catalogue->all();
     }
 
-    public function exampleTODO(string $key): string
+    public function getPageTitle(string $key): string
     {
-        return $key;
+        return $this->translator->trans($key)
+            . $this->translator->trans('title.separator')
+            . $this->translator->trans('title.suffix');
+    }
+
+    public function getRoleName(string $role): string
+    {
+        $role = preg_replace(['/ROLE/', '/_/'], ['', ''], $role);
+
+        if (!$role) {
+            $role = 'inactive';
+        }
+
+        return $this->translator->trans('role.' . strtolower($role));
     }
 }

@@ -1,0 +1,114 @@
+.fancybox {
+  &-container {
+    .loading {
+      @include center;
+    }
+
+    &.fancybox-show-thumbs .loading {
+      top: calc(50% - 42.5px);
+    }
+
+    .button--close {
+      position: relative;
+      top: auto;
+      right: auto;
+      width: 44px;
+      height: 44px;
+    }
+
+    .arrow-button {
+      @include center-v;
+
+      width: 2em;
+      height: 3em;
+      background-color: transparent;
+      font-size: 34px;
+
+      &--prev {
+        left: 1vw;
+      }
+
+      &--next {
+        right: 1vw;
+      }
+
+      &::after {
+        top: 1em;
+      }
+    }
+  }
+
+  &-inner {
+    right: 0 !important;
+  }
+
+  &-slide {
+    padding: 2em 0 !important;
+
+    .fancybox-show-thumbs & {
+      padding: 2em 0 calc(85px + 2em) !important;
+    }
+  }
+
+  &-button {
+    margin-left: 0.25em;
+
+    svg {
+      @include center;
+    }
+
+    &[data-fancybox-play]:not(.fancybox-button--pause),
+    &[data-fancybox-fullscreen]:not(.fancybox-button--fsexit) {
+      svg:last-of-type {
+        display: none;
+      }
+    }
+  }
+
+  &-thumbs {
+    top: auto;
+    bottom: 0;
+    width: 100vw;
+    background-color: rgba($darkgrey, 0.6);
+
+    &__list {
+      margin: 0 auto;
+
+      a::before {
+        border: 6px solid $primary !important;
+      }
+    }
+  }
+
+  &-show-thumbs .arrow-button {
+    transform: translateY(calc(-50% - 42.5px));
+  }
+
+  &-progress {
+    background-color: $primary;
+  }
+
+  &-infobar {
+    color: $white;
+  }
+
+  &-paging {
+    position: absolute;
+    bottom: 2em;
+    z-index: 100000;
+    opacity: 1;
+    transition: opacity 300ms ease;
+
+    .fancybox-is-closing & {
+      opacity: 0;
+    }
+  }
+
+  &-prev-page {
+    left: 2em;
+  }
+
+  &-next-page {
+    right: 2em;
+  }
+}

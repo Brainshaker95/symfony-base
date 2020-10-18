@@ -1,22 +1,109 @@
-<nav>
-  <ul class="navigation">
-    {% for navigation_item in navigation(key) %}
-      {% set navigation_name = navigation_item.navigation_name %}
-      {% set hide_on_auth    = navigation_item.hide_on_auth %}
-      {% set role            = navigation_item.role %}
-      {% set is_granted      = is_granted(role) %}
+<nav class="navigation navigation--{{- key -}}">
+  <ul class="navigation__list">
+    {%- set user = app.getUser -%}
 
-      {% if not role or is_granted or (app.getUser ? not hide_on_auth and is_granted : hide_on_auth) %}
+    {%- for navigation_item in navigation(key) -%}
+      {%- set navigation_name      = navigation_item.navigation_name -%}
+      {%- set hide_on_auth         = navigation_item.hide_on_auth -%}
+      {%- set show_on_auth         = navigation_item.show_on_auth -%}
+      {%- set is_active            = navigation_item.is_active -%}
+      {%- set subpages             = navigation_item.subpages|default -%}
+      {%- set role                 = navigation_item.role -%}
+      {%- set is_granted           = is_granted(role) -%}
+
+      {%- set has_visible_subpages = false -%}
+
+      {%- for subpage in subpages -%}
+        {%- set subpage_is_granted = is_granted(subpage.role) -%}
+
+        {%- if (user and subpage.show_on_auth) or not subpage.role or subpage_is_granted or (user ? not subpage.hide_on_auth and subpage_is_granted : subpage.hide_on_auth) -%}
+          {%- set has_visible_subpages = true -%}
+        {%- endif -%}
+
+        {%- if subpage.is_active -%}
+          {%- set is_active = true -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- if (user and show_on_auth) or not role or is_granted or (user ? not hide_on_auth and is_granted : hide_on_auth) -%}
         <li class="navigation__item">
-          <a
-            href="{{ navigation_item.path }}"
-            title="{{ navigation_name }}"
-            class="navigation__link{{ navigation_item.is_active ? ' navigation__link--is-active' : '' }}"
-          >
-            {{ navigation_name }}
-          </a>
+          {%- apply strip_spaces -%}
+            <a
+              href="{{- navigation_item.path -}}"
+              title="{{- navigation_name -}}"
+              class="navigation__link
+                {{- subpages and has_visible_subpages ? ' navigation__link--has-subpages' : '' -}}
+                {{- is_active ? ' navigation__link--is-active' : '' -}}"
+            >
+              {{- navigation_name -}}
+            </a>
+
+            {%- if subpages and has_visible_subpages -%}
+              <button
+                type="button"
+                class="navigation__toggle-submenu"
+                title="{{ 'navigation.toggle_submenu'|trans }}"
+                aria-label="{{ 'navigation.toggle_submenu'|trans }}"
+              ></button>
+
+              <nav class="subnavigation subnavigation--{{- key -}}">
+                <ul class="subnavigation__list">
+                  {%- for subpage in subpages -%}
+                    {%- set navigation_name = subpage.navigation_name -%}
+                    {%- set hide_on_auth    = subpage.hide_on_auth -%}
+                    {%- set show_on_auth    = subpage.show_on_auth -%}
+                    {%- set role            = subpage.role -%}
+                    {%- set is_granted      = is_granted(role) -%}
+
+                    {%- if (user and show_on_auth) or not role or is_granted or (user ? not hide_on_auth and is_granted : hide_on_auth) -%}
+                      <li class="subnavigation__item">
+                        <a
+                          href="{{- subpage.path -}}"
+                          title="{{- navigation_name -}}"
+                          class="subnavigation__link{{- subpage.is_active ? ' subnavigation__link--is-active' : '' -}}"
+                        >
+                          {{- navigation_name -}}
+                        </a>
+                      </li>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </ul>
+              </nav>
+            {%- endif -%}
+          {%- endapply -%}
         </li>
-      {% endif %}
-    {% endfor %}
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- if key == 'secondary' -%}
+      <li class="navigation__item language-switcher">
+        {%- apply strip_spaces -%}
+          <button
+            type="button"
+            class="button button--normalized navigation__link navigation__link--has-subpages language-switcher__button"
+            title="{{- 'header.change_language'|trans -}}"
+            aria-label="{{- 'header.change_language'|trans -}}"
+          >
+            {{- ('language.' ~ current_locale)|trans -}}
+          </button>
+        {% endapply %}
+
+        <nav class="subnavigation">
+          <ul class="subnavigation__list">
+            <li>
+              <a href="{{- path(current_route, { _locale: 'de' }) -}}" class="subnavigation__link" title="{{- 'language.de'|trans -}}">
+                {{- 'language.de'|trans -}}
+              </a>
+            </li>
+
+            <li>
+              <a href="{{- path(current_route, { _locale: 'en' }) -}}" class="subnavigation__link" title="{{- 'language.en'|trans -}}">
+                {{- 'language.en'|trans -}}
+              </a>
+            </li>
+          </ul>
+        </nav>
+      {%- endif -%}
+    </li>
   </ul>
 </nav>

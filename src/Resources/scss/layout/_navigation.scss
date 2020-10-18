@@ -1,7 +1,359 @@
-.navigation {
+.subnavigation {
+  display: none;
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  background-color: $white;
+  z-index: 1;
+
+  @include breakpoint($main-navigation-breakpoint) {
+    border: 1px solid $darkgrey;
+  }
+
+  .theme--dark & {
+    background-color: $darkgrey;
+
+    @include breakpoint($main-navigation-breakpoint) {
+      border: 1px solid $white;
+    }
+  }
+
+  &__list {
+    margin-bottom: 1em;
+
+    @include breakpoint($main-navigation-breakpoint) {
+      margin-bottom: 0;
+    }
+  }
+
   &__link {
-    &--is-active {
-      color: $red;
+    @include focus-color;
+
+    display: block;
+    padding: 0.5em 1em;
+    background-color: $white;
+    color: $darkgrey;
+    transition: background-color 300ms ease, color 300ms ease;
+
+    .theme--dark & {
+      background-color: $darkgrey;
+      color: $white;
+    }
+
+    &--is-active,
+    &:hover {
+      background-color: $darkgrey;
+      color: $white;
+      text-decoration: none;
+
+      .theme--dark & {
+        background-color: $white;
+        color: $darkgrey;
+      }
+    }
+  }
+}
+
+.navigation {
+  &__list {
+    display: flex;
+  }
+
+  &__item {
+    position: relative;
+  }
+
+  &__link {
+    @include focus-color;
+
+    position: relative;
+    display: block;
+    color: $white;
+    transition: color 300ms ease;
+
+    &::before {
+      position: absolute;
+      content: '';
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 0.2em;
+      background-color: $darkgrey;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 300ms ease;
+
+      .theme--dark & {
+        background-color: $white;
+      }
+
+      @include breakpoint($main-navigation-breakpoint) {
+        background-color: $white;
+        transform-origin: center;
+      }
+    }
+
+    &--is-active,
+    &:hover {
+      text-decoration: none;
+
+      &::before {
+        transform: scaleX(1);
+      }
+    }
+
+    &:focus::after {
+      border-color: $focus-color !important;
+    }
+
+    &--has-subpages {
+      @include chevron-down-rotating-default;
+
+      @include breakpoint($main-navigation-breakpoint) {
+        padding: 1em 1.8em 1em 1em !important;
+      }
+
+      &::after {
+        position: absolute;
+        content: none;
+        top: 1.4em;
+        right: 0.8em;
+        border-color: $white;
+        font-size: 0.75em;
+
+        @include breakpoint($main-navigation-breakpoint) {
+          content: '';
+        }
+      }
+    }
+
+    &--is-expanded {
+      @include chevron-down-rotating-expanded;
+
+      &::after {
+        top: 1.75em;
+      }
+    }
+  }
+
+  &__toggle-submenu {
+    @include chevron-down-rotating-default;
+    @include center-v;
+
+    right: 0;
+    width: 3em;
+    height: 100%;
+    background-color: transparent;
+    border: 0 !important;
+    border-radius: 0;
+    border-left: 1px solid $darkgrey !important;
+    box-shadow: none !important;
+    transition: border-color 300ms ease;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+
+    .theme--dark & {
+      border-left: 1px solid $white !important;
+    }
+
+    @include breakpoint($main-navigation-breakpoint) {
+      display: none;
+    }
+
+    &::after {
+      top: 1.75em;
+      right: 1.35em;
+      border-color: $darkgrey;
+      font-size: 0.75em;
+
+      .theme--dark & {
+        border-color: $white;
+      }
+
+      @include breakpoint($main-navigation-breakpoint) {
+        content: none;
+      }
+    }
+
+    &:hover,
+    &:focus {
+      border-color: $focus-color !important;
+      background-color: transparent !important;
+
+      &::after {
+        border-color: $focus-color;
+      }
+    }
+
+    &--is-expanded {
+      @include chevron-down-rotating-expanded;
+
+      &::after {
+        top: 2em;
+      }
+    }
+  }
+
+  &--secondary {
+    z-index: 1;
+
+    .navigation {
+      &__link {
+        padding: 0 0.5em;
+
+        &::before {
+          bottom: -0.2em;
+          height: 0.2em;
+        }
+
+        &--has-subpages::before {
+          content: none;
+        }
+      }
+    }
+
+    .subnavigation {
+      &__list {
+        text-align: center;
+      }
+    }
+  }
+
+  &--footer {
+    .navigation {
+      &__link {
+        margin-right: 1em;
+        color: $darkgrey;
+
+        &::before {
+          bottom: -0.1em;
+          height: 0.1em;
+          background-color: $darkgrey;
+        }
+      }
+    }
+  }
+
+  &--admin {
+    padding-bottom: 0.5em;
+    margin-bottom: 2em;
+
+    .navigation {
+      &__list {
+        flex-wrap: wrap;
+      }
+
+      &__link {
+        margin-right: 1em;
+
+        &::before {
+          bottom: -0.1em;
+          height: 0.1em;
+        }
+      }
+    }
+  }
+
+  &--main {
+    position: fixed;
+    top: $header-height;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+    z-index: -1;
+
+    @include breakpoint($main-navigation-breakpoint) {
+      display: block;
+      position: static;
+      top: auto;
+      bottom: auto;
+      left: auto;
+      right: auto;
+      pointer-events: all;
+      z-index: 0;
+    }
+
+    &.navigation--is-expanded {
+      pointer-events: all;
+      z-index: 0;
+    }
+
+    .navigation {
+      &__link {
+        padding: 1em $grid-gutter;
+        color: $darkgrey;
+
+        .theme--dark & {
+          color: $white;
+        }
+
+        @include breakpoint($main-navigation-breakpoint) {
+          padding: 1em;
+          color: $white;
+        }
+      }
+
+      &__item:last-of-type .navigation__link {
+        @include breakpoint($main-navigation-breakpoint) {
+          padding-right: 0;
+        }
+
+        &--has-subpages {
+          @include breakpoint($main-navigation-breakpoint) {
+            padding: 1em 1.25em 1em 1em !important;
+          }
+
+          &::after {
+            @include breakpoint($main-navigation-breakpoint) {
+              right: 0;
+            }
+          }
+        }
+
+        &:not(.navigation__link--has-subpages) {
+          &::before {
+            width: calc(100% + 1em);
+          }
+
+          &::after {
+            position: absolute;
+            content: '';
+            top: 0;
+            left: 100%;
+            width: 1em;
+            height: 100%;
+          }
+        }
+      }
+
+      &__list {
+        display: none;
+        overflow-y: scroll;
+        height: 100%;
+        background-color: $white;
+
+        .theme--dark & {
+          background-color: $darkgrey;
+        }
+
+        @include breakpoint($main-navigation-breakpoint) {
+          display: flex !important;
+          justify-content: flex-end;
+          overflow-y: visible;
+          height: auto;
+          background-color: transparent !important;
+        }
+      }
+    }
+
+    .subnavigation {
+      position: relative;
+
+      @include breakpoint($main-navigation-breakpoint) {
+        position: absolute;
+      }
     }
   }
 }
