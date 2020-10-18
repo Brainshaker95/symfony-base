@@ -232,6 +232,9 @@
     "symfony/dependency-injection": {
         "version": "v5.0.10"
     },
+    "symfony/deprecation-contracts": {
+        "version": "v2.2.0"
+    },
     "symfony/doctrine-bridge": {
         "version": "v5.0.10"
     },
