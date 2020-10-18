@@ -66,14 +66,14 @@ ___
 
 With make
 
-```makefile
-  help: ## show this help
-  
+```makefile  
   cache-clear: ## clear symfony cache
 
   clear-thumbs: ## clear liip imagine cache
 
   entity: ## create doctrine enitity
+
+  help: ## show this help
 
   install: ## install dependencies
 
@@ -81,7 +81,7 @@ With make
 
   migrate-first: ## revert database
 
-  next: ## migrate database to next version
+  migrate-next: ## migrate database to next version
   
   migrate-prev: ## migrate database to previous version
 
