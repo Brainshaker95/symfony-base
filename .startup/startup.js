@@ -10,7 +10,7 @@ dotenv.config();
 
 const logo = '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n'
 + '   _____                 ____                     ____\n'
-+ '  / ___/__  ______ ___  / __/___  ____  __  __   / __ )____ _________\n'
++ '  / ___/__  ______ ___  / __/___  ____  __  __   / __ )____  ____ ___\n'
 + '  \\__ \\/ / / / __ `__ \\/ /_/ __ \\/ __ \\/ / / /  / __  / __ `/ ___/ _ \\\n'
 + ' ___/ / /_/ / / / / / / __/ /_/ / / / / /_/ /  / /_/ / /_/ (__  )  __/\n'
 + '/____/\\__, /_/ /_/ /_/_/  \\____/_/ /_/\\__, /  /_____/\\__,_/____/\\___/\n'
@@ -154,7 +154,7 @@ const installProject = (answers) => {
       throw error;
     }
 
-    console.log(stdout);
+    console.log(chalk.cyan(stdout));
     console.log(chalk.green.bold('\n~~~~~~~~~~~~~~~~~ Yarn ~~~~~~~~~~~~~~~~~\n'));
 
     exec('yarn', (error, stdout) => {
@@ -162,19 +162,29 @@ const installProject = (answers) => {
         throw error;
       }
 
-      console.log(stdout);
-      console.log(chalk.green.bold('\n~~~~~~~~~~~~~~~~ Encore ~~~~~~~~~~~~~~~~\n'));
+      console.log(chalk.cyan(stdout));
+      console.log(chalk.green.bold('\n~~~~~~~~~~~~~~~~ Migrations ~~~~~~~~~~~~~~~~\n'));
 
-      exec(`yarn encore ${answers.env || dotenvDefaults.env}`, (error, stdout) => {
+      exec('php bin/console doctrine:migrations:migrate first --no-interaction && php bin/console doctrine:migrations:migrate --no-interaction', (error, stdout) => {
         if (error) {
-          throw error;
+          console.log(chalk.red(stdout));
+        } else {
+          console.log(chalk.cyan(stdout));
         }
 
-        console.log(stdout);
-        console.log(chalk.black.bgGreenBright.bold('\n\n'
-        + '                                             \n'
-        + '       Startup successfully completed!       \n'
-        + '                                             '));
+        console.log(chalk.green.bold('\n~~~~~~~~~~~~~~~~ Encore ~~~~~~~~~~~~~~~~\n'));
+
+        exec(`yarn encore ${answers.env || dotenvDefaults.env}`, (error, stdout) => {
+          if (error) {
+            throw error;
+          }
+
+          console.log(chalk.cyan(stdout));
+          console.log(chalk.black.bgGreenBright.bold('\n\n'
+          + '                                             \n'
+          + '       Startup successfully completed!       \n'
+          + '                                             '));
+        });
       });
     });
   });

@@ -39,10 +39,10 @@ ___
   make install
 ```
 
-Set up environment and configure to your needs
+Set up environment and parameters and configure to your needs
 
 ```shell
-  cp .env.example .env
+  cp .env.example .env && cp ./config/parameters.yml.example ./config/parameters.yml
 ```
 ___
 
@@ -67,29 +67,33 @@ ___
 With make
 
 ```makefile
-  help: // show this help
+  help: ## show this help
   
-  cache-clear: // clear symfony cache
+  cache-clear: ## clear symfony cache
 
-  clear-thumbs: // clear liip imagine cache
+  clear-thumbs: ## clear liip imagine cache
 
-  entity: // create doctrine enitity
+  entity: ## create doctrine enitity
 
-  install: // install dependencies
+  install: ## install dependencies
 
-  migrate: // migrate database
+  migrate: ## migrate database
 
-  migrate-first: // revert database
+  migrate-first: ## revert database
 
-  migration: // create migration
+  next: ## migrate database to next version
+  
+  migrate-prev: ## migrate database to previous version
 
-  phpstan: // execute php analysis
+  migration: ## create migration
 
-  startup: // initialize project
+  phpstan: ## execute php analysis
 
-  webpack: // build assets dev
+  startup: ## initialize project
 
-  webpack-p: // build assets prod
+  webpack: ## build assets dev
 
-  webpack-watch: // watch assets
+  webpack-p: ## build assets prod
+
+  webpack-watch: ## watch assets
 ```

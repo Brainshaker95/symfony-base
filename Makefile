@@ -31,6 +31,12 @@ migrate: ## migrate database
 migrate-first: ## revert database
 	bash -c 'bin/console doctrine:migrations:migrate first'
 
+migrate-next: ## migrate database to next version
+	bash -c 'bin/console doctrine:migrations:migrate next'
+
+migrate-prev: ## migrate database to previous version
+	bash -c 'bin/console doctrine:migrations:migrate prev'
+
 migration: ## create migration
 	bash -c 'bin/console doctrine:migrations:diff'
 
