@@ -165,7 +165,7 @@ const installProject = (answers) => {
       console.log(chalk.cyan(stdout));
       console.log(chalk.green.bold('\n~~~~~~~~~~~~~~~~ Migrations ~~~~~~~~~~~~~~~~\n'));
 
-      exec('php bin/console doctrine:migrations:migrate first --no-interaction && php bin/console doctrine:migrations:migrate --no-interaction', (error, stdout) => {
+      exec('php bin/console doctrine:migrations:migrate --no-interaction', (error, stdout) => {
         if (error) {
           console.log(chalk.red(stdout));
         } else {
