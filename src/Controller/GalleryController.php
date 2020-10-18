@@ -33,7 +33,7 @@ class GalleryController extends FrontendController
     use HasUserService;
     use HasUploadDirectory;
 
-    protected const PAGE_SIZE = 20;
+    private const PAGE_SIZE = 20;
 
     public function galleryAction(Request $request): Response
     {

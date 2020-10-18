@@ -9,10 +9,7 @@ class AdminController extends FrontendController
 {
     use HasUserRepository;
 
-    /**
-     * @var array<string>
-     */
-    protected const ROLES = [
+    private const ROLES = [
         'ROLE_ADMIN',
         'ROLE_USER',
     ];

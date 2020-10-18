@@ -2,82 +2,38 @@
 
 namespace App\Security;
 
-use App\Repository\UserRepository;
+use App\Traits\HasCsrfTokenManager;
+use App\Traits\HasFormFactory;
+use App\Traits\HasPasswordEncoder;
+use App\Traits\HasRouter;
+use App\Traits\HasSecurity;
+use App\Traits\HasSession;
 use App\Traits\HasTranslator;
 use App\Traits\HasUserRepository;
-use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Csrf\CsrfToken;
-use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 use Symfony\Component\Security\Guard\PasswordAuthenticatedInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements PasswordAuthenticatedInterface
 {
+    use HasCsrfTokenManager;
+    use HasFormFactory;
+    use HasPasswordEncoder;
+    use HasRouter;
+    use HasSecurity;
+    use HasSession;
     use HasTranslator;
     use HasUserRepository;
     use TargetPathTrait;
 
     public const LOGIN_ROUTE = 'app_login';
-
-    /**
-     * @var CsrfTokenManagerInterface
-     */
-    protected $csrfTokenManager;
-
-    /**
-     * @var FormFactoryInterface
-     */
-    protected $formFactory;
-
-    /**
-     * @var UserPasswordEncoderInterface
-     */
-    protected $passwordEncoder;
-
-    /**
-     * @var Security
-     */
-    protected $security;
-
-    /**
-     * @var Session<mixed>
-     */
-    protected $session;
-
-    /**
-     * @var UrlGeneratorInterface
-     */
-    protected $urlGenerator;
-
-    /**
-     * @param Session<mixed> $session
-     */
-    public function __construct(
-        CsrfTokenManagerInterface $csrfTokenManager,
-        FormFactoryInterface $formFactory,
-        UserPasswordEncoderInterface $passwordEncoder,
-        Security $security,
-        SessionInterface $session,
-        UrlGeneratorInterface $urlGenerator
-    ) {
-        $this->csrfTokenManager = $csrfTokenManager;
-        $this->formFactory      = $formFactory;
-        $this->passwordEncoder  = $passwordEncoder;
-        $this->security         = $security;
-        $this->session          = $session;
-        $this->urlGenerator     = $urlGenerator;
-    }
 
     public function supports(Request $request)
     {
@@ -168,18 +124,18 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
 
             $flashBag->add('info', 'info.user_not_activated');
 
-            return new RedirectResponse($this->urlGenerator->generate('app_index'));
+            return new RedirectResponse($this->router->generate('app_index'));
         }
 
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
 
-        return new RedirectResponse($this->urlGenerator->generate('app_profile'));
+        return new RedirectResponse($this->router->generate('app_profile'));
     }
 
     protected function getLoginUrl()
     {
-        return $this->urlGenerator->generate(self::LOGIN_ROUTE);
+        return $this->router->generate(self::LOGIN_ROUTE);
     }
 }

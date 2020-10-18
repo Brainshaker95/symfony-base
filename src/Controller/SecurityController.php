@@ -5,41 +5,19 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\Type\LoginType;
 use App\Form\Type\RegisterType;
-use App\Security\LoginFormAuthenticator;
+use App\Traits\HasAuthenticator;
 use App\Traits\HasEntityManager;
+use App\Traits\HasGuardHandler;
+use App\Traits\HasPasswordEncoder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 
 class SecurityController extends FrontendController
 {
+    use HasAuthenticator;
     use HasEntityManager;
-
-    /**
-     * @var LoginFormAuthenticator
-     */
-    protected $authenticator;
-
-    /**
-     * @var GuardAuthenticatorHandler
-     */
-    protected $guardHandler;
-
-    /**
-     * @var UserPasswordEncoderInterface
-     */
-    protected $passwordEncoder;
-
-    public function __construct(
-        LoginFormAuthenticator $authenticator,
-        GuardAuthenticatorHandler $guardHandler,
-        UserPasswordEncoderInterface $passwordEncoder
-    ) {
-        $this->authenticator   = $authenticator;
-        $this->guardHandler    = $guardHandler;
-        $this->passwordEncoder = $passwordEncoder;
-    }
+    use HasGuardHandler;
+    use HasPasswordEncoder;
 
     public function registerAction(Request $request): ?Response
     {

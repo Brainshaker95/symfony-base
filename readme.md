@@ -5,6 +5,7 @@
 - [Prerequisites](#prerequisites)
 - [Installing](#installing)
 - [Commands](#commands)
+- [Documentation](./docs/0_index.md)
 
 ___
 

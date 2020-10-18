@@ -9,7 +9,7 @@ class HashService
     /**
      * @var Hashids;
      */
-    protected $hashids;
+    private $hashids;
 
     public function __construct(string $hashidsSalt, int $hashidsPadding)
     {

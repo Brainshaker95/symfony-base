@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints;
 
 class RegisterType extends AbstractType
 {
-    protected const PASSWORD_MIN_LENGTH = 10;
+    private const PASSWORD_MIN_LENGTH = 10;
 
     /**
      * @param FormBuilderInterface<string> $builder

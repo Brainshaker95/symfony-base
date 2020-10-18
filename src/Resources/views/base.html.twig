@@ -1,8 +1,8 @@
 {%- set user = app.getUser -%}
-{% set theme = 'dark' %}
+{%- set theme = 'dark' -%}
 
 {%- if user -%}
-  {% set theme = user.getTheme|default('dark') %}
+  {%- set theme = user.getTheme|default('dark') -%}
 {%- endif -%}
 
 {%- set html -%}

@@ -14,15 +14,8 @@ class UserType extends AbstractType
 {
     use HasTranslator;
 
-    /**
-     * @var int
-     */
-    protected $maxSize = 4;
-
-    /**
-     * @var array<string>
-     */
-    protected $mimeTypes = [
+    private const IMAGE_MAX_SIZE   = 4;
+    private const IMAGE_MIME_TYPES = [
         'image/jpeg',
         'image/png',
         'image/svg+xml',
@@ -41,13 +34,13 @@ class UserType extends AbstractType
                 'label'    => 'label.profile_image',
                 'attr'     => [
                     'data-placeholder' => $this->translator->trans('placeholder.upload_image'),
-                    'data-max-size'    => $this->maxSize,
-                    'data-mime-types'  => implode(', ', $this->mimeTypes),
+                    'data-max-size'    => self::IMAGE_MAX_SIZE,
+                    'data-mime-types'  => implode(', ', self::IMAGE_MIME_TYPES),
                 ],
                 'constraints' => [
                     new Constraints\File([
-                        'maxSize'          => $this->maxSize . 'M',
-                        'mimeTypes'        => $this->mimeTypes,
+                        'maxSize'          => self::IMAGE_MAX_SIZE . 'M',
+                        'mimeTypes'        => self::IMAGE_MIME_TYPES,
                         'maxSizeMessage'   => 'app.error.form.max_size.exceeded',
                         'mimeTypesMessage' => 'app.error.form.mime_type.invalid',
                     ]),
