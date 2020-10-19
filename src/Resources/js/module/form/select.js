@@ -218,6 +218,7 @@ const generateMarkup = ($input) => {
     type="button"
     class="button button--close button--clear button--is-hidden"
     title="${translate('remove')}"
+    aria-label="${translate('remove')}"
   />`);
 
   $input.prepend('<option value="" selected disabled></a>');

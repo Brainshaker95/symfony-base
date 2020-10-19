@@ -82,6 +82,7 @@ const generateMarkup = ($input, isDragAndDrop) => {
       type="button"
       class="button button--close button--clear button--is-hidden"
       title="${translate('remove')}"
+      aria-label="${translate('remove')}"
     />`));
   } else {
     $file
@@ -165,6 +166,7 @@ const attachDragAndDropHandlers = ($input) => {
             type="button"
             class="button button--close button--clear"
             title="${translate('remove')}"
+            aria-label="${translate('remove')}"
           ></button>
             ${reader.result.indexOf('data:image/') === 0 ? `
               <img src="${reader.result}" class="file__image responsive-image" alt="${file.name}">

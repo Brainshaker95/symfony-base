@@ -101,7 +101,7 @@ export const validateForm = ($form) => {
   if ($firstError.length) {
     scrollTo(
       $firstError,
-      $firstError.height() + $firstError.parent().find('input, .select__selection').height(),
+      $firstError.height() + $firstError.parent().find('input, textarea, .select__selection').height(),
     );
   }
 
