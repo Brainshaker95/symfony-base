@@ -73,7 +73,7 @@ class GalleryController extends FrontendController
 
         $this->userService->clearUserFilesFromTmp($user);
 
-        if ($page > $totalPages) {
+        if ($page > $totalPages && $page !== 1) {
             return $this->renderNotFound();
         }
 

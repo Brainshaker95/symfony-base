@@ -7,6 +7,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
+use Twig\TwigTest;
 
 class HelperExtension extends AbstractExtension
 {
@@ -30,7 +31,6 @@ class HelperExtension extends AbstractExtension
         return [
             new TwigFilter('encode', [$this, 'encode']),
             new TwigFilter('decode', [$this, 'decode']),
-            new TwigFilter('instanceof', [$this, 'instanceof']),
             new TwigFilter('strip_spaces', [$this, 'stripSpaces'], ['is_safe' => ['html']]),
             new TwigFilter('unserialize', [$this, 'unserialize']),
         ];
@@ -43,6 +43,16 @@ class HelperExtension extends AbstractExtension
     {
         return [
             new TwigFunction('uuid', 'uniqid'),
+        ];
+    }
+
+    /**
+     * @return array<TwigTest>
+     */
+    public function getTests()
+    {
+        return [
+            new TwigTest('instanceof', [$this, 'instanceof']),
         ];
     }
 
@@ -70,13 +80,7 @@ class HelperExtension extends AbstractExtension
             return $html;
         }
 
-        $html = preg_replace('/\s\s/', '', $html);
-
-        if (!$html) {
-            $html = '';
-        }
-
-        return $html;
+        return preg_replace('/\s\s/', '', $html) ?: '';
     }
 
     /**

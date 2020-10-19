@@ -28,6 +28,8 @@ final class Version20200616185149 extends AbstractMigration
                 filename VARCHAR(255) NOT NULL,
                 path VARCHAR(255) NOT NULL,
                 type VARCHAR(255) DEFAULT NULL,
+                alt VARCHAR(255) DEFAULT NULL,
+                title VARCHAR(255) DEFAULT NULL,
                 PRIMARY KEY(id)
             )
             DEFAULT CHARACTER SET utf8mb4
