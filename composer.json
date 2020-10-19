@@ -11,7 +11,7 @@
     }
   ],
   "require": {
-    "php": "^7.2.5",
+    "php": "^7.4",
     "ext-ctype": "*",
     "ext-iconv": "*",
     "hashids/hashids": "^4.0",

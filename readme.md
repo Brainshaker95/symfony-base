@@ -36,7 +36,7 @@ ___
 
   # or with make
 
-  make install
+  make vendor
 ```
 
 Set up environment and parameters and configure to your needs
