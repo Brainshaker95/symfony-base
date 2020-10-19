@@ -25,6 +25,8 @@ final class Version20200616185149 extends AbstractMigration
             'CREATE TABLE image
             (
                 id INT AUTO_INCREMENT NOT NULL,
+                created_at DATETIME(6) NOT NULL,
+                updated_at DATETIME(6) NOT NULL,
                 filename VARCHAR(255) NOT NULL,
                 path VARCHAR(255) NOT NULL,
                 type VARCHAR(255) DEFAULT NULL,
@@ -41,6 +43,8 @@ final class Version20200616185149 extends AbstractMigration
             'CREATE TABLE user
             (
                 id INT AUTO_INCREMENT NOT NULL,
+                created_at DATETIME(6) NOT NULL,
+                updated_at DATETIME(6) NOT NULL,
                 image_id INT DEFAULT NULL,
                 username VARCHAR(255) NOT NULL,
                 roles LONGTEXT NOT NULL COMMENT \'(DC2Type:json)\',

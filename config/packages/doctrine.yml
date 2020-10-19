@@ -2,6 +2,9 @@ doctrine:
   dbal:
     url: '%env(resolve:DATABASE_URL)%'
     server_version: '%env(DATABASE_SERVER_VERSION)%'
+    types:
+      datetime: \Carbon\Doctrine\DateTimeType
+      datetime_immutable: \Carbon\Doctrine\DateTimeImmutableType
   orm:
     auto_generate_proxy_classes: true
     naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware

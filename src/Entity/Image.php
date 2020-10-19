@@ -3,10 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\ImageRepository;
+use Carbon\Carbon;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=ImageRepository::class)
+ * @ORM\HasLifecycleCallbacks
  */
 class Image
 {
@@ -17,6 +19,18 @@ class Image
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @var Carbon
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @var Carbon
+     * @ORM\Column(type="datetime")
+     */
+    private $updatedAt;
 
     /**
      * @var string
@@ -48,9 +62,34 @@ class Image
      */
     private $title;
 
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function setTimestamps(): void
+    {
+        $now = Carbon::now();
+
+        $this->updatedAt = $now;
+
+        if (!$this->createdAt) {
+            $this->createdAt = $now;
+        }
+    }
+
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function getCreatedAt(): Carbon
+    {
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt(): Carbon
+    {
+        return $this->updatedAt;
     }
 
     public function getFilename(): string
