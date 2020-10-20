@@ -11,30 +11,9 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @ORM\HasLifecycleCallbacks
  */
-class User implements UserInterface
+class User extends AbstractEntity implements UserInterface
 {
-    /**
-     * @var int
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
-    /**
-     * @var Carbon
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
-
-    /**
-     * @var Carbon
-     * @ORM\Column(type="datetime")
-     */
-    private $updatedAt;
-
     /**
      * @var string
      * @ORM\Column(type="string", unique=true)
@@ -65,36 +44,6 @@ class User implements UserInterface
      */
     private $image;
 
-    /**
-     * @ORM\PrePersist
-     * @ORM\PreUpdate
-     */
-    public function setTimestamps(): void
-    {
-        $now = Carbon::now();
-
-        $this->updatedAt = $now;
-
-        if (!$this->createdAt) {
-            $this->createdAt = $now;
-        }
-    }
-
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    public function getCreatedAt(): Carbon
-    {
-        return $this->createdAt;
-    }
-
-    public function getUpdatedAt(): Carbon
-    {
-        return $this->updatedAt;
-    }
-
     public function getUsername(): string
     {
         return (string) $this->username;
@@ -124,7 +73,7 @@ class User implements UserInterface
 
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return $this->password;
     }
 
     public function setPassword(string $password): self
@@ -136,7 +85,7 @@ class User implements UserInterface
 
     public function getTheme(): string
     {
-        return (string) $this->theme;
+        return $this->theme;
     }
 
     public function setTheme(string $theme): self

@@ -53,6 +53,9 @@ class ProfileController extends FrontendController
                 }
             }
 
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+
             if ($hasErrors) {
                 $this->addFlash('error', 'page.profile.update.error');
             } else {
@@ -94,7 +97,5 @@ class ProfileController extends FrontendController
         $user->setImage($image);
 
         $this->entityManager->persist($image);
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
     }
 }

@@ -7,11 +7,11 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20200616185149 extends AbstractMigration
+final class Version20201020181509 extends AbstractMigration
 {
     public function getDescription() : string
     {
-        return 'Creats user and image tables';
+        return 'Creates user and image tables';
     }
 
     public function up(Schema $schema) : void
@@ -29,7 +29,7 @@ final class Version20200616185149 extends AbstractMigration
                 updated_at DATETIME(6) NOT NULL,
                 filename VARCHAR(255) NOT NULL,
                 path VARCHAR(255) NOT NULL,
-                type VARCHAR(255) DEFAULT NULL,
+                type VARCHAR(255) NOT NULL,
                 alt VARCHAR(255) DEFAULT NULL,
                 title VARCHAR(255) DEFAULT NULL,
                 PRIMARY KEY(id)
@@ -43,11 +43,11 @@ final class Version20200616185149 extends AbstractMigration
             'CREATE TABLE user
             (
                 id INT AUTO_INCREMENT NOT NULL,
+                image_id INT DEFAULT NULL,
                 created_at DATETIME(6) NOT NULL,
                 updated_at DATETIME(6) NOT NULL,
-                image_id INT DEFAULT NULL,
                 username VARCHAR(255) NOT NULL,
-                roles LONGTEXT NOT NULL COMMENT \'(DC2Type:json)\',
+                roles JSON NOT NULL,
                 password VARCHAR(255) NOT NULL,
                 theme VARCHAR(255) NOT NULL,
                 UNIQUE INDEX UNIQ_8D93D649F85E0677 (username),
