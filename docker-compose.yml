@@ -1,0 +1,59 @@
+version: "3.7"
+services:
+  web:
+    build:
+      context: ./.docker/web
+      args:
+        - DOCKER_APP_USER_ID=${DOCKER_APP_USER_ID}
+        - DOCKER_APP_GROUP_ID=${DOCKER_APP_GROUP_ID}
+        - DOCKER_PHP_VERSION=${DOCKER_PHP_VERSION}
+        - DOCKER_NODE_VERSION=${DOCKER_NODE_VERSION}
+        - DOCKER_YARN_VERSION=${DOCKER_YARN_VERSION}
+        - DOCKER_INSTALL_IMAGEMAGICK=${DOCKER_INSTALL_IMAGEMAGICK}
+        - DOCKER_INSTALL_REDIS=${DOCKER_INSTALL_REDIS}
+    container_name: "${DOCKER_CONTAINER_NAME}-web"
+    ports:
+      - "${DOCKER_HTTP_PORT}:80"
+      - "${DOCKER_HTTPS_PORT}:443"
+      - "2222:22"
+    volumes:
+      - ${DOCKER_APP_CODE_PATH_HOST}:/var/www/html
+      - ./.docker/web/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ${DOCKER_COMPOSER_CACHE_DIR}:/var/www/.composer/cache
+      - ${DOCKER_COMPOSER_CACHE_DIR}:/root/.composer/cache
+      - ./.docker/web/php.ini:/usr/local/etc/php/conf.d/custom.ini
+      - ./.docker/yarn:/var/www/.yarn
+    networks:
+      frontend:
+      backend:
+  db:
+    build:
+      context: ./.docker/database
+      args:
+        - MYSQL_VERSION=${DOCKER_MYSQL_VERSION}
+    container_name: "${DOCKER_CONTAINER_NAME}-db"
+    ports:
+      - "${DOCKER_MYSQL_PORT}:${DATABASE_PORT}"
+    environment:
+      - "MYSQL_ROOT_PASSWORD=${DATABASE_PASSWORD}"
+      - "MYSQL_DATABASE=${DATABASE_DATABASE}"
+      - "MYSQL_USER=${DATABASE_USERNAME}"
+      - "MYSQL_PASSWORD=${DATABASE_PASSWORD}"
+      - "MYSQL_PORT=${DATABASE_PORT}"
+    volumes:
+      - database:/var/lib/mysql
+    networks:
+      backend:
+  redis:
+    build: ./.docker/redis
+    container_name: "${DOCKER_CONTAINER_NAME}-redis"
+    volumes:
+      - redis:/data
+    networks:
+      backend:
+volumes:
+  database:
+  redis:
+networks:
+  backend:
+  frontend:
