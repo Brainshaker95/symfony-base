@@ -223,7 +223,7 @@ const attachDragAndDropHandlers = ($input) => {
     const types = $input.data('mime-types');
     const allowedTypes = types.split(', ');
 
-    if (file.size > maxSize * 1000000) {
+    if (file.size > maxSize * 1048576) {
       notify({
         text: translate('error.form.image.max_size.exceeded', { limit: maxSize }),
       });

@@ -3,7 +3,6 @@
 namespace App\Twig;
 
 use App\Traits\HasHashService;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -18,9 +17,9 @@ class HelperExtension extends AbstractExtension
      */
     private $environment;
 
-    public function __construct(KernelInterface $kernel)
+    public function __construct(string $environment)
     {
-        $this->environment = $kernel->getEnvironment();
+        $this->environment = $environment;
     }
 
     /**

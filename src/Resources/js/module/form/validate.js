@@ -66,7 +66,7 @@ export const validate = ($input) => {
       const maxSize = $input.data('max-size') || Infinity;
       const mimeTypes = ($input.data('mime-types') || []).split(', ');
 
-      if (file.size > maxSize * 1000000) {
+      if (file.size > maxSize * 1048576) {
         error = translate('error.form.image.max_size.exceeded', {
           limit: maxSize,
         });

@@ -37,5 +37,10 @@ services:
       - '%hashids_salt%'
       - '%hashids_padding%'
 
+  App\Twig\HelperExtension:
+    class: App\Twig\HelperExtension
+    arguments:
+      - '%kernel.environment%'
+
   Liip\ImagineBundle\Service\FilterService:
     alias: liip_imagine.service.filter
