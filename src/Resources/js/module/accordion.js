@@ -36,7 +36,7 @@ const initAccordion = ($accordion) => {
     .on('click', ({ currentTarget }) => toggleAccordion($(currentTarget)));
 
   $accordionItem.on('keydown', (event) => {
-    if (event.type === 'keydown' && event.key !== keycode.enter) {
+    if (event.key !== keycode.enter) {
       return;
     }
 

@@ -1,0 +1,28 @@
+.tabs {
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: 2px solid $white;
+    margin-bottom: 1em;
+  }
+
+  &__button {
+    padding: 0.5em 1em;
+
+    &--is-active {
+      background-color: $white !important;
+      color: $darkgrey !important;
+      pointer-events: none;
+      cursor: default;
+    }
+  }
+
+  &__content {
+    display: none;
+    margin-bottom: 1em;
+
+    &[data-id="1"] {
+      display: block;
+    }
+  }
+}
