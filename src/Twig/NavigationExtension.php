@@ -82,15 +82,18 @@ class NavigationExtension extends AbstractExtension
      */
     private function getParsedNavigationItem(string $name, ?string $role)
     {
-        $request = $this->requestStack->getCurrentRequest();
+        $request         = $this->requestStack->getCurrentRequest();
+        $navigationName  = $this->translator->trans('navigation_name.' . $name);
+        $navigationTitle = $this->translator->trans('navigation_title.' . $name);
 
         return [
-            'navigation_name' => $this->translator->trans('navigation_name.' . $name),
-            'path'            => $this->router->generate('app_' . $name),
-            'is_active'       => $request ? $request->get('_route') === 'app_' . $name : false,
-            'role'            => $role,
-            'hide_on_auth'    => $role === 'HIDE_ON_AUTH',
-            'show_on_auth'    => $role === 'SHOW_ON_AUTH',
+            'navigation_name'  => $navigationName,
+            'navigation_title' => $navigationTitle !== 'navigation_title.' . $name ? $navigationTitle : $navigationName,
+            'path'             => $this->router->generate('app_' . $name),
+            'is_active'        => $request ? $request->get('_route') === 'app_' . $name : false,
+            'role'             => $role,
+            'hide_on_auth'     => $role === 'HIDE_ON_AUTH',
+            'show_on_auth'     => $role === 'SHOW_ON_AUTH',
         ];
     }
 }

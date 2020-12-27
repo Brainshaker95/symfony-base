@@ -4,6 +4,7 @@
 
     {%- for navigation_item in navigation(key) -%}
       {%- set navigation_name      = navigation_item.navigation_name -%}
+      {%- set navigation_title     = navigation_item.navigation_title -%}
       {%- set hide_on_auth         = navigation_item.hide_on_auth -%}
       {%- set show_on_auth         = navigation_item.show_on_auth -%}
       {%- set is_active            = navigation_item.is_active -%}
@@ -30,7 +31,7 @@
           {%- apply strip_spaces -%}
             <a
               href="{{- navigation_item.path -}}"
-              title="{{- navigation_name -}}"
+              title="{{- navigation_title -}}"
               class="navigation__link
                 {{- subpages and has_visible_subpages ? ' navigation__link--has-subpages' : '' -}}
                 {{- is_active ? ' navigation__link--is-active' : '' -}}"
@@ -49,17 +50,18 @@
               <nav class="subnavigation subnavigation--{{- key -}}">
                 <ul class="subnavigation__list">
                   {%- for subpage in subpages -%}
-                    {%- set navigation_name = subpage.navigation_name -%}
-                    {%- set hide_on_auth    = subpage.hide_on_auth -%}
-                    {%- set show_on_auth    = subpage.show_on_auth -%}
-                    {%- set role            = subpage.role -%}
-                    {%- set is_granted      = is_granted(role) -%}
+                    {%- set navigation_name  = subpage.navigation_name -%}
+                    {%- set navigation_title = subpage.navigation_title -%}
+                    {%- set hide_on_auth     = subpage.hide_on_auth -%}
+                    {%- set show_on_auth     = subpage.show_on_auth -%}
+                    {%- set role             = subpage.role -%}
+                    {%- set is_granted       = is_granted(role) -%}
 
                     {%- if (user and show_on_auth) or not role or is_granted or (user ? not hide_on_auth and is_granted : hide_on_auth) -%}
                       <li class="subnavigation__item">
                         <a
                           href="{{- subpage.path -}}"
-                          title="{{- navigation_name -}}"
+                          title="{{- navigation_title -}}"
                           class="subnavigation__link{{- subpage.is_active ? ' subnavigation__link--is-active' : '' -}}"
                         >
                           {{- navigation_name -}}

@@ -58,6 +58,23 @@ class UserType extends AbstractType
                     'theme.light' => 'light',
                 ],
             ])
+            ->add('color', Type\ChoiceType::class, [
+                'required'    => false,
+                'placeholder' => null,
+                'label'       => 'label.accent_color',
+                'attr'        => [
+                    'class' => 'select--no-clear',
+                ],
+                'choices' => [
+                    'color.blue'     => 'default',
+                    'color.burgundy' => '#771004',
+                    'color.green'    => '#3b6533',
+                    'color.purple'   => 'rebeccapurple',
+                    'color.orange'   => '#bf8419',
+                    'color.pink'     => '#b618f8',
+                    'color.red'      => '#b60000',
+                ],
+            ])
             ->add('conditional_1', Type\CheckboxType::class, [
                 'required' => false,
                 'mapped'   => false,

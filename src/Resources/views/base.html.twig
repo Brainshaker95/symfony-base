@@ -1,8 +1,10 @@
 {%- set user = app.getUser -%}
 {%- set theme = 'dark' -%}
+{%- set color = 'default' -%}
 
 {%- if user -%}
   {%- set theme = user.getTheme|default('dark') -%}
+  {%- set color = user.getColor|default('default') -%}
 {%- endif -%}
 
 {%- set html -%}
@@ -21,6 +23,12 @@
       {%- endblock -%}
 
       {%- block additonal_styles -%}{%- endblock -%}
+
+      {%- block user_styles -%}
+        {%- if color != 'default' -%}
+          {{- css(asset(encore_entry_css_files('user_styles')[0]), color) -}}
+        {%- endif -%}
+      {%- endblock -%}
 
       {%- block translations -%}
         <script>window.translations = {{- translations('js_globals')|json_encode|raw -}};</script>

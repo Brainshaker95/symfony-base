@@ -9,6 +9,7 @@ Encore
   .addEntry('users', './src/Resources/js/page/users.js')
   .addStyleEntry('main', './src/Resources/scss/main.scss')
   .addStyleEntry('page_users', './src/Resources/scss/page/users.scss')
+  .addStyleEntry('user_styles', './src/Resources/scss/theme/user-styles.scss')
   .splitEntryChunks()
   .enableSassLoader()
   .enablePostCssLoader()

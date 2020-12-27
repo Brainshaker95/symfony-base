@@ -41,7 +41,7 @@ abstract class AbstractEntity
 
         $this->updatedAt = $now;
 
-        if (!$this->createdAt) {
+        if (!$this->createdAt instanceof Carbon) {
             $this->createdAt = $now;
         }
     }

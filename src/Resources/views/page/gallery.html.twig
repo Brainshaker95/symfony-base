@@ -25,15 +25,17 @@
       {%- endfor -%}
     </div>
 
-    <i class="loading hide"></i>
+    {%- if total_pages > 1 -%}
+      <i class="loading hide"></i>
 
-    {%- include 'shared/pagination.html.twig' with {
-      tag_type: 'button',
-      class: 'gallery-pagination',
-      path: path('app_api_gallery_paging'),
-      current_page: current_page,
-      total_pages: total_pages,
-    } -%}
+      {%- include 'shared/pagination.html.twig' with {
+        tag_type: 'button',
+        class: 'gallery-pagination',
+        path: path('app_api_gallery_paging'),
+        current_page: current_page,
+        total_pages: total_pages,
+      } -%}
+    {%- endif -%}
   {%- else -%}
     <div class="alert alert--warning mt-2">
       {{ 'page.gallery.no_images'|trans }}

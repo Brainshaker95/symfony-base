@@ -38,6 +38,12 @@ class User extends AbstractEntity implements UserInterface
     private $theme;
 
     /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    private $color;
+
+    /**
      * @var Image|null
      * @ORM\OneToOne(targetEntity=Image::class, cascade={"persist", "remove"})
      */
@@ -90,6 +96,18 @@ class User extends AbstractEntity implements UserInterface
     public function setTheme(string $theme): self
     {
         $this->theme = $theme;
+
+        return $this;
+    }
+
+    public function getColor(): string
+    {
+        return $this->color;
+    }
+
+    public function setColor(string $color): self
+    {
+        $this->color = $color;
 
         return $this;
     }

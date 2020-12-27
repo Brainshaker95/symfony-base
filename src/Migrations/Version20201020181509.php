@@ -50,6 +50,7 @@ final class Version20201020181509 extends AbstractMigration
                 roles JSON NOT NULL,
                 password VARCHAR(255) NOT NULL,
                 theme VARCHAR(255) NOT NULL,
+                color VARCHAR(255) NOT NULL,
                 UNIQUE INDEX UNIQ_8D93D649F85E0677 (username),
                 UNIQUE INDEX UNIQ_8D93D6493DA5256D (image_id),
                 PRIMARY KEY(id)

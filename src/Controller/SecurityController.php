@@ -33,6 +33,7 @@ class SecurityController extends FrontendController
         if ($form->isSubmitted() && $form->isValid()) {
             $user
                 ->setTheme('dark')
+                ->setColor('default')
                 ->setPassword(
                     $this->passwordEncoder->encodePassword(
                         $user,
