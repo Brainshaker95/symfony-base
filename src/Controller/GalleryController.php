@@ -46,17 +46,18 @@ class GalleryController extends FrontendController
             return $this->redirectToRoute('app_login');
         }
 
+        $page = (int) $request->get('page', 1);
+
+        if ($page < 1) {
+            return $this->renderNotFound();
+        }
+
         /**
          * @var Form
          */
         $form      = $this->createForm(GalleryType::class);
         $hasErrors = false;
         $limit     = self::PAGE_SIZE;
-        $page      = (int) $request->get('page', 1);
-
-        if ($page < 1) {
-            return $this->renderNotFound();
-        }
 
         $form->handleRequest($request);
 

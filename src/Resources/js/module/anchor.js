@@ -3,7 +3,7 @@ import $ from 'jquery';
 import scrollTo from '../util/scroll-to';
 import isInView from '../util/is-in-view';
 
-const firstFocusable = ($target) => $target
+export const firstFocusable = ($target) => $target
   .find('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
   .first();
 

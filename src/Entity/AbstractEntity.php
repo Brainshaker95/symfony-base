@@ -34,7 +34,7 @@ abstract class AbstractEntity
     /**
      * @ORM\PrePersist
      * @ORM\PreUpdate
-    */
+     */
     public function updateTimestamps(): void
     {
         $now = Carbon::now();

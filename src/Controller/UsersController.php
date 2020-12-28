@@ -40,9 +40,7 @@ class UsersController extends FrontendController
         $currentUser = $this->getUser();
 
         if (!$currentUser || !$user || !$this->userService->canModify($currentUser, $user)) {
-            return $this->json([
-                'success' => false,
-            ]);
+            return $this->forbidden();
         }
 
         $this->deleteProfileImageFile($user);
@@ -79,9 +77,7 @@ class UsersController extends FrontendController
         $currentUser = $this->getUser();
 
         if (!$currentUser || !$user || !$this->userService->canModify($currentUser, $user)) {
-            return $this->json([
-                'success' => false,
-            ]);
+            return $this->forbidden();
         }
 
         $this->deleteProfileImageFile($user);
@@ -117,9 +113,7 @@ class UsersController extends FrontendController
         $currentUser = $this->getUser();
 
         if (!$currentUser || !$user || !$this->userService->canModify($currentUser, $user)) {
-            return $this->json([
-                'success' => false,
-            ]);
+            return $this->forbidden();
         }
 
         if (in_array('ROLE_SUPER_ADMIN', $roles)) {

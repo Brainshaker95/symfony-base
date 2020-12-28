@@ -26,7 +26,7 @@
 
       {%- block user_styles -%}
         {%- if color != 'default' -%}
-          {{- css(asset(encore_entry_css_files('user_styles')[0]), color) -}}
+          {{- css(encore_entry_css_files('user_styles')[0], color) -}}
         {%- endif -%}
       {%- endblock -%}
 

@@ -97,6 +97,26 @@
     }
   }
 
+  &--edit {
+    &::before {
+      background-color: $white;
+    }
+
+    &::after {
+      border-bottom: 0.25em solid $white;
+    }
+
+    &:hover {
+      &::before {
+        background-color: $darkgrey;
+      }
+
+      &::after {
+        border-bottom: 0.25em solid $darkgrey;
+      }
+    }
+  }
+
   &--clear {
     border: 0;
     background-color: transparent;

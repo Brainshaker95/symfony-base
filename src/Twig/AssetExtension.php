@@ -55,7 +55,7 @@ class AssetExtension extends AbstractExtension
             $css = '';
         }
 
-        $css = preg_replace('/\n/', '', $css) ?: '';
+        $css = preg_replace(['/\n/', '/\s+/'], [' ', ' '], $css) ?: '';
         $css = str_replace('placeholder', $replacement, $css) ?: '';
 
         return $css ? '<style>' . $css . '</style>' : '';

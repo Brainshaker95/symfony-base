@@ -7,11 +7,11 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20201020181509 extends AbstractMigration
+final class Version20201227212019 extends AbstractMigration
 {
     public function getDescription() : string
     {
-        return 'Creates user and image tables';
+        return 'Creates user, image and newsArticle tables';
     }
 
     public function up(Schema $schema) : void
@@ -32,6 +32,22 @@ final class Version20201020181509 extends AbstractMigration
                 type VARCHAR(255) NOT NULL,
                 alt VARCHAR(255) DEFAULT NULL,
                 title VARCHAR(255) DEFAULT NULL,
+                PRIMARY KEY(id)
+            )
+            DEFAULT CHARACTER SET utf8mb4
+            COLLATE `utf8mb4_unicode_ci`
+            ENGINE = InnoDB'
+        );
+
+        $this->addSql(
+            'CREATE TABLE news_article
+            (
+                id INT AUTO_INCREMENT NOT NULL,
+                created_at DATETIME(6) NOT NULL,
+                updated_at DATETIME(6) NOT NULL,
+                title VARCHAR(255) NOT NULL,
+                text LONGTEXT NOT NULL,
+                UNIQUE INDEX UNIQ_55DE12802B36786B (title),
                 PRIMARY KEY(id)
             )
             DEFAULT CHARACTER SET utf8mb4
@@ -81,6 +97,7 @@ final class Version20201020181509 extends AbstractMigration
         );
 
         $this->addSql('DROP TABLE image');
+        $this->addSql('DROP TABLE news_article');
         $this->addSql('DROP TABLE user');
     }
 }

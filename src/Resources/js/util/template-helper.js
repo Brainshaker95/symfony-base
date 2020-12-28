@@ -16,17 +16,28 @@ export default (items, $wrapper, $item) => {
       }
 
       const $reference = $template.find(`[data-reference="${reference}"]`);
+      const condition = $reference.data('condition');
+
+      if (condition && !item[condition]) {
+        $reference.remove();
+
+        return;
+      }
 
       if (isImage) {
         $reference.attr(key.replace('image__', ''), value);
       } else if (isLink) {
         $reference.attr(key.replace('link__', ''), value);
+      } else if ($reference.data('is-html')) {
+        $reference.html(value);
       } else {
         $reference.text(value);
       }
     });
 
     $template.find('[data-reference]').removeAttr('data-reference');
+    $template.find('[data-is-html]').removeAttr('data-is-html');
+    $template.find('[data-condition]').removeAttr('data-condition');
     $wrapper.append($template);
   });
 };

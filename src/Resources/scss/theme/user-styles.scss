@@ -8,7 +8,7 @@ a {
 
 .fancybox {
   &-thumbs__list a::before {
-    border: 6px solid placeholder !important;
+    border: 6px solid placeholder;
   }
 
   &-progress {

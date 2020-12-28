@@ -1,0 +1,91 @@
+{%- extends 'shared/noindexed.html.twig' -%}
+
+{%- block key -%}admin_news{%- endblock -%}
+{%- block has_page_style -%}true{%- endblock -%}
+{%- block has_page_script -%}true{%- endblock -%}
+
+{%- block content -%}
+  {%- include 'layout/navigation.html.twig' with {
+    key: 'admin',
+  } -%}
+
+  {%- apply strip_spaces -%}
+    <div
+      class="news"
+      data-edit-news-article-path="{{- path('app_api_edit_news_article') -}}"
+      data-delete-news-article-path="{{- path('app_api_delete_news_article') -}}"
+    >
+  {%- endapply -%}
+    <div class="grid">
+      <div class="col-12 col-lg-11 flex justify-end">
+        <button class="button button--info mb-4 add-news-article">
+          {{- 'page.news.add_article'|trans -}}
+        </button>
+      </div>
+    </div>
+
+    {%- if news_articles|length -%}
+      {%- for news_article in news_articles -%}
+        <div class="grid news__row">
+          <div class="col-1 hide show-lg"></div>
+
+          <div class="col-10 col-lg-9 flex items-center">
+            <div class="news__title">
+              {{- news_article.getTitle -}}
+            </div>
+          </div>
+
+          <div class="col-2 col-lg-1 relative">
+            {%- apply strip_spaces -%}
+              <button
+                type="button"
+                class="button button--edit small-offset edit-news-article"
+                title="{{- 'page.news.edit_news_article'|trans -}}"
+                aria-label="{{- 'page.news.edit_news_article'|trans -}}"
+                data-id="{{- news_article.getId|encode -}}"
+              ></button>
+            {%- endapply -%}
+
+            {%- apply strip_spaces -%}
+              <button
+                type="button"
+                class="button button--close small-offset delete-news-article"
+                title="{{- 'page.news.delete_news_article'|trans -}}"
+                aria-label="{{- 'page.news.delete_news_article'|trans -}}"
+                data-id="{{- news_article.getId|encode -}}"
+              ></button>
+            {%- endapply -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    {%- else -%}
+      <div class="grid">
+        <div class="col-1 hide show-lg"></div>
+
+        <div class="col-12 col-lg-10">
+          <div class="alert alert--warning mt-2">
+            {{ 'page.news.no_news_articles'|trans }}
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- include 'shared/modal.html.twig' with {
+    class: 'delete-news-article-modal',
+    header_text: 'page.news.really_delete_news_article'|trans,
+  } -%}
+
+  {%- include 'shared/modal.html.twig' with {
+    class: 'edit-news-article-modal',
+    header_text: 'page.news.edit_news_article'|trans,
+  } -%}
+
+  {%- include 'shared/modal.html.twig' with {
+    class: 'add-news-article-modal' ~ (has_errors ? ' modal--is-visible' : ''),
+    overlay_class: has_errors ? 'modal__overlay--is-visible' : '',
+    header_text: 'page.news.add_article'|trans,
+    body_text: form(news_article_form),
+    has_no_buttons: true,
+  } -%}
+{%- endblock -%}

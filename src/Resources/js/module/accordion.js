@@ -26,7 +26,7 @@ const toggleAccordion = ($target) => {
   $target.toggleClass('accordion__title--is-expanded');
 };
 
-const initAccordion = ($accordion) => {
+export const initAccordion = ($accordion) => {
   const $accordionItem = $accordion.find('.accordion__item');
 
   $accordionItem.attr('tabindex', 0);

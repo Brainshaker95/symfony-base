@@ -3,10 +3,19 @@ app_admin:
   controller: App\Controller\AdminController::adminAction
   options:
     navigation: main
-    order: 3
+    order: 4
     role: ROLE_ADMIN
     subpages:
       - app_admin_users
+      - app_admin_news
+
+app_admin_news:
+  path: /{_locale}/admin/news
+  controller: App\Controller\AdminController::newsAction
+  options:
+    navigation: admin
+    order: 2
+    role: ROLE_ADMIN
 
 app_admin_users:
   path: /{_locale}/admin/users

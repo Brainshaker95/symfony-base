@@ -32,6 +32,7 @@ const onModalConfirm = (close, selector, successMessage, successCallback) => {
 
   ajax({
     url: $('.users').data(`${selector}-path`),
+    method: 'DELETE',
     data: {
       id: $target.data('id'),
     },

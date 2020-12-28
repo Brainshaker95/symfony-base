@@ -88,7 +88,7 @@ class User extends AbstractEntity implements UserInterface
         return $this;
     }
 
-    public function getTheme(): string
+    public function getTheme(): ?string
     {
         return $this->theme;
     }
@@ -100,7 +100,7 @@ class User extends AbstractEntity implements UserInterface
         return $this;
     }
 
-    public function getColor(): string
+    public function getColor(): ?string
     {
         return $this->color;
     }

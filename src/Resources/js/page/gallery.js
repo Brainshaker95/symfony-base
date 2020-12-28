@@ -21,7 +21,7 @@ $(() => {
       $loadingIndicator.removeClass('hide');
     },
     done: ({ images }) => {
-      appendItems(images, $('.gallery-grid'), $('.gallery-grid-template'));
+      appendItems(images, $galleryGrid, $('.gallery-grid-template'));
       scrollTo();
     },
     always: () => {

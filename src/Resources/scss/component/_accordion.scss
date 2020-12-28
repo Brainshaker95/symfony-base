@@ -24,7 +24,7 @@ $accordion-padding: 0.5em;
     @include chevron-down-rotating-default;
 
     width: 100%;
-    padding: $accordion-padding;
+    padding: $accordion-padding 2em $accordion-padding $accordion-padding;
     cursor: pointer;
 
     &::after {
