@@ -11,7 +11,7 @@ final class Version20201229230931 extends AbstractMigration
 {
   public function getDescription(): string
   {
-      return 'Creates user, image and newsArticle tables';
+      return 'Creates app_user, image and newsArticle tables';
   }
 
   public function up(Schema $schema): void
@@ -63,7 +63,7 @@ final class Version20201229230931 extends AbstractMigration
       );
 
       $this->addSql(
-        'CREATE TABLE user
+        'CREATE TABLE app_user
         (
           id INT AUTO_INCREMENT NOT NULL,
           image_id INT DEFAULT NULL,
@@ -87,18 +87,18 @@ final class Version20201229230931 extends AbstractMigration
         'ALTER TABLE image
         ADD CONSTRAINT FK_C53D045FA76ED395
         FOREIGN KEY (user_id)
-        REFERENCES user (id)'
+        REFERENCES app_user (id)'
       );
 
       $this->addSql(
         'ALTER TABLE news_article
         ADD CONSTRAINT FK_55DE1280F675F31B
         FOREIGN KEY (author_id)
-        REFERENCES user (id)'
+        REFERENCES app_user (id)'
       );
 
       $this->addSql(
-        'ALTER TABLE user
+        'ALTER TABLE app_user
         ADD CONSTRAINT FK_8D93D6493DA5256D
         FOREIGN KEY (image_id)
         REFERENCES image (id)'
@@ -229,13 +229,13 @@ final class Version20201229230931 extends AbstractMigration
       );
 
       $this->addSql(
-        'ALTER TABLE user
+        'ALTER TABLE app_user
         DROP FOREIGN KEY FK_8D93D6493DA5256D'
       );
 
       $this->addSql('DROP TABLE image');
       $this->addSql('DROP TABLE news_article');
-      $this->addSql('DROP TABLE user');
+      $this->addSql('DROP TABLE app_user');
     } else if ($databasePlattformName === 'postgresql') {
       $this->addSql('CREATE SCHEMA IF NOT EXISTS public');
 
