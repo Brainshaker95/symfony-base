@@ -225,7 +225,7 @@ const attachDragAndDropHandlers = ($input) => {
 
     if (file.size > maxSize * 1048576) {
       notify({
-        text: translate('error.form.image.max_size.exceeded', { limit: maxSize }),
+        text: translate('error.form.max_size.exceeded', { limit: maxSize }),
       });
 
       return;
@@ -233,7 +233,7 @@ const attachDragAndDropHandlers = ($input) => {
 
     if (!allowedTypes.includes(file.type)) {
       notify({
-        text: translate('error.form.image.mime_type.invalid', { types }),
+        text: translate('error.form.mime_type.invalid', { types }),
       });
 
       return;

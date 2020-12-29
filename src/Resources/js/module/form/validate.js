@@ -69,11 +69,11 @@ export const validate = ($input) => {
       const mimeTypes = ($input.data('mime-types') || []).split(', ');
 
       if (file.size > maxSize * 1048576) {
-        error = translate('error.form.image.max_size.exceeded', {
+        error = translate('error.form.max_size.exceeded', {
           limit: maxSize,
         });
       } else if (!mimeTypes.includes(file.type)) {
-        error = translate('error.form.image.mime_type.invalid', {
+        error = translate('error.form.mime_type.invalid', {
           types: `"${mimeTypes.join('", "')}"`,
         });
       }

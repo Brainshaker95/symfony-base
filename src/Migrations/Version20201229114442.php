@@ -16,9 +16,11 @@ final class Version20201229114442 extends AbstractMigration
 
     public function up(Schema $schema) : void
     {
+        $databasePlatformName = $this->connection->getDatabasePlatform()->getName();
+
         $this->abortIf(
-            $this->connection->getDatabasePlatform()->getName() !== 'mysql',
-            'Migration can only be executed safely on \'mysql\'.'
+            $databasePlatformName !== 'mysql' && $databasePlatformName !== 'postgresql' ,
+            'Migration can only be executed safely on \'mysql\' or \'postgresql\'.'
         );
 
         $this->addSql(
@@ -104,9 +106,11 @@ final class Version20201229114442 extends AbstractMigration
 
     public function down(Schema $schema) : void
     {
+        $databasePlatformName = $this->connection->getDatabasePlatform()->getName();
+
         $this->abortIf(
-            $this->connection->getDatabasePlatform()->getName() !== 'mysql',
-            'Migration can only be executed safely on \'mysql\'.'
+            $databasePlatformName !== 'mysql' && $databasePlatformName !== 'postgresql' ,
+            'Migration can only be executed safely on \'mysql\' or \'postgresql\'.'
         );
 
         $this->addSql(
