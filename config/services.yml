@@ -1,5 +1,5 @@
 imports:
-  # - { resource: parameters.yml }
+  - { resource: parameters.yml }
 
 services:
   _defaults:
