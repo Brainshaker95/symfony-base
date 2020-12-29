@@ -10,7 +10,8 @@
     "dev": "encore dev",
     "prod": "encore prod",
     "watch": "encore dev --watch",
-    "startup": "yarn && node ./.startup/startup.js"
+    "startup": "yarn && node ./.startup/startup.js",
+    "heroku-postbuild" : "encore prod"
   },
   "dependencies": {
     "@fancyapps/fancybox": "^3.5.7",
