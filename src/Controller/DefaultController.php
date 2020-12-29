@@ -29,4 +29,9 @@ class DefaultController extends FrontendController
     {
         return $this->render('page/privacy.html.twig');
     }
+
+    public function termsAction(): Response
+    {
+        return $this->render('page/terms.html.twig');
+    }
 }

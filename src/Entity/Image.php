@@ -40,6 +40,12 @@ class Image extends AbstractEntity
      */
     private $title;
 
+    /**
+     * @var User|null
+     * @ORM\ManyToOne(targetEntity=User::class)
+     */
+    private $user;
+
     public function getFilename(): string
     {
         return $this->filename;
@@ -96,6 +102,18 @@ class Image extends AbstractEntity
     public function setTitle(string $title): self
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

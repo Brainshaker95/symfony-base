@@ -43,44 +43,7 @@ class NewsController extends FrontendController
             return $this->renderNotFound();
         }
 
-        $form      = null;
-        $hasErrors = false;
-        $limit     = self::PAGE_SIZE;
-        $isAdmin   = $this->isGranted('ROLE_ADMIN');
-
-        if ($isAdmin) {
-            /**
-             * @var Form
-             */
-            $form        = $this->createForm(NewsArticleType::class);
-            $handledForm = $form->handleRequest($request);
-
-            if ($form->getErrors(true)->count()) {
-                $hasErrors = true;
-            }
-
-            if ($request->isMethod('POST') && $form->isSubmitted() && $form->isValid()) {
-                $newsArticle     = $handledForm->getData();
-                $existingArticle = $this->newsArticleRepository->findBy(['title' => $newsArticle->getTitle()]);
-                $page            = 1;
-
-                $this->addFlash('_params', serialize([
-                    '{{ title }}' => $newsArticle->getTitle(),
-                ]));
-
-                if (!$existingArticle) {
-                    $this->entityManager->persist($newsArticle);
-                    $this->entityManager->flush();
-
-                    $this->addFlash('success', 'page.news.success.article_added');
-
-                    return $this->redirect($request->getUri());
-                } else {
-                    $this->addFlash('error', 'page.news.error.duplicate_title');
-                }
-            }
-        }
-
+        $limit      = self::PAGE_SIZE;
         $paginator  = $this->newsArticleRepository->getNewsArticlePaginator($page, $limit);
         $totalPages = (int) ceil($paginator->count() / $limit);
 
@@ -89,12 +52,9 @@ class NewsController extends FrontendController
         }
 
         return $this->render('page/news.html.twig', [
-            'is_admin'          => $isAdmin,
-            'news_article_form' => $form ? $form->createView() : null,
-            'has_errors'        => $isAdmin ? $hasErrors : null,
-            'paginator'         => $paginator,
-            'current_page'      => $page,
-            'total_pages'       => $totalPages,
+            'paginator'    => $paginator,
+            'current_page' => $page,
+            'total_pages'  => $totalPages,
         ]);
     }
 
@@ -127,6 +87,7 @@ class NewsController extends FrontendController
             foreach ($paginator as $newsArticle) {
                 $createdAt = $this->getFormattedDate($newsArticle->getCreatedAt());
                 $updatedAt = $this->getFormattedDate($newsArticle->getUpdatedAt());
+                $author    = $newsArticle->getAuthor();
 
                 $newsArticles[] = [
                     'created-at'  => $createdAt,
@@ -134,6 +95,7 @@ class NewsController extends FrontendController
                     'was-updated' => $createdAt !== $updatedAt,
                     'title'       => $newsArticle->getTitle(),
                     'text'        => nl2br(strip_tags($newsArticle->getText() ?: '', '<p><a>')),
+                    'author'      => $author ? '– ' . $author->getUsername() : '',
                 ];
             }
         }

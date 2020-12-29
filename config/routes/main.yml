@@ -46,3 +46,10 @@ app_profile:
     navigation: main
     order: 1
     role: ROLE_USER
+
+app_terms:
+  path: /{_locale}/terms
+  controller: App\Controller\DefaultController::termsAction
+  options:
+    navigation: footer
+    order: 2

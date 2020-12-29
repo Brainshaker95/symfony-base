@@ -77,7 +77,8 @@ class ProfileController extends FrontendController
         $image
             ->setFilename($filename)
             ->setPath('/uploads/profile_images/' . $filename)
-            ->setType('profile');
+            ->setType('profile')
+            ->setUser($user);
 
         if ($oldImage) {
             $finder = new Finder();

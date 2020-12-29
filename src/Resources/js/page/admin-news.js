@@ -6,6 +6,7 @@ import form from '../module/form';
 import initModal from '../module/modal';
 import notify from '../module/notify';
 import translate from '../util/translate';
+import { validateForm } from '../module/form/validate';
 
 const requestDone = ($newsRow, success, successMessage, title) => {
   if (!success) {
@@ -93,24 +94,30 @@ $(() => {
   });
 
   const editNewsArticleModal = initModal($editNewsArticleModal, {
-    onConfirm: (close) => onModalConfirm(
-      close,
-      'edit-news-article',
-      'success.news_article_edited',
-      ({ title }) => {
-        $editNewsArticleModal
-          .data('target')
-          .closest('.news__row')
-          .find('.news__title')
-          .text(title);
-      },
-      'POST',
-    ),
     onOpen: () => {
       const $form = $editNewsArticleModal.find('form');
 
       form($form);
       $form.on('submit', () => false);
+    },
+    onConfirm: (close) => {
+      if (!validateForm($editNewsArticleModal.find('form'))) {
+        return;
+      }
+
+      onModalConfirm(
+        close,
+        'edit-news-article',
+        'success.news_article_edited',
+        ({ title }) => {
+          $editNewsArticleModal
+            .data('target')
+            .closest('.news__row')
+            .find('.news__title')
+            .text(title);
+        },
+        'POST',
+      );
     },
   });
 

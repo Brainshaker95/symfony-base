@@ -183,6 +183,10 @@ class GalleryController extends FrontendController
         $files          = [];
         $successCount   = 0;
 
+        if (!$form->get('privacyAndTerms')->getData()) {
+            return false;
+        }
+
         $form->clearErrors(true);
 
         if (is_dir($tmpFolder)) {
@@ -202,8 +206,6 @@ class GalleryController extends FrontendController
                 $form = $this->validateFile($filename, $file, $form, $fileConstraint);
 
                 if ($form->getErrors(true)->count()) {
-                    $this->userService->clearUserFilesFromTmp($user);
-
                     return false;
                 }
 
@@ -271,7 +273,8 @@ class GalleryController extends FrontendController
         $image
             ->setFilename($filename)
             ->setPath('/uploads/gallery_images/' . $filename)
-            ->setType('gallery');
+            ->setType('gallery')
+            ->setUser($user);
 
         $this->entityManager->persist($image);
         $this->entityManager->persist($user);

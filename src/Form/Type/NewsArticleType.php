@@ -24,7 +24,7 @@ class NewsArticleType extends AbstractType
     {
         $builder
             ->add('title', Type\TextType::class, [
-                'label' => 'label.title',
+                'label'       => 'label.title',
                 'constraints' => [
                     new Constraints\NotBlank([
                         'message' => 'app.error.form.text.empty',
@@ -43,6 +43,15 @@ class NewsArticleType extends AbstractType
                     new Constraints\Length([
                         'max'        => self::MAX_TEXT_LENGTH,
                         'minMessage' => 'app.error.form.textarea.max',
+                    ]),
+                ],
+            ])
+            ->add('privacyAndTerms', Type\CheckboxType::class, [
+                'mapped'      => false,
+                'label'       => 'label.privacy_and_terms',
+                'constraints' => [
+                    new Constraints\IsTrue([
+                        'message' => 'app.error.form.privacy_and_terms.empty',
                     ]),
                 ],
             ])

@@ -22,6 +22,13 @@ class NewsArticle extends AbstractEntity
      */
     private $text;
 
+    /**
+     * @var User|null
+     * @ORM\ManyToOne(targetEntity=User::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $author;
+
     public function getTitle(): ?string
     {
         return $this->title;
@@ -42,6 +49,18 @@ class NewsArticle extends AbstractEntity
     public function setText(string $text): self
     {
         $this->text = $text;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }

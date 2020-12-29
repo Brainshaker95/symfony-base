@@ -5,13 +5,9 @@
 {%- block has_page_script -%}true{%- endblock -%}
 
 {%- block content -%}
-  {%- if is_admin -%}
-    <div class="flex justify-end">
-      <button class="button button--info mb-2 add-news-article">
-        {{- 'page.news.add_article'|trans -}}
-      </button>
-    </div>
-  {%- endif -%}
+  <h1>
+    {{- 'page.news.headline'|trans -}}
+  </h1>
 
   {%- if paginator|length -%}
     <div class="news accordion mt-2">
@@ -39,8 +35,14 @@
             </div>
           </div>
 
-          <div class="accordion__content news__item-text">
-            {{- news_article.getText|striptags('<p><a>')|raw|nl2br -}}
+          <div class="accordion__content">
+            <div>
+              {{- news_article.getText|striptags('<p><a>')|raw|nl2br -}}
+            </div>
+
+            <div class="mt-4">
+              {{- '– ' ~ news_article.getAuthor.getUsername -}}
+            </div>
           </div>
         </div>
       {%- endfor -%}
@@ -63,16 +65,6 @@
     </div>
   {%- endif -%}
 
-  {%- if is_admin -%}
-    {%- include 'shared/modal.html.twig' with {
-      class: 'add-news-article-modal' ~ (has_errors ? ' modal--is-visible' : ''),
-      overlay_class: has_errors ? 'modal__overlay--is-visible' : '',
-      header_text: 'page.news.add_article'|trans,
-      body_text: form(news_article_form),
-      has_no_buttons: true,
-    } -%}
-  {%- endif -%}
-
   <template class="news-item-template">
     <div class="accordion__item news__item">
       <div class="accordion__title">
@@ -84,7 +76,10 @@
         <div class="news__item-title" data-reference="title"></div>
       </div>
 
-      <div class="accordion__content news__item-text" data-reference="text" data-is-html="true"></div>
+      <div class="accordion__content">
+        <div data-reference="text" data-is-html="true"></div>
+        <div class="mt-4" data-reference="author"></div>
+      </div>
     </div>
   </template>
 {%- endblock -%}

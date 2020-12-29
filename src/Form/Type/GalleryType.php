@@ -56,6 +56,14 @@ class GalleryType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('privacyAndTerms', Type\CheckboxType::class, [
+                'label' => 'label.privacy_and_terms',
+                'constraints' => [
+                    new Constraints\IsTrue([
+                        'message' => 'app.error.form.privacy_and_terms.empty',
+                    ]),
+                ],
+            ])
             ->add('submit', Type\SubmitType::class, [
                 'label' => 'label.save',
                 'attr'  => [

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Form\Type\NewsArticleType;
 use App\Traits\HasEntityManager;
 use App\Traits\HasNewsArticleRepository;
@@ -29,15 +30,19 @@ class AdminController extends FrontendController
     public function newsAction(Request $request): Response
     {
         /**
+         * @var User|null
+         */
+        $user = $this->getUser();
+
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        /**
          * @var Form
          */
         $form        = $this->createForm(NewsArticleType::class);
         $handledForm = $form->handleRequest($request);
-        $hasErrors   = false;
-
-        if ($form->getErrors(true)->count()) {
-            $hasErrors = true;
-        }
 
         if ($request->isMethod('POST') && $form->isSubmitted() && $form->isValid()) {
             $newsArticle     = $handledForm->getData();
@@ -48,6 +53,7 @@ class AdminController extends FrontendController
             ]));
 
             if (!$existingArticle) {
+                $newsArticle->setAuthor($user);
                 $this->entityManager->persist($newsArticle);
                 $this->entityManager->flush();
 
@@ -62,7 +68,7 @@ class AdminController extends FrontendController
         return $this->render('page/admin/news.html.twig', [
             'news_articles'     => $this->newsArticleRepository->findBy([], ['createdAt' => 'DESC']),
             'news_article_form' => $form->createView(),
-            'has_errors'        => $hasErrors,
+            'has_errors'        => $form->getErrors(true)->count(),
         ]);
     }
 

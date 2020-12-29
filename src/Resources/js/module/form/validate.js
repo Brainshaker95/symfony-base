@@ -38,7 +38,9 @@ export const validate = ($input) => {
       error = translate('error.form.text.empty');
     }
   } else if (type === 'checkbox' && !$input.is(':checked')) {
-    if ($input.attr('id').indexOf('privacy') > -1) {
+    if ($input.attr('id').indexOf('privacyAndTerms') > -1) {
+      error = translate('error.form.privacy_and_terms.empty');
+    } else if ($input.attr('id').indexOf('privacy') > -1) {
       error = translate('error.form.privacy.empty');
     } else {
       error = translate('error.form.checkbox.empty');
