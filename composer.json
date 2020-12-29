@@ -15,6 +15,7 @@
     "ext-ctype": "*",
     "ext-iconv": "*",
     "hashids/hashids": "^4.0",
+    "incenteev/composer-parameter-handler": "^2.1",
     "isometriks/spam-bundle": "^1.0",
     "liip/imagine-bundle": "^2.3",
     "nesbot/carbon": "^2.41",
@@ -83,6 +84,7 @@
       "assets:install %PUBLIC_DIR%": "symfony-cmd"
     },
     "post-install-cmd": [
+      "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
       "@auto-scripts"
     ],
     "post-update-cmd": [
@@ -96,6 +98,10 @@
     "symfony": {
       "allow-contrib": false,
       "require": "5.0.*"
+    },
+    "incenteev-parameters": {
+      "file": "config/parameters.yml",
+      "dist-file": "config/parameters.yml"
     }
   }
 }
