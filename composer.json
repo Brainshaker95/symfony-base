@@ -13,6 +13,7 @@
   "require": {
     "php": "^7.2.5",
     "ext-ctype": "*",
+    "ext-gd": "*",
     "ext-iconv": "*",
     "hashids/hashids": "^4.0",
     "isometriks/spam-bundle": "^1.0",
