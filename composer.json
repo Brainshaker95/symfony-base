@@ -100,8 +100,8 @@
       "require": "5.0.*"
     },
     "incenteev-parameters": {
-      "file": "config/parameters.yml",
-      "dist-file": "config/parameters.yml"
+      "file": "app/config/parameters.yml",
+      "dist-file": "app/config/parameters.yml"
     }
   }
 }
