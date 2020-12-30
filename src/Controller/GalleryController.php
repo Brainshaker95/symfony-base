@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Asset\AbstractAsset;
 use App\Entity\Asset\Asset;
 use App\Entity\Asset\Image;
 use App\Entity\Asset\Video;
@@ -125,7 +126,7 @@ class GalleryController extends FrontendController
                 $path      = $asset->getPath();
                 $assetData = [];
 
-                if ($asset->getType() === 'image') {
+                if ($assetObj->getType() === 'image') {
                     $assetData = [
                         'image__src'      => $this->assetService->getPreviewSrc($path, 'gallery_image'),
                         'image__data-src' => $this->assetService->getThumbnailSrc($path, 'gallery_image'),
@@ -231,7 +232,7 @@ class GalleryController extends FrontendController
 
                 $newFilename = substr($filename, strlen($encodedUserId) + 1);
 
-                if ($this->fileService->move($filename, 'tmp', $newFilename, 'gallery_assets')) {
+                if ($this->fileService->move($filename, 'tmp', $newFilename, 'gallery-assets')) {
                     $this->addAssetToGallery($user, $newFilename);
                     $successCount += 1;
                 } else {
@@ -288,36 +289,35 @@ class GalleryController extends FrontendController
 
     private function addAssetToGallery(User $user, string $filename): void
     {
-        $asset = new Asset();
+        $mimeType = mime_content_type($this->uploadDirectory . '/gallery-assets/' . $filename);
 
-        $explodedFilname = explode('.', $filename);
-
-        if ($explodedFilname[count($explodedFilname) - 1] === 'mp4') {
-            $video = new Video();
-
-            $video
-                ->setFilename($filename)
-                ->setPath('/uploads/gallery_assets/' . $filename)
-                ->setType('gallery')
-                ->setUser($user);
-
-            $asset->setVideo($video);
-            $this->entityManager->persist($video);
+        if ($mimeType === 'video/mp4') {
+            $asset = $this->createAsset(Video::class, 'video');
         } else {
-            $image = new Image();
-
-            $image
-                ->setFilename($filename)
-                ->setPath('/uploads/gallery_assets/' . $filename)
-                ->setType('gallery')
-                ->setUser($user);
-
-            $asset->setImage($image);
-            $this->entityManager->persist($image);
+            $asset = $this->createAsset(Image::class, 'image');
         }
 
+        $asset
+            ->setFilename($filename)
+            ->setPath('/uploads/gallery-assets/' . $filename)
+            ->setType('gallery')
+            ->setUser($user);
+
         $this->entityManager->persist($asset);
-        $this->entityManager->persist($user);
         $this->entityManager->flush();
+    }
+
+    private function createAsset(string $class, string $type): AbstractAsset
+    {
+        $asset    = new $class();
+        $assetObj = new Asset();
+
+        $assetObj
+            ->setType($type)
+            ->setAsset($asset);
+
+        $this->entityManager->persist($assetObj);
+
+        return $asset;
     }
 }

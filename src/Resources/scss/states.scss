@@ -18,6 +18,10 @@
   position: relative;
 }
 
+.block {
+  display: block !important;
+}
+
 .flex {
   display: flex !important;
 }
@@ -54,8 +58,56 @@
     width: 100%;
     height: 1px;
     margin-left: 0.5em;
-    background-color: $white;
+    background-color: $darkgrey;
+
+    .theme--dark & {
+      background-color: $white;
+    }
   }
+}
+
+.play-button {
+  display: block;
+  position: relative;
+
+  &::before,
+  &::after {
+    @include center;
+
+    content: '';
+  }
+
+  &::before {
+    left: calc(50% + 0.25em);
+    width: 0;
+    height: 0;
+    border-left: 2em solid $darkgrey;
+    border-top: 1em solid transparent;
+    border-bottom: 1em solid transparent;
+
+    .theme--dark & {
+      border-left: 2em solid $white;
+    }
+  }
+
+  &:after {
+    width: 3.5em;
+    height: 3.5em;
+    border: 0.15em solid $darkgrey;
+    border-radius: 50%;
+
+    .theme--dark & {
+      border: 0.15em solid $white;
+    }
+  }
+}
+
+.h-100 {
+  height: 100% !important;
+}
+
+.of-cover {
+  object-fit: cover;
 }
 
 .mt-1 {

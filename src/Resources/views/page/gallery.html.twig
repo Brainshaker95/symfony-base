@@ -16,17 +16,18 @@
     <div class="grid gallery-grid mt-2">
       {%- for asset in paginator -%}
         <div class="col-12 col-xs-6 col-sm-4 col-md-3 col-xl-1-5th">
-          {%- if asset.getType == 'image' -%}
-            {%- include 'shared/image.html.twig' with {
-              image: asset.getImage,
-              lightbox_id: lightbox_id,
-              thumbnail: 'gallery_image',
-            } only -%}
-          {%- else -%}
-            {%- set path = asset.getVideo.getPath -%}
+          {%- set path = asset.getAsset.getPath -%}
 
-            <a href="{{- path -}}" data-fancybox="{{- lightbox_id -}}">
-              <video src="{{ path }}" class="responsive-image"></video>
+          {%- if asset.getType == 'image' -%}
+            <a href="{{- path -}}" class="block h-100" data-fancybox="{{- lightbox_id -}}">
+              {%- include 'shared/image.html.twig' with {
+                image: asset.getImage,
+                thumbnail: 'gallery_image',
+              } only -%}
+            </a>
+          {%- else -%}
+            <a href="{{- path -}}" class="block h-100 play-button" data-fancybox="{{- lightbox_id -}}">
+              <video src="{{ path }}" class="responsive-image h-100 of-cover"></video>
             </a>
           {%- endif -%}
         </div>
@@ -60,7 +61,7 @@
 
   <template class="gallery-grid-template">
     <div class="col-12 col-xs-6 col-sm-4 col-md-3 col-xl-1-5th">
-      <a data-reference="link" data-fancybox="{{- lightbox_id -}}">
+      <a data-reference="link" class="block h-100" data-fancybox="{{- lightbox_id -}}">
         <div data-condition="is-image">
           {%- include 'shared/image.html.twig' with {
             is_template: true,
@@ -68,7 +69,7 @@
         </div>
 
         <div data-condition="is-video">
-          <video data-reference="video" class="responsive-image"></video>
+          <video data-reference="video" class="responsive-image h-100 of-cover"></video>
         </div>
       </a>
     </div>
