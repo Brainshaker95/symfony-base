@@ -196,6 +196,10 @@ class GalleryController extends FrontendController
 
     private function handleForm(Form $form, User $user): bool
     {
+        if (!$form->get('privacyAndTerms')->getData()) {
+            return false;
+        }
+
         $encodedUserId  = $this->hashService->encode($user->getId());
         $finder         = new Finder();
         $tmpFolder      = __DIR__ . '..\\..\\..\\public\\uploads\\tmp';
@@ -203,10 +207,6 @@ class GalleryController extends FrontendController
         $fileConstraint = null;
         $files          = [];
         $successCount   = 0;
-
-        if (!$form->get('privacyAndTerms')->getData()) {
-            return false;
-        }
 
         $form->clearErrors(true);
 
