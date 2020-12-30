@@ -7,7 +7,7 @@ app_gallery:
   controller: App\Controller\GalleryController::galleryAction
   options:
     navigation: main
-    order: 2
+    order: 3
     role: ROLE_USER
 
 app_imprint:
@@ -24,6 +24,14 @@ app_index:
     navigation: main
     order: 0
 
+app_news:
+  path: /{_locale}/news
+  controller: App\Controller\NewsController::newsAction
+  options:
+    navigation: main
+    order: 2
+    role: ROLE_USER
+
 app_privacy:
   path: /{_locale}/privacy
   controller: App\Controller\DefaultController::privacyAction
@@ -38,3 +46,10 @@ app_profile:
     navigation: main
     order: 1
     role: ROLE_USER
+
+app_terms:
+  path: /{_locale}/terms
+  controller: App\Controller\DefaultController::termsAction
+  options:
+    navigation: footer
+    order: 2

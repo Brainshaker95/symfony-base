@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Image;
+use App\Entity\Asset\Asset;
+use App\Entity\Asset\Image;
 use App\Entity\User;
 use App\Form\Type\UserType;
 use App\Traits\HasEntityManager;
@@ -53,6 +54,9 @@ class ProfileController extends FrontendController
                 }
             }
 
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+
             if ($hasErrors) {
                 $this->addFlash('error', 'page.profile.update.error');
             } else {
@@ -70,11 +74,13 @@ class ProfileController extends FrontendController
     {
         $image    = new Image();
         $oldImage = $user->getImage();
+        $asset    = null;
 
         $image
             ->setFilename($filename)
             ->setPath('/uploads/profile_images/' . $filename)
-            ->setType('profile');
+            ->setType('profile')
+            ->setUser($user);
 
         if ($oldImage) {
             $finder = new Finder();
@@ -88,13 +94,19 @@ class ProfileController extends FrontendController
                 }
             }
 
+            $asset = $oldImage->getAsset();
+
             $this->entityManager->remove($oldImage);
         }
 
-        $user->setImage($image);
+        if (!$asset) {
+            $asset = new Asset();
+        }
 
+        $user->setImage($image);
+        $asset->setImage($image);
+
+        $this->entityManager->persist($asset);
         $this->entityManager->persist($image);
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
     }
 }

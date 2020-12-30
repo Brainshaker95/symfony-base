@@ -2,3 +2,11 @@ parameters:
   hashids_salt: TODO_AddHashSalt
   hashids_padding: 8
   upload_directory: '%kernel.project_dir%/public/uploads'
+  accent_colors:
+    color.blue: 'default'
+    color.burgundy: '#771004'
+    color.green: '#3b6533'
+    color.purple: 'rebeccapurple'
+    color.orange: '#bf8419'
+    color.pink: '#b618f8'
+    color.red: '#b60000'

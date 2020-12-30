@@ -82,6 +82,7 @@ const generateMarkup = ($input, isDragAndDrop) => {
       type="button"
       class="button button--close button--clear button--is-hidden"
       title="${translate('remove')}"
+      aria-label="${translate('remove')}"
     />`));
   } else {
     $file
@@ -165,6 +166,7 @@ const attachDragAndDropHandlers = ($input) => {
             type="button"
             class="button button--close button--clear"
             title="${translate('remove')}"
+            aria-label="${translate('remove')}"
           ></button>
             ${reader.result.indexOf('data:image/') === 0 ? `
               <img src="${reader.result}" class="file__image responsive-image" alt="${file.name}">
@@ -221,9 +223,9 @@ const attachDragAndDropHandlers = ($input) => {
     const types = $input.data('mime-types');
     const allowedTypes = types.split(', ');
 
-    if (file.size > maxSize * 1000000) {
+    if (file.size > maxSize * 1048576) {
       notify({
-        text: translate('error.form.image.max_size.exceeded', { limit: maxSize }),
+        text: translate('error.form.max_size.exceeded', { limit: maxSize }),
       });
 
       return;
@@ -231,7 +233,7 @@ const attachDragAndDropHandlers = ($input) => {
 
     if (!allowedTypes.includes(file.type)) {
       notify({
-        text: translate('error.form.image.mime_type.invalid', { types }),
+        text: translate('error.form.mime_type.invalid', { types }),
       });
 
       return;

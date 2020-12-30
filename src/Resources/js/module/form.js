@@ -9,7 +9,13 @@ import initSelects from './form/select';
 import initTextareas from './form/textarea';
 import { validateForm } from './form/validate';
 
-export default () => {
+export default ($theForm) => {
+  let $form = $theForm || [];
+
+  if (!$form.length) {
+    $form = $('.form');
+  }
+
   initCheckboxes();
   initDateInputs();
   initFileInputs();
@@ -18,13 +24,13 @@ export default () => {
   initSelects();
   initTextareas();
 
-  $('.form').on('submit', ({ currentTarget }) => {
-    const $form = $(currentTarget);
+  $form.on('submit', ({ currentTarget }) => {
+    const $target = $(currentTarget);
 
-    if ($form.data('ajax')) {
+    if ($target.data('ajax')) {
       return true;
     }
 
-    return validateForm($form);
+    return validateForm($target);
   });
 };

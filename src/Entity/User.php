@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Asset\Image;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -11,16 +12,8 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
-class User implements UserInterface
+class User extends AbstractEntity implements UserInterface
 {
-    /**
-     * @var int
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
     /**
      * @var string
      * @ORM\Column(type="string", unique=true)
@@ -46,15 +39,16 @@ class User implements UserInterface
     private $theme;
 
     /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    private $color;
+
+    /**
      * @var Image|null
      * @ORM\OneToOne(targetEntity=Image::class, cascade={"persist", "remove"})
      */
     private $image;
-
-    public function getId(): int
-    {
-        return $this->id;
-    }
 
     public function getUsername(): string
     {
@@ -85,7 +79,7 @@ class User implements UserInterface
 
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return $this->password;
     }
 
     public function setPassword(string $password): self
@@ -95,14 +89,26 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getTheme(): string
+    public function getTheme(): ?string
     {
-        return (string) $this->theme;
+        return $this->theme;
     }
 
     public function setTheme(string $theme): self
     {
         $this->theme = $theme;
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(string $color): self
+    {
+        $this->color = $color;
 
         return $this;
     }

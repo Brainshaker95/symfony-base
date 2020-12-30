@@ -40,7 +40,7 @@
             {%- apply strip_spaces -%}
               <button
                 type="button"
-                class="button button--close delete-profile-image{{- can_modify_user ? '' : ' disabled' -}}"
+                class="button button--close small-offset delete-profile-image{{- can_modify_user ? '' : ' disabled' -}}"
                 title="{{- 'page.users.delete_profile_image'|trans -}}"
                 aria-label="{{- 'page.users.delete_profile_image'|trans -}}"
                 data-id="{{- user.getId|encode -}}"
@@ -108,7 +108,7 @@
           {%- apply strip_spaces -%}
             <button
               type="button"
-              class="button button--close delete-user{{- can_modify_user ? '' : ' disabled' -}}"
+              class="button button--close small-offset delete-user{{- can_modify_user ? '' : ' disabled' -}}"
               title="{{- 'page.users.delete_user'|trans -}}"
               aria-label="{{- 'page.users.delete_user'|trans -}}"
               data-id="{{- user.getId|encode -}}"

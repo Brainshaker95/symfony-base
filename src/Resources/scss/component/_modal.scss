@@ -18,6 +18,10 @@
   transform: translate(-50%, -50%);
   z-index: 10;
 
+  * {
+    pointer-events: none !important;
+  }
+
   .theme--dark & {
     background-color: $darkgrey;
     border: 1px solid $white;
@@ -26,6 +30,10 @@
   &--is-visible {
     opacity: 1;
     pointer-events: all;
+
+    * {
+      pointer-events: all !important;
+    }
   }
 
   &__overlay {
@@ -40,9 +48,17 @@
     transition: opacity 300ms ease;
     z-index: 9;
 
+    * {
+      pointer-events: none !important;
+    }
+
     &--is-visible {
       opacity: 1;
       pointer-events: all;
+
+      * {
+        pointer-events: all !important;
+      }
     }
   }
 
@@ -62,6 +78,6 @@
   }
 }
 
-.upload-images-modal .modal__footer {
+.upload-assets-modal .modal__footer {
   padding: 0;
 }

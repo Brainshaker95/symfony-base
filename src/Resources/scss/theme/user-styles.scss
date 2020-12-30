@@ -1,0 +1,17 @@
+a {
+  color: placeholder;
+}
+
+.header {
+  background-color: placeholder;
+}
+
+.fancybox {
+  &-thumbs__list a::before {
+    border: 6px solid placeholder;
+  }
+
+  &-progress {
+    background-color: placeholder;
+  }
+}

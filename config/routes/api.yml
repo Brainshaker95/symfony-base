@@ -1,26 +1,43 @@
+app_api_delete_news_article:
+  path: /api/delete-news-article
+  controller: App\Controller\NewsController::deleteNewsArticleAction
+  methods: DELETE
+
 app_api_delete_profile_image:
-  path: /api/delete_profile_image
+  path: /api/delete-profile-image
   controller: App\Controller\UsersController::deleteProfileImageAction
-  methods: POST
+  methods: DELETE
 
 app_api_delete_user:
-  path: /api/delete_user
+  path: /api/delete-user
   controller: App\Controller\UsersController::deleteUserAction
-  methods: POST
+  methods: DELETE
+
+app_api_edit_news_article:
+  path: /api/edit-news-article
+  controller: App\Controller\NewsController::editNewsArticleAction
+  methods:
+    - GET
+    - POST
 
 app_api_gallery_paging:
-  path: /api/gallery_paging
+  path: /{_locale}/api/gallery-paging
   controller: App\Controller\GalleryController::pagingAction
   methods: POST
 
+app_api_news_paging:
+  path: /{_locale}/api/news-paging
+  controller: App\Controller\NewsController::pagingAction
+  methods: POST
+
 app_api_update_roles:
-  path: /api/update_roles
+  path: /api/update-roles
   controller: App\Controller\UsersController::updateRolesAction
   methods: POST
 
-app_api_upload_images:
-  path: /api/upload_images
-  controller: App\Controller\GalleryController::uploadImagesAction
+app_api_upload_assets:
+  path: /api/upload-assets
+  controller: App\Controller\GalleryController::uploadAssetsAction
   methods:
     - POST
     - DELETE

@@ -1,23 +1,16 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Asset;
 
-use App\Repository\ImageRepository;
+use App\Entity\AbstractEntity;
+use App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ImageRepository::class)
+ * @ORM\MappedSuperclass
  */
-class Image
+abstract class AbstractAsset extends AbstractEntity
 {
-    /**
-     * @var int
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
     /**
      * @var string
      * @ORM\Column(type="string", length=255)
@@ -36,10 +29,17 @@ class Image
      */
     private $type;
 
-    public function getId(): int
-    {
-        return $this->id;
-    }
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $title;
+
+    /**
+     * @var User|null
+     * @ORM\ManyToOne(targetEntity=User::class)
+     */
+    private $user;
 
     public function getFilename(): string
     {
@@ -65,7 +65,7 @@ class Image
         return $this;
     }
 
-    public function getType(): ?string
+    public function getType(): string
     {
         return $this->type;
     }
@@ -73,6 +73,30 @@ class Image
     public function setType(string $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

@@ -3,24 +3,25 @@
 {%- set lazyload = lazyload is defined ? lazyload : true -%}
 {%- set is_template = is_template is defined ? is_template : false -%}
 {%- set thumbnail = thumbnail is defined ? thumbnail : 'default' -%}
-{%- set lightbox_id = lightbox_id is defined ? lightbox_id : '' -%}
+{%- set lightbox_id = lightbox_id is defined ? lightbox_id : false -%}
 {%- set class = not non_responsive|default ? class ~ ' responsive-image' : class -%}
-{%- set image = image|instanceof('App\\Entity\\Image') ? image.getPath : image -%}
-{%- set is_svg = image|slice(image|length - 3, 3) == 'svg' -%}
+{%- set is_image_object = image is instanceof('App\\Entity\\Asset\\Image') -%}
+{%- set path = is_image_object ? image.getPath : image -%}
+{%- set is_svg = path|slice(path|length - 3, 3) == 'svg' -%}
 
 {%- apply strip_spaces -%}
   {%- if lightbox_id -%}
-    <a{%- if not is_template %} href="{{- image -}}"{%- else %} data-reference="link"{%- endif -%} data-fancybox="{{- lightbox_id -}}">
+    <a{%- if not is_template %} href="{{- path -}}"{%- else %} data-reference="link"{%- endif -%} data-fancybox="{{- lightbox_id -}}">
   {%- endif -%}
 
     <img
       class="{{- class|trim -}}{{- lazyload ? ' lazyload' : '' -}}"
-      alt="{{- alt|default -}}"
-      title="{{- title|default -}}"
+      alt="{{- alt|default(is_image_object ? image.getAlt) -}}"
+      title="{{- title|default(is_image_object ? image.getTitle) -}}"
       {% if not is_template %}
-        src="{{- is_svg ? image : (lazyload ? image|imagine_filter(thumbnail, thumbnail|get_liip_preview_config) : image|imagine_filter(thumbnail)) -}}"
+        src="{{- is_svg ? path : (lazyload ? path|imagine_filter(thumbnail, thumbnail|get_liip_preview_config) : path|imagine_filter(thumbnail)) -}}"
         {% if lazyload %}
-          data-src="{{- image|imagine_filter(thumbnail) -}}"
+          data-src="{{- path|imagine_filter(thumbnail) -}}"
         {% endif %}
       {% else %}
         data-reference="image"

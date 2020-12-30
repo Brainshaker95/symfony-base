@@ -33,7 +33,9 @@
     margin-top: 1em;
 
     @include breakpoint(sm) {
+      flex-basis: 30%;
       margin-top: 0;
+      text-align: right;
     }
   }
 }

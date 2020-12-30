@@ -1,0 +1,85 @@
+{%- extends 'shared/noindexed.html.twig' -%}
+
+{%- block key -%}news{%- endblock -%}
+{%- block has_page_style -%}true{%- endblock -%}
+{%- block has_page_script -%}true{%- endblock -%}
+
+{%- block content -%}
+  <h1>
+    {{- 'page.news.headline'|trans -}}
+  </h1>
+
+  {%- if paginator|length -%}
+    <div class="news accordion mt-2">
+      {%- for news_article in paginator -%}
+        <div class="accordion__item news__item">
+          <div class="accordion__title">
+            {%- set created_at = news_article.getCreatedAt|date('page.news.datetime_format'|trans) -%}
+            {%- set updated_at = news_article.getUpdatedAt|date('page.news.datetime_format'|trans) -%}
+            {%- set was_updated = created_at != updated_at -%}
+
+            <div>
+              {%- if was_updated -%}
+                <div class="news__item-updated-at">
+                  {{- updated_at -}}
+                </div>
+              {%- endif -%}
+
+              <div class="news__item-created-at">
+                {{- created_at -}}
+              </div>
+            </div>
+
+            <div class="news__item-title">
+              {{- news_article.getTitle -}}
+            </div>
+          </div>
+
+          <div class="accordion__content">
+            <div>
+              {{- news_article.getText|striptags('<p><a>')|raw|nl2br -}}
+            </div>
+
+            <div class="mt-4">
+              {{- '– ' ~ news_article.getAuthor.getUsername -}}
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if total_pages > 1 -%}
+      <i class="loading hide"></i>
+
+      {%- include 'shared/pagination.html.twig' with {
+        tag_type: 'button',
+        class: 'news-pagination',
+        path: path('app_api_news_paging'),
+        current_page: current_page,
+        total_pages: total_pages,
+      } -%}
+    {%- endif -%}
+  {%- else -%}
+    <div class="alert alert--warning mt-2">
+      {{ 'page.news.no_news_articles'|trans }}
+    </div>
+  {%- endif -%}
+
+  <template class="news-item-template">
+    <div class="accordion__item news__item">
+      <div class="accordion__title">
+        <div>
+          <div class="news__item-updated-at" data-reference="updated-at" data-condition="was-updated"></div>
+          <div class="news__item-created-at" data-reference="created-at"></div>
+        </div>
+
+        <div class="news__item-title" data-reference="title"></div>
+      </div>
+
+      <div class="accordion__content">
+        <div data-reference="text" data-is-html="true"></div>
+        <div class="mt-4" data-reference="author"></div>
+      </div>
+    </div>
+  </template>
+{%- endblock -%}

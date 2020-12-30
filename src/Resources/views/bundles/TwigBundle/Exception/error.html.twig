@@ -5,7 +5,7 @@
 {%- block content -%}
   {%- include 'shared/error.html.twig' with {
     title: 'page.error.general.title'|trans({
-      '{{ statusCode }}': status_code,
+      '{{ statusCode }}': status_code ?: 500,
     }, 'messages', current_locale),
     text: 'page.error.general.text'|trans([], 'messages', current_locale),
   } -%}

@@ -2,11 +2,19 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Form\Type\NewsArticleType;
+use App\Traits\HasEntityManager;
+use App\Traits\HasNewsArticleRepository;
 use App\Traits\HasUserRepository;
+use Symfony\Component\Form\Form;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class AdminController extends FrontendController
 {
+    use HasEntityManager;
+    use HasNewsArticleRepository;
     use HasUserRepository;
 
     private const ROLES = [
@@ -16,15 +24,56 @@ class AdminController extends FrontendController
 
     public function adminAction(): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
-
         return $this->render('page/admin/dashboard.html.twig');
+    }
+
+    public function newsAction(Request $request): Response
+    {
+        /**
+         * @var User|null
+         */
+        $user = $this->getUser();
+
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        /**
+         * @var Form
+         */
+        $form        = $this->createForm(NewsArticleType::class);
+        $handledForm = $form->handleRequest($request);
+
+        if ($request->isMethod('POST') && $form->isSubmitted() && $form->isValid()) {
+            $newsArticle     = $handledForm->getData();
+            $existingArticle = $this->newsArticleRepository->findBy(['title' => $newsArticle->getTitle()]);
+
+            $this->addFlash('_params', serialize([
+                '{{ title }}' => $newsArticle->getTitle(),
+            ]));
+
+            if (!$existingArticle) {
+                $newsArticle->setAuthor($user);
+                $this->entityManager->persist($newsArticle);
+                $this->entityManager->flush();
+
+                $this->addFlash('success', 'page.news.success.article_added');
+
+                return $this->redirect($request->getUri());
+            } else {
+                $this->addFlash('error', 'page.news.error.duplicate_title');
+            }
+        }
+
+        return $this->render('page/admin/news.html.twig', [
+            'news_articles'     => $this->newsArticleRepository->findBy([], ['createdAt' => 'DESC']),
+            'news_article_form' => $form->createView(),
+            'has_errors'        => $form->getErrors(true)->count(),
+        ]);
     }
 
     public function usersAction(): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
-
         return $this->render('page/admin/users.html.twig', [
             'users' => $this->userRepository->findAll(),
             'roles' => self::ROLES,

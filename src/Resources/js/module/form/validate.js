@@ -38,7 +38,9 @@ export const validate = ($input) => {
       error = translate('error.form.text.empty');
     }
   } else if (type === 'checkbox' && !$input.is(':checked')) {
-    if ($input.attr('id').indexOf('privacy') > -1) {
+    if ($input.attr('id').indexOf('privacyAndTerms') > -1) {
+      error = translate('error.form.privacy_and_terms.empty');
+    } else if ($input.attr('id').indexOf('privacy') > -1) {
       error = translate('error.form.privacy.empty');
     } else {
       error = translate('error.form.checkbox.empty');
@@ -66,12 +68,12 @@ export const validate = ($input) => {
       const maxSize = $input.data('max-size') || Infinity;
       const mimeTypes = ($input.data('mime-types') || []).split(', ');
 
-      if (file.size > maxSize * 1000000) {
-        error = translate('error.form.image.max_size.exceeded', {
+      if (file.size > maxSize * 1048576) {
+        error = translate('error.form.max_size.exceeded', {
           limit: maxSize,
         });
       } else if (!mimeTypes.includes(file.type)) {
-        error = translate('error.form.image.mime_type.invalid', {
+        error = translate('error.form.mime_type.invalid', {
           types: `"${mimeTypes.join('", "')}"`,
         });
       }
@@ -101,7 +103,7 @@ export const validateForm = ($form) => {
   if ($firstError.length) {
     scrollTo(
       $firstError,
-      $firstError.height() + $firstError.parent().find('input, .select__selection').height(),
+      $firstError.height() + $firstError.parent().find('input, textarea, .select__selection').height(),
     );
   }
 

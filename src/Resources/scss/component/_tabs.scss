@@ -1,0 +1,39 @@
+.tabs {
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: 1px solid $darkgrey;
+    margin-bottom: 1em;
+
+    .theme--dark & {
+      border-bottom: 1px solid $white;
+    }
+  }
+
+  &__button {
+    padding: 0.5em 1em;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+
+    &--is-active {
+      background-color: $darkgrey !important;
+      color: $white !important;
+      pointer-events: none;
+      cursor: default;
+
+      .theme--dark & {
+        background-color: $white !important;
+        color: $darkgrey !important;
+      }
+    }
+  }
+
+  &__content {
+    display: none;
+    margin-bottom: 1em;
+
+    &[data-id="1"] {
+      display: block;
+    }
+  }
+}

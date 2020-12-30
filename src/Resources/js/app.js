@@ -11,6 +11,7 @@ import form from './module/form';
 import { initStorageConsent } from './util/storage';
 import lightbox from './module/lightbox';
 import navigation from './module/navigation';
+import tabs from './module/tabs';
 import translate from './util/translate';
 
 $(() => {
@@ -20,6 +21,7 @@ $(() => {
   form();
   lightbox();
   navigation();
+  tabs();
 
   // initStorageConsent();
 

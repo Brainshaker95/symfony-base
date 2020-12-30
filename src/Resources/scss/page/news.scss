@@ -1,0 +1,46 @@
+@import '../declarations';
+
+.news {
+  &__item {
+    &-created-at {
+      font-size: 0.7em;
+      margin-right: 1em;
+    }
+
+    &-updated-at {
+      margin-right: 1em;
+      font-size: 0.7em;
+
+      + .news__item-created-at {
+        font-size: 0.65em;
+        text-decoration: line-through;
+      }
+    }
+
+    &-title {
+      flex-basis: 100%;
+      margin-top: 0.3em;
+
+      @include breakpoint(md) {
+        flex-basis: auto;
+        margin-top: 0;
+      }
+    }
+
+    &-text {
+      p:first-of-type {
+        margin-top: 0;
+      }
+
+      p:last-of-type {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .accordion__title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+}

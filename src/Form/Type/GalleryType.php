@@ -19,6 +19,7 @@ class GalleryType extends AbstractType
         'image/jpeg',
         'image/png',
         'image/svg+xml',
+        'video/mp4',
     ];
 
     /**
@@ -28,21 +29,21 @@ class GalleryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('image', Type\FileType::class, [
+            ->add('assets', Type\FileType::class, [
                 'required'   => false,
                 'multiple'   => true,
                 'data_class' => null,
                 'label'      => 'label.images',
                 'attr'       => [
                     'data-drag-and-drop' => true,
-                    'data-path'          => $this->router->generate('app_api_upload_images'),
-                    'data-placeholder'   => $this->translator->trans('placeholder.upload_images'),
+                    'data-path'          => $this->router->generate('app_api_upload_assets'),
+                    'data-placeholder'   => $this->translator->trans('placeholder.upload_assets'),
                     'data-max-size'      => self::IMAGE_MAX_SIZE,
                     'data-mime-types'    => implode(', ', self::IMAGE_MIME_TYPES),
                 ],
                 'constraints' => [
                     new Constraints\NotBlank([
-                        'message' => 'app.error.form.image.empty',
+                        'message' => 'app.error.form.asset.empty',
                     ]),
                     new Constraints\All([
                         'constraints' => [
@@ -53,6 +54,14 @@ class GalleryType extends AbstractType
                                 'mimeTypesMessage' => 'app.error.form.mime_type.invalid',
                             ]),
                         ],
+                    ]),
+                ],
+            ])
+            ->add('privacyAndTerms', Type\CheckboxType::class, [
+                'label' => 'label.privacy_and_terms',
+                'constraints' => [
+                    new Constraints\IsTrue([
+                        'message' => 'app.error.form.privacy_and_terms.empty',
                     ]),
                 ],
             ])

@@ -6,7 +6,6 @@ use App\Entity\User;
 use App\Traits\HasEntityManager;
 use App\Traits\HasFileService;
 use App\Traits\HasHashService;
-use App\Traits\HasImageRepository;
 use App\Traits\HasLogger;
 use App\Traits\HasUserRepository;
 use App\Traits\HasUserService;
@@ -18,7 +17,6 @@ class UsersController extends FrontendController
     use HasEntityManager;
     use HasFileService;
     use HasHashService;
-    use HasImageRepository;
     use HasLogger;
     use HasUserRepository;
     use HasUserService;
@@ -40,9 +38,7 @@ class UsersController extends FrontendController
         $currentUser = $this->getUser();
 
         if (!$currentUser || !$user || !$this->userService->canModify($currentUser, $user)) {
-            return $this->json([
-                'success' => false,
-            ]);
+            return $this->forbidden();
         }
 
         $this->deleteProfileImageFile($user);
@@ -79,9 +75,7 @@ class UsersController extends FrontendController
         $currentUser = $this->getUser();
 
         if (!$currentUser || !$user || !$this->userService->canModify($currentUser, $user)) {
-            return $this->json([
-                'success' => false,
-            ]);
+            return $this->forbidden();
         }
 
         $this->deleteProfileImageFile($user);
@@ -117,9 +111,7 @@ class UsersController extends FrontendController
         $currentUser = $this->getUser();
 
         if (!$currentUser || !$user || !$this->userService->canModify($currentUser, $user)) {
-            return $this->json([
-                'success' => false,
-            ]);
+            return $this->forbidden();
         }
 
         if (in_array('ROLE_SUPER_ADMIN', $roles)) {
@@ -155,9 +147,16 @@ class UsersController extends FrontendController
         $image = $user->getImage();
 
         if ($image && $this->fileService->delete($image->getFilename(), 'profile_images')) {
+            $asset = $image->getAsset();
+
             $user->setImage(null);
             $this->entityManager->persist($user);
             $this->entityManager->remove($image);
+
+            if ($asset) {
+                $this->entityManager->remove($asset);
+            }
+
             $this->entityManager->flush();
         }
     }

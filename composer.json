@@ -1,6 +1,6 @@
 {
   "name": "brainshaker/symfony-base",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Skeleton project for easy development of symfony applications",
   "license": "MIT",
   "homepage": "https://github.com/Brainshaker95/symfony-base",
@@ -12,11 +12,14 @@
   ],
   "require": {
     "php": "^7.2.5",
+    "ext-bcmath": "*",
     "ext-ctype": "*",
+    "ext-gd": "*",
     "ext-iconv": "*",
     "hashids/hashids": "^4.0",
     "isometriks/spam-bundle": "^1.0",
     "liip/imagine-bundle": "^2.3",
+    "nesbot/carbon": "^2.41",
     "sensio/framework-extra-bundle": "^5.1",
     "symfony/apache-pack": "^1.0",
     "symfony/asset": "5.0.*",

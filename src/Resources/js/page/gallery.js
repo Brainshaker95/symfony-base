@@ -7,12 +7,12 @@ import scrollTo from '../util/scroll-to';
 import translate from '../util/translate';
 
 $(() => {
-  const modal = initModal($('.upload-images-modal'));
+  const modal = initModal($('.upload-assets-modal'));
   const $galleryGrid = $('.gallery-grid');
   const $loadingIndicator = $galleryGrid.next('.loading');
   const $pagination = $('.gallery-pagination');
 
-  $('.upload-images').on('click', () => modal.open());
+  $('.upload-assets').on('click', () => modal.open());
 
   const pagination = initPaginations({
     $paginations: $pagination,
@@ -20,8 +20,8 @@ $(() => {
       $galleryGrid.empty();
       $loadingIndicator.removeClass('hide');
     },
-    done: ({ images }) => {
-      appendItems(images, $('.gallery-grid'), $('.gallery-grid-template'));
+    done: ({ assets }) => {
+      appendItems(assets, $galleryGrid, $('.gallery-grid-template'));
       scrollTo();
     },
     always: () => {
@@ -29,15 +29,22 @@ $(() => {
     },
   });
 
-  const loadPageThroughFancybox = (currentPage, page) => {
+  const loadPageThroughFancybox = (pageToLoad, identifier) => {
     $.fancybox.close();
 
-    pagination.update(currentPage + page);
-    pagination.loadPage(currentPage + page, () => {
-      $galleryGrid
-        .find('[data-fancybox]')
-        .first()
-        .trigger('click');
+    pagination.update(pageToLoad);
+    pagination.loadPage(pageToLoad, () => {
+      const $fancyboxItems = $galleryGrid.find('[data-fancybox]');
+
+      if (identifier === 'prev') {
+        $fancyboxItems
+          .last()
+          .trigger('click');
+      } else {
+        $fancyboxItems
+          .first()
+          .trigger('click');
+      }
     });
   };
 
@@ -54,7 +61,7 @@ $(() => {
 
     $fancyboxContainer
       .find(`.fancybox-${identifier}-page`)
-      .on('click', () => loadPageThroughFancybox(currentPage, page));
+      .on('click', () => loadPageThroughFancybox(currentPage + page, identifier));
   };
 
   $.fancybox.defaults = {

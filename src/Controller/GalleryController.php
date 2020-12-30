@@ -2,14 +2,17 @@
 
 namespace App\Controller;
 
-use App\Entity\Image;
+use App\Entity\Asset\AbstractAsset;
+use App\Entity\Asset\Asset;
+use App\Entity\Asset\Image;
+use App\Entity\Asset\Video;
 use App\Entity\User;
 use App\Form\Type\GalleryType;
+use App\Traits\HasAssetRepository;
 use App\Traits\HasAssetService;
 use App\Traits\HasEntityManager;
 use App\Traits\HasFileService;
 use App\Traits\HasHashService;
-use App\Traits\HasImageRepository;
 use App\Traits\HasTranslator;
 use App\Traits\HasUploadDirectory;
 use App\Traits\HasUserService;
@@ -24,11 +27,11 @@ use Symfony\Component\Validator\Constraints;
 
 class GalleryController extends FrontendController
 {
+    use HasAssetRepository;
     use HasAssetService;
     use HasEntityManager;
     use HasFileService;
     use HasHashService;
-    use HasImageRepository;
     use HasTranslator;
     use HasUserService;
     use HasUploadDirectory;
@@ -46,17 +49,18 @@ class GalleryController extends FrontendController
             return $this->redirectToRoute('app_login');
         }
 
+        $page = (int) $request->get('page', 1);
+
+        if ($page < 1) {
+            return $this->renderNotFound();
+        }
+
         /**
          * @var Form
          */
         $form      = $this->createForm(GalleryType::class);
         $hasErrors = false;
         $limit     = self::PAGE_SIZE;
-        $page      = (int) $request->get('page', 1);
-
-        if ($page < 1) {
-            return $this->renderNotFound();
-        }
 
         $form->handleRequest($request);
 
@@ -68,12 +72,12 @@ class GalleryController extends FrontendController
             }
         }
 
-        $paginator  = $this->imageRepository->getGalleryPaginator($page, $limit);
+        $paginator  = $this->assetRepository->getGalleryPaginator($page, $limit);
         $totalPages = (int) ceil($paginator->count() / $limit);
 
         $this->userService->clearUserFilesFromTmp($user);
 
-        if ($page > $totalPages) {
+        if ($page > $totalPages && $page !== 1) {
             return $this->renderNotFound();
         }
 
@@ -95,7 +99,7 @@ class GalleryController extends FrontendController
          * @var User|null
          */
         $user   = $this->getUser();
-        $images = [];
+        $assets = [];
 
         if ($user) {
             $limit = self::PAGE_SIZE;
@@ -105,31 +109,49 @@ class GalleryController extends FrontendController
                 return $this->notFound();
             }
 
-            $paginator  = $this->imageRepository->getGalleryPaginator($page, $limit);
+            $paginator  = $this->assetRepository->getGalleryPaginator($page, $limit);
             $totalPages = (int) ceil($paginator->count() / $limit);
 
             if ($page > $totalPages) {
                 return $this->notFound();
             }
 
-            foreach ($paginator as $image) {
-                $path = $image->getPath();
+            foreach ($paginator as $assetObj) {
+                $asset = $assetObj->getAsset();
 
-                $images[] = [
-                    'link__href'      => $path,
-                    'image__src'      => $this->assetService->getPreviewSrc($path, 'gallery_image'),
-                    'image__data-src' => $this->assetService->getThumbnailSrc($path, 'gallery_image'),
-                ];
+                if (!$asset) {
+                    continue;
+                }
+
+                $path      = $asset->getPath();
+                $assetData = [];
+
+                if ($assetObj->getType() === 'image') {
+                    $assetData = [
+                        'image__src'      => $this->assetService->getPreviewSrc($path, 'gallery_image'),
+                        'image__data-src' => $this->assetService->getThumbnailSrc($path, 'gallery_image'),
+                        'is-image'        => true,
+                    ];
+                } else {
+                    $assetData = [
+                        'video__src' => $path,
+                        'is-video'   => true,
+                    ];
+                }
+
+                $assets[] = array_merge([
+                    'link__href' => $path,
+                ], $assetData);
             }
         }
 
         return $this->json([
-            'success' => count($images) > 0,
-            'images'  => $images,
+            'success' => count($assets) > 0,
+            'assets'  => $assets,
         ]);
     }
 
-    public function uploadImagesAction(Request $request): Response
+    public function uploadAssetsAction(Request $request): Response
     {
         /**
          * @var User|null
@@ -174,10 +196,14 @@ class GalleryController extends FrontendController
 
     private function handleForm(Form $form, User $user): bool
     {
+        if (!$form->get('privacyAndTerms')->getData()) {
+            return false;
+        }
+
         $encodedUserId  = $this->hashService->encode($user->getId());
         $finder         = new Finder();
         $tmpFolder      = __DIR__ . '..\\..\\..\\public\\uploads\\tmp';
-        $constraints    = $form->get('image')->getConfig()->getOption('constraints');
+        $constraints    = $form->get('assets')->getConfig()->getOption('constraints');
         $fileConstraint = null;
         $files          = [];
         $successCount   = 0;
@@ -201,18 +227,16 @@ class GalleryController extends FrontendController
                 $form = $this->validateFile($filename, $file, $form, $fileConstraint);
 
                 if ($form->getErrors(true)->count()) {
-                    $this->userService->clearUserFilesFromTmp($user);
-
                     return false;
                 }
 
                 $newFilename = substr($filename, strlen($encodedUserId) + 1);
 
-                if ($this->fileService->move($filename, 'tmp', $newFilename, 'gallery_images')) {
-                    $this->addImageToGallery($user, $newFilename);
+                if ($this->fileService->move($filename, 'tmp', $newFilename, 'gallery-assets')) {
+                    $this->addAssetToGallery($user, $newFilename);
                     $successCount += 1;
                 } else {
-                    $this->addFlash('error', 'page.gallery.image_save.error');
+                    $this->addFlash('error', 'page.gallery.asset_save.error');
                 }
 
                 $this->fileService->delete($filename, 'tmp');
@@ -220,12 +244,12 @@ class GalleryController extends FrontendController
         }
 
         if ($successCount > 1) {
-            $this->addFlash('success', 'page.gallery.image_save.success.multiple');
+            $this->addFlash('success', 'page.gallery.asset_save.success.multiple');
             $this->addFlash('_params', serialize([
                 '{{ successCount }}' => $successCount,
             ]));
         } elseif ($successCount > 0) {
-            $this->addFlash('success', 'page.gallery.image_save.success.single');
+            $this->addFlash('success', 'page.gallery.asset_save.success.single');
         }
 
         return true;
@@ -240,10 +264,10 @@ class GalleryController extends FrontendController
             return $form;
         }
 
-        $image = $form->get('image');
+        $assets = $form->get('assets');
 
         if ($file->getSize() > $fileConstraint->maxSize) {
-            $image->addError(new FormError(
+            $assets->addError(new FormError(
                 $this->translator->trans($fileConstraint->maxSizeMessage, [
                     '{{ limit }}' => $fileConstraint->maxSize / 1000000,
                 ], 'validators')
@@ -253,7 +277,7 @@ class GalleryController extends FrontendController
         $mimeType = mime_content_type($this->uploadDirectory . '/tmp/' . $filename);
 
         if (!in_array($mimeType, $fileConstraint->mimeTypes)) {
-            $image->addError(new FormError(
+            $assets->addError(new FormError(
                 $this->translator->trans($fileConstraint->mimeTypesMessage, [
                     '{{ types }}' => '"' . implode('", "', $fileConstraint->mimeTypes) . '"',
                 ], 'validators')
@@ -263,17 +287,37 @@ class GalleryController extends FrontendController
         return $form;
     }
 
-    private function addImageToGallery(User $user, string $filename): void
+    private function addAssetToGallery(User $user, string $filename): void
     {
-        $image = new Image();
+        $mimeType = mime_content_type($this->uploadDirectory . '/gallery-assets/' . $filename);
 
-        $image
+        if ($mimeType === 'video/mp4') {
+            $asset = $this->createAsset(Video::class, 'video');
+        } else {
+            $asset = $this->createAsset(Image::class, 'image');
+        }
+
+        $asset
             ->setFilename($filename)
-            ->setPath('/uploads/gallery_images/' . $filename)
-            ->setType('gallery');
+            ->setPath('/uploads/gallery-assets/' . $filename)
+            ->setType('gallery')
+            ->setUser($user);
 
-        $this->entityManager->persist($image);
-        $this->entityManager->persist($user);
+        $this->entityManager->persist($asset);
         $this->entityManager->flush();
+    }
+
+    private function createAsset(string $class, string $type): AbstractAsset
+    {
+        $asset    = new $class();
+        $assetObj = new Asset();
+
+        $assetObj
+            ->setType($type)
+            ->setAsset($asset);
+
+        $this->entityManager->persist($assetObj);
+
+        return $asset;
     }
 }

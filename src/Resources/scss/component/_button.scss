@@ -159,6 +159,57 @@
     }
   }
 
+  &--edit {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    width: 1.5em;
+    height: 1.5em;
+    padding: 0;
+
+    &::before,
+    &::after {
+      position: absolute;
+      content: '';
+    }
+
+    &::before {
+      top: 42.5%;
+      left: 55%;
+      width: 60%;
+      height: 0.15em;
+      border-radius: 0.25em;
+      background-color: $darkgrey;
+      transition: background-color 300ms ease;
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+
+    &::after {
+      top: 64%;
+      left: 15%;
+      border-left: 0.125em solid transparent;
+      border-right: 0.125em solid transparent;
+      border-bottom: 0.25em solid $darkgrey;
+      transition: border-color 300ms ease;
+      transform: rotate(-135deg);
+    }
+
+    &:hover {
+      &::before {
+        background-color: $white;
+      }
+
+      &::after {
+        border-bottom: 0.25em solid $white;
+      }
+    }
+  }
+
+  &.small-offset {
+    top: 0.5em;
+    right: 0.5em;
+  }
+
   &--clear {
     top: 0.85em;
     right: 0.75em;

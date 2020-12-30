@@ -22,6 +22,16 @@ class UserType extends AbstractType
     ];
 
     /**
+     * @var array<string, string>
+     */
+    private $accentColors;
+
+    public function __construct(array $accentColors)
+    {
+        $this->accentColors = $accentColors;
+    }
+
+    /**
      * @param FormBuilderInterface<string> $builder
      * @param array<string> $options
      */
@@ -57,6 +67,15 @@ class UserType extends AbstractType
                     'theme.dark'  => 'dark',
                     'theme.light' => 'light',
                 ],
+            ])
+            ->add('color', Type\ChoiceType::class, [
+                'required'    => false,
+                'placeholder' => null,
+                'label'       => 'label.accent_color',
+                'attr'        => [
+                    'class' => 'select--no-clear',
+                ],
+                'choices' => $this->accentColors,
             ])
             ->add('conditional_1', Type\CheckboxType::class, [
                 'required' => false,
