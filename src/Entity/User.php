@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Asset\Image;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;

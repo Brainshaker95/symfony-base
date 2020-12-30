@@ -2,14 +2,14 @@
 
 namespace App\Repository;
 
-use App\Entity\Asset\Image;
+use App\Entity\Asset\Video;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-class ImageRepository extends ServiceEntityRepository
+class VideoRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Image::class);
+        parent::__construct($registry, Video::class);
     }
 }

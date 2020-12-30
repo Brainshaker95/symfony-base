@@ -35,9 +35,9 @@ app_api_update_roles:
   controller: App\Controller\UsersController::updateRolesAction
   methods: POST
 
-app_api_upload_images:
-  path: /api/upload-images
-  controller: App\Controller\GalleryController::uploadImagesAction
+app_api_upload_assets:
+  path: /api/upload-assets
+  controller: App\Controller\GalleryController::uploadAssetsAction
   methods:
     - POST
     - DELETE

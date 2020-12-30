@@ -5,7 +5,7 @@
 {%- set thumbnail = thumbnail is defined ? thumbnail : 'default' -%}
 {%- set lightbox_id = lightbox_id is defined ? lightbox_id : false -%}
 {%- set class = not non_responsive|default ? class ~ ' responsive-image' : class -%}
-{%- set is_image_object = image is instanceof('App\\Entity\\Image') -%}
+{%- set is_image_object = image is instanceof('App\\Entity\\Asset\\Image') -%}
 {%- set path = is_image_object ? image.getPath : image -%}
 {%- set is_svg = path|slice(path|length - 3, 3) == 'svg' -%}
 

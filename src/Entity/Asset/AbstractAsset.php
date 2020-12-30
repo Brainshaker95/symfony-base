@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Asset;
 
-use App\Repository\ImageRepository;
+use App\Entity\AbstractEntity;
+use App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ImageRepository::class)
+ * @ORM\MappedSuperclass
  */
-class Image extends AbstractEntity
+abstract class AbstractAsset extends AbstractEntity
 {
     /**
      * @var string
@@ -27,12 +28,6 @@ class Image extends AbstractEntity
      * @ORM\Column(type="string", length=255)
      */
     private $type;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $alt;
 
     /**
      * @var string
@@ -78,18 +73,6 @@ class Image extends AbstractEntity
     public function setType(string $type): self
     {
         $this->type = $type;
-
-        return $this;
-    }
-
-    public function getAlt(): ?string
-    {
-        return $this->alt;
-    }
-
-    public function setAlt(string $alt): self
-    {
-        $this->alt = $alt;
 
         return $this;
     }

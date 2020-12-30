@@ -7,20 +7,28 @@
 
 {%- block content -%}
   <div class="flex justify-end">
-    <button class="button button--info mb-2 upload-images">
-      {{- 'page.gallery.upload_images'|trans -}}
+    <button class="button button--info mb-2 upload-assets">
+      {{- 'page.gallery.upload_assets'|trans -}}
     </button>
   </div>
 
   {%- if paginator|length -%}
     <div class="grid gallery-grid mt-2">
-      {%- for image in paginator -%}
+      {%- for asset in paginator -%}
         <div class="col-12 col-xs-6 col-sm-4 col-md-3 col-xl-1-5th">
-          {%- include 'shared/image.html.twig' with {
-            image: image,
-            lightbox_id: lightbox_id,
-            thumbnail: 'gallery_image',
-          } only -%}
+          {%- if asset.getType == 'image' -%}
+            {%- include 'shared/image.html.twig' with {
+              image: asset.getImage,
+              lightbox_id: lightbox_id,
+              thumbnail: 'gallery_image',
+            } only -%}
+          {%- else -%}
+            {%- set path = asset.getVideo.getPath -%}
+
+            <a href="{{- path -}}" data-fancybox="{{- lightbox_id -}}">
+              <video src="{{ path }}" class="responsive-image"></video>
+            </a>
+          {%- endif -%}
         </div>
       {%- endfor -%}
     </div>
@@ -38,24 +46,31 @@
     {%- endif -%}
   {%- else -%}
     <div class="alert alert--warning mt-2">
-      {{ 'page.gallery.no_images'|trans }}
+      {{ 'page.gallery.no_assets'|trans }}
     </div>
   {%- endif -%}
 
   {%- include 'shared/modal.html.twig' with {
-    class: 'upload-images-modal' ~ (has_errors ? ' modal--is-visible' : ''),
+    class: 'upload-assets-modal' ~ (has_errors ? ' modal--is-visible' : ''),
     overlay_class: has_errors ? 'modal__overlay--is-visible' : '',
-    header_text: 'page.gallery.upload_images'|trans,
+    header_text: 'page.gallery.upload_assets'|trans,
     body_text: form(gallery_form),
     has_no_buttons: true,
   } -%}
 
   <template class="gallery-grid-template">
     <div class="col-12 col-xs-6 col-sm-4 col-md-3 col-xl-1-5th">
-      {%- include 'shared/image.html.twig' with {
-        is_template: true,
-        lightbox_id: lightbox_id,
-      } only -%}
+      <a data-reference="link" data-fancybox="{{- lightbox_id -}}">
+        <div data-condition="is-image">
+          {%- include 'shared/image.html.twig' with {
+            is_template: true,
+          } only -%}
+        </div>
+
+        <div data-condition="is-video">
+          <video data-reference="video" class="responsive-image"></video>
+        </div>
+      </a>
     </div>
   </template>
 {%- endblock -%}
