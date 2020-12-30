@@ -43,7 +43,7 @@ class GalleryType extends AbstractType
                 ],
                 'constraints' => [
                     new Constraints\NotBlank([
-                        'message' => 'app.error.form.image.empty',
+                        'message' => 'app.error.form.asset.empty',
                     ]),
                     new Constraints\All([
                         'constraints' => [
