@@ -76,6 +76,14 @@ parameters:
   hashids_salt: ${answers.hashidsSalt || parametersDefaults.hashidsSalt}
   hashids_padding: ${answers.hashidsPadding || parametersDefaults.hashidsPadding}
   upload_directory: \'${answers.uploadDirectory || parametersDefaults.uploadDirectory}\'
+  accent_colors:
+    color.blue: 'default'
+    color.burgundy: '#771004'
+    color.green: '#3b6533'
+    color.purple: 'rebeccapurple'
+    color.orange: '#bf8419'
+    color.pink: '#b618f8'
+    color.red: '#b60000'
 `.trim();
 
 const questions = [{

@@ -26,6 +26,11 @@ services:
     calls:
       - ['setUploadDirectory', ['%upload_directory%']]
 
+  App\Form\Type\UserType:
+    class: App\Form\Type\UserType
+    arguments:
+      - '%accent_colors%'
+
   App\Service\FileService:
     class: App\Service\FileService
     calls:
