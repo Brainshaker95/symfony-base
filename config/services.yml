@@ -1,7 +1,5 @@
-parameters:
-  hashids_salt: '%env(string:HASHIDS_SALT)%'
-  hashids_padding: '%env(string:HASHIDS_PADDING)%'
-  upload_directory: '%env(string:UPLOAD_DIRECTORY)%'
+imports:
+  - { resource: parameters.yml }
 
 services:
   _defaults:
