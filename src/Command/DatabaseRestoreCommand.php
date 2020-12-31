@@ -55,6 +55,7 @@ class DatabaseRestoreCommand extends Command
         ));
 
         $filesystem->remove($path);
+
         $output->writeln('
             <comment><fg=green>Dump successfully restored</fg=green></comment>
         ');
