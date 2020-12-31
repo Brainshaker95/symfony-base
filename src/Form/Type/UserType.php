@@ -26,6 +26,9 @@ class UserType extends AbstractType
      */
     private $accentColors;
 
+    /**
+     * @param array<string, string> $accentColors
+     */
     public function __construct(array $accentColors)
     {
         $this->accentColors = $accentColors;
