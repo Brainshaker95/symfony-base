@@ -11,6 +11,9 @@ services:
     resource: '../src/*'
     exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
 
+  App\Command\:
+    resource: '../src/Command'
+
   App\Controller\:
     resource: '../src/Controller'
     tags: ['controller.service_arguments']

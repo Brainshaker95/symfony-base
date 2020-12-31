@@ -26,10 +26,16 @@ ___
 ### Automatically
 
 ```shell
-  (yarn|make) startup
+  yarn startup
 ```
 
 ### Manually
+
+Set up environment and parameters and configure to your needs
+
+```shell
+  cp .env.example .env && cp ./config/parameters.yml.example ./config/parameters.yml
+```
 
 ```shell
   yarn && composer install
@@ -37,12 +43,6 @@ ___
   # or with make
 
   make install
-```
-
-Set up environment and parameters and configure to your needs
-
-```shell
-  cp .env.example .env && cp ./config/parameters.yml.example ./config/parameters.yml
 ```
 ___
 
@@ -88,8 +88,6 @@ With make
   migration: ## create migration
 
   phpstan: ## execute php analysis
-
-  startup: ## initialize project
 
   webpack: ## build assets dev
 

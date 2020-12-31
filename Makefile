@@ -6,6 +6,9 @@ RESET := $(shell tput -Txterm sgr0)
 TARGET_COLOR := $(BLUE)
 .DEFAULT_GOAL := help
 
+backup: ## dumps database
+	bash -c 'bin/console app:database:dump'
+
 cache-clear: ## clear symfony cache
 	bash -c 'bin/console cache:clear'
 
@@ -43,8 +46,8 @@ migration: ## create migration
 phpstan: ## execute php analysis
 	bash -c 'vendor/bin/phpstan analyse src --level=${PHPSTAN_LEVEL}'
 
-startup: ## initialize project
-	bash -c 'yarn startup'
+restore: ## restore database
+	bash -c 'bin/console app:database:restore'
 
 webpack: ## build assets dev
 	bash -c 'yarn encore dev'

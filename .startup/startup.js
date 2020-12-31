@@ -31,8 +31,14 @@ const yesNo = ['y', 'n'];
 const dotenvDefaults = {
   baseUrl: 'symfony-base.local',
   env: 'dev',
+  databaseName: 'symfony-base',
+  databaseUser: 'root',
+  databasePassword: 'password',
+  databaseHost: 'localhost',
+  databasePort: 3306,
   databaseServerVersion: '5.7',
-  databaseUrl: 'mysql://root:password@127.0.0.1:3306/database',
+  databaseDumpPath: 'data/dump.sql',
+  databaseDumpKey: 'changeThisDumpKey',
   phpstanLevel: 8,
 };
 
@@ -65,8 +71,14 @@ const getDotenvString = (answers) => `
 APP_ENV=${answers.env || dotenvDefaults.env}
 APP_SECRET=${generateRandomString(32)}
 BASE=${answers.baseUrl || dotenvDefaults.baseUrl}
+DATABASE_NAME=${answers.databaseName || dotenvDefaults.databaseName}
+DATABASE_USER=${answers.databaseUser || dotenvDefaults.databaseUser}
+DATABASE_PASSWORD=${answers.databasePassword || dotenvDefaults.databasePassword}
+DATABASE_HOST=${answers.databaseHost || dotenvDefaults.databaseHost}
+DATABASE_PORT=${answers.databasePort || dotenvDefaults.databasePort}
 DATABASE_SERVER_VERSION=${answers.databaseServerVersion || dotenvDefaults.databaseServerVersion}
-DATABASE_URL=${answers.databaseUrl || dotenvDefaults.databaseUrl}
+DATABASE_DUMP_PATH=${answers.databaseDumpPath || dotenvDefaults.databaseDumpPath}
+DATABASE_DUMP_KEY=${answers.databaseDumpKey || dotenvDefaults.databaseDumpKey}
 PHPSTAN_LEVEL=${answers.phpstanLevel || dotenvDefaults.phpstanLevel}
 REDIRECT_STATUS=301
 `.trim();
@@ -106,11 +118,39 @@ const questions = [{
   message: chalk.cyan.underline('Base url'),
 }, {
   when: createDotenv,
-  name: 'databaseUrl',
-  default: process.env.DATABASE_URL
-    || exampleDotenv.DATABASE_URL
-    || dotenvDefaults.databaseUrl,
-  message: chalk.cyan.underline('Database url'),
+  name: 'databaseName',
+  default: process.env.DATABASE_NAME
+    || exampleDotenv.DATABASE_NAME
+    || dotenvDefaults.databaseName,
+  message: chalk.cyan.underline('Database name'),
+}, {
+  when: createDotenv,
+  name: 'databaseUser',
+  default: process.env.DATABASE_USER
+    || exampleDotenv.DATABASE_USER
+    || dotenvDefaults.databaseUser,
+  message: chalk.cyan.underline('Database user'),
+}, {
+  when: createDotenv,
+  name: 'databasePassword',
+  default: process.env.DATABASE_PASWSWORD
+    || exampleDotenv.DATABASE_PASWSWORD
+    || dotenvDefaults.databasePassword,
+  message: chalk.cyan.underline('Database password'),
+}, {
+  when: createDotenv,
+  name: 'databaseHost',
+  default: process.env.DATABASE_HOST
+    || exampleDotenv.DATABASE_HOST
+    || dotenvDefaults.databaseHost,
+  message: chalk.cyan.underline('Database host'),
+}, {
+  when: createDotenv,
+  name: 'databasePort',
+  default: process.env.DATABASE_PORT
+    || exampleDotenv.DATABASE_PORT
+    || dotenvDefaults.databasePort,
+  message: chalk.cyan.underline('Database port'),
 }, {
   when: createDotenv,
   name: 'databaseServerVersion',
@@ -118,6 +158,20 @@ const questions = [{
     || exampleDotenv.DATABASE_SERVER_VERSION
     || dotenvDefaults.databaseServerVersion,
   message: chalk.cyan.underline('Database server version'),
+}, {
+  when: createDotenv,
+  name: 'databaseDumpPath',
+  default: process.env.DATABASE_DUMP_PATH
+    || exampleDotenv.DATABASE_DUMP_PATH
+    || dotenvDefaults.databaseDumpPath,
+  message: chalk.cyan.underline('Database dump path'),
+}, {
+  when: createDotenv,
+  name: 'databaseDumpKey',
+  default: process.env.DATABASE_DUMP_KEY
+    || exampleDotenv.DATABASE_DUMP_KEY
+    || dotenvDefaults.databaseDumpKey,
+  message: chalk.cyan.underline('Database dump key'),
 }, {
   when: createDotenv,
   name: 'phpstanLevel',

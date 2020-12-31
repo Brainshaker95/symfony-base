@@ -31,4 +31,5 @@ yarn-error.log
 /node_modules/
 /public/uploads/
 /config/parameters.yml
+/data/dump.sql
 ###< brainshaker/symfony-base ###
