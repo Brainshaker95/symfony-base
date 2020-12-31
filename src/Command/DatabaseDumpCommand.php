@@ -61,9 +61,9 @@ class DatabaseDumpCommand extends Command
 
         $filesystem->remove($path);
 
-        $output->writeln(
-            '<comment><fg=green>Dump successfully created</fg=green></comment>'
-        );
+        $output->writeln('
+            <comment><fg=green>Dump successfully created</fg=green></comment>
+        ');
 
         return 0;
     }
