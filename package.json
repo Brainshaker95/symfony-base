@@ -16,7 +16,7 @@
     "@fancyapps/fancybox": "^3.5.7",
     "babel-polyfill": "^6.26.0",
     "jquery": "^3.5.1",
-    "jquery-ui": "^1.12.1",
+    "jquery-ui": "^1.13.0",
     "lazysizes": "^5.2.2"
   },
   "devDependencies": {
